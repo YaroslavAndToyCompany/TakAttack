@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "InputSystem.h"
 #include "Entity.h"
+#include "Map.h"
 
 class Engine {
 public:
@@ -18,4 +19,6 @@ private:
     Window m_window;
     InputSystem m_input;
     entt::registry m_registry;
+
+    Map m_map;
 };

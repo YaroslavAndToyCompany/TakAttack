@@ -60,7 +60,7 @@ void Window::ToggleFullscreen()
     Create();
 }
 
-void Window::Draw(sf::Drawable& drawable)
+void Window::Draw(const sf::Drawable& drawable)
 {
     m_window.draw(drawable);
 }

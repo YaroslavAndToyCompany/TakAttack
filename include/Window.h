@@ -19,7 +19,7 @@ public:
 
     void ToggleFullscreen();
 
-    void Draw(sf::Drawable& drawable);
+    void Draw(const sf::Drawable& drawable);
 
 private:
     void Setup(const std::string& title, const sf::Vector2u& size);
