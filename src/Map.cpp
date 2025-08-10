@@ -1,22 +1,23 @@
 #include "Map.h"
+#include "ResourceManager.h"
 
 Map::Map()
 {
-    SetUpMap("../res/Maps/Map1.png");
+    SetUpMap("Map1");
 }
 
-Map::Map(const std::string& mapPath)
+Map::Map(const std::string& mapName)
 {
-    SetUpMap(mapPath);
+    SetUpMap(mapName);
 }
 
-void Map::SetMap(const std::string& mapPath)
+void Map::SetMap(const std::string& mapName)
 {
-    SetUpMap(mapPath);
+    SetUpMap(mapName);
 }
 
-void Map::SetUpMap(const std::string& mapPath)
+void Map::SetUpMap(const std::string& mapName)
 {
-    m_mapTex.loadFromFile(mapPath);
-    m_map.setTexture(m_mapTex);
+    sf::Texture* texture = ResourceManger::GetTexture(mapName);
+    m_map.setTexture(*texture);
 }

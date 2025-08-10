@@ -5,7 +5,7 @@
 
 std::map<std::string, sf::Texture*> ResourceManger::s_resources;
 
-void ResourceManger::UpLoadTexture(const std::string& textureName, const std::string& texturePath)
+void ResourceManger::UploadTexture(const std::string& textureName, const std::string& texturePath)
 {
     sf::Texture* texture = new sf::Texture();
     texture->loadFromFile(texturePath);

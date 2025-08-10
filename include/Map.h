@@ -5,15 +5,14 @@
 class Map {
 public:
     Map();
-    Map(const std::string& mapPath);
+    Map(const std::string& mapName);
 
-    sf::Sprite GetSprite() { return m_map; };
+    sf::Sprite GetSprite() const { return m_map; };
 
-    void SetMap(const std::string& mapPath);
+    void SetMap(const std::string& mapName);
 
 private:
-    void SetUpMap(const std::string& mapPath);
+    void SetUpMap(const std::string& mapName);
 
-    sf::Texture m_mapTex;
     sf::Sprite m_map;
 };

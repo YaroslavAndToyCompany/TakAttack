@@ -4,5 +4,6 @@ add_executable(${CMAKE_PROJECT_NAME}
     InputSystem.cpp
     main.cpp
     Map.cpp
+    ResourceManager.cpp
     Window.cpp
 )

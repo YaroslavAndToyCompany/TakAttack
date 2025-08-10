@@ -4,11 +4,12 @@
 #include "InputSystem.h"
 #include "Entity.h"
 #include "Map.h"
+#include "ResourceManager.h"
 
 class Engine {
 public:
     Engine();
-    ~Engine() { }
+    ~Engine();
 
     void HandleInput();
     void Update(); // Update function for logic staff
@@ -16,6 +17,8 @@ public:
     Window* GetWindowPtr() { return &m_window; }
 
 private:
+    void UploadResources();
+
     Window m_window;
     InputSystem m_input;
     entt::registry m_registry;
