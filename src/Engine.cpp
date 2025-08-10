@@ -2,10 +2,13 @@
 
 Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(800, 600))
-{ }
+{
+Entity::CreatePlayer(m_registry);
+}
 
 void Engine::HandleInput()
 {
+    m_input.Input(m_registry);
 }
 
 void Engine::Update()

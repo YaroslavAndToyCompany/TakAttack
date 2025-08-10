@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Window.h"
+#include "InputSystem.h"
+#include "Entity.h"
 
 class Engine {
 public:
@@ -14,4 +16,6 @@ public:
 
 private:
     Window m_window;
+    InputSystem m_input;
+    entt::registry m_registry;
 };
