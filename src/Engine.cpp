@@ -3,13 +3,14 @@
 Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(800, 600))
 {
-    
+    UploadResources();
+    m_map = Map("Map1");
     Entity::CreatePlayer(m_registry);
 }
 
 Engine::~Engine()
 {
-    ResourceManger::ReleaseResources();
+    //ResourceManger::ReleaseResources();
 }
 
 void Engine::HandleInput()
@@ -32,5 +33,5 @@ void Engine::Render()
 
 void Engine::UploadResources()
 {
-    ResourceManger::UploadTexture("Map1", "../res/Maps/Map1.png");
+    ResourceManger::UploadTexture("Map1", "C:/Users/той/source/repos/TakAttack/res/Maps/Map1.png");
 }
