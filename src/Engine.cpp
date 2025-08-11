@@ -12,7 +12,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-    //ResourceManger::ReleaseResources();
+    ResourceManger::ReleaseResources();
 }
 
 void Engine::HandleInput()
@@ -35,5 +35,5 @@ void Engine::Render()
 
 void Engine::UploadResources()
 {
-    ResourceManger::UploadTexture("Map1", "res/Maps/Map1.png");
+    ResourceManger::UploadTexture("Map1", "C:/Users/той/source/repos/TakAttack/res/Maps/Map1.png");
 }
