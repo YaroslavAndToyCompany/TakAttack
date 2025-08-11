@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Window.h"
 #include "InputSystem.h"
 #include "Entity.h"
@@ -23,5 +25,5 @@ private:
     InputSystem m_input;
     entt::registry m_registry;
 
-    Map m_map;
+    std::unique_ptr<Map> m_map;
 };

@@ -5,7 +5,9 @@
 
 class ResourceManger {
 public:
+    static void Init();
     static void UploadTexture(const std::string& textureName, const std::string& texturePath);
+    
     static sf::Texture* GetTexture(const std::string& textureName);
 
     static void ReleaseResources();

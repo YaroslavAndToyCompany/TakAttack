@@ -5,6 +5,11 @@
 
 std::map<std::string, sf::Texture*> ResourceManger::s_resources;
 
+void ResourceManger::Init()
+{
+    ResourceManger::UploadTexture("Map1", "res/Maps/Map1.png");
+}
+
 void ResourceManger::UploadTexture(const std::string& textureName, const std::string& texturePath)
 {
     sf::Texture* texture = new sf::Texture();

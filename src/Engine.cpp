@@ -3,10 +3,10 @@
 Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(800, 600))
 {
-    UploadResources();
+    ResourceManger::Init();
 
-    m_map = Map("Map1");
-    
+    m_map = std::make_unique<Map>("Map1");
+
     Entity::CreatePlayer(m_registry);
 }
 
@@ -29,7 +29,7 @@ void Engine::Update()
 void Engine::Render()
 {
     m_window.BeginDraw();
-    m_window.Draw(m_map.GetSprite());
+    m_window.Draw(m_map->GetSprite());
     m_window.EndDraw();
 }
 

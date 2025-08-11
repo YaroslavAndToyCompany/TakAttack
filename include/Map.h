@@ -5,7 +5,6 @@
 #include <iostream>
 class Map {
 public:
-    Map() { }
     Map(const std::string& mapName);
 
     sf::Sprite GetSprite() const { return m_map; };
