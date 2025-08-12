@@ -11,6 +11,8 @@ public:
 
     void SetMap(const std::string& mapName);
 
+    void Draw(sf::RenderWindow& window);
+
 private:
     void SetUpMap(const std::string& mapName);
 

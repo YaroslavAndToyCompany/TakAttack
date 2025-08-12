@@ -1,10 +1,10 @@
 add_executable(${CMAKE_PROJECT_NAME}
+    UI/MainMenu.cpp
     Engine.cpp
     Entity.cpp
     InputSystem.cpp
     main.cpp
     Map.cpp
-    ResourceManager.cpp
     Window.cpp
 )
 

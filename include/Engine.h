@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "Map.h"
 #include "ResourceManager.h"
+#include "UI/MainMenu.h"
 
 class Engine {
 public:
@@ -26,4 +27,5 @@ private:
     entt::registry m_registry;
 
     std::unique_ptr<Map> m_map;
+    std::unique_ptr<MainMenu> m_mainMenu;
 };

@@ -6,6 +6,7 @@ Engine::Engine()
     ResourceManager::Init();
 
     m_map = std::make_unique<Map>("Map1");
+    m_mainMenu = std::make_unique<MainMenu>();
 
     Entity::CreatePlayer(m_registry);
 }
@@ -29,7 +30,8 @@ void Engine::Update()
 void Engine::Render()
 {
     m_window.BeginDraw();
-    m_window.Draw(m_map->GetSprite());
+    m_map->Draw(*m_window.GetRenderWindowPtr());
+    m_mainMenu->Draw(*m_window.GetRenderWindowPtr());
     m_window.EndDraw();
 }
 

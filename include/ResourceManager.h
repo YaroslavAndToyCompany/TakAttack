@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <map>
+#include <iostream>
 
 class ResourceManager {
 public:
