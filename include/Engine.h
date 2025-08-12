@@ -19,7 +19,7 @@ public:
     Window* GetWindowPtr() { return &m_window; }
 
 private:
-    void UploadResources();
+    void LoadResources();
 
     Window m_window;
     InputSystem m_input;

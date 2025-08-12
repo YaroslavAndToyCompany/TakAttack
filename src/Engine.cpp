@@ -3,7 +3,7 @@
 Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(800, 600))
 {
-    ResourceManger::Init();
+    ResourceManager::Init();
 
     m_map = std::make_unique<Map>("Map1");
 
@@ -12,7 +12,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-    ResourceManger::ReleaseResources();
+    ResourceManager::ReleaseResources();
 }
 
 void Engine::HandleInput()
@@ -33,7 +33,7 @@ void Engine::Render()
     m_window.EndDraw();
 }
 
-void Engine::UploadResources()
-{
-    ResourceManger::UploadTexture("Map1", "C:/Users/той/source/repos/TakAttack/res/Maps/Map1.png");
+void Engine::LoadResources()
+{   
+
 }

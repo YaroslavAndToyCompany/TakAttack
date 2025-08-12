@@ -3,17 +3,75 @@
 #include <SFML/Graphics.hpp>
 #include <map>
 
-class ResourceManger {
+class ResourceManager {
 public:
-    static void Init();
-    static void UploadTexture(const std::string& textureName, const std::string& texturePath);
+    static inline void Init();
+
+    template <typename T>
+    static T* GetResource(const std::string& resourceName);
     
-    static sf::Texture* GetTexture(const std::string& textureName);
-
-    static void ReleaseResources();
-
+    static inline void ReleaseResources();
+    
 private:
-    ResourceManger() { }
+    ResourceManager() { }
 
-    static std::map<std::string, sf::Texture*> s_resources;
+    template <typename T>
+    static void ClearResource();
+    
+    template <typename T>
+    static void UploadResource(const std::string& resourceName, const std::string& resourcePath);
+    
+    template <typename T>
+    static std::map<std::string, T*> s_resources;
 };
+
+template <typename T>
+std::map<std::string, T*> ResourceManager::s_resources;
+
+void ResourceManager::Init() {
+    ResourceManager::UploadResource<sf::Texture>("Map1", "res/Maps/Map1.png");
+    ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/Fonts/BoldPixels.ttf");
+}
+
+template <typename T>
+void ResourceManager::UploadResource(const std::string& resourceName, const std::string& resourcePath)
+{
+    T* resource = new T();
+    if (!resource->loadFromFile(resourcePath)) {
+        std::cerr << "Failed to load resource: " << resourcePath << std::endl;
+        delete resource;
+        return;
+    }
+
+    std::pair<std::string, T*> resourcePackage(resourceName, resource);
+    s_resources<T>.insert(resourcePackage);
+}
+
+template <typename T>
+T* ResourceManager::GetResource(const std::string& resourceName)
+{
+    auto itr = s_resources<T>.find(resourceName);
+    if (itr == s_resources<T>.end()) {
+        std::cerr << "Cannot retrieve " << resourceName << " resource" << std::endl; 
+        return nullptr;
+    }
+
+    return itr->second;
+}
+
+template <typename T>
+void ResourceManager::ClearResource() {
+    auto& map = s_resources<T>;
+
+    for (auto const& [key, value] : map) {
+        delete value;
+    }
+
+    map.clear();
+}
+
+void ResourceManager::ReleaseResources()
+{
+    ClearResource<sf::Texture>();
+    ClearResource<sf::Font>();
+}
