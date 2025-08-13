@@ -23,7 +23,7 @@ void Engine::HandleInput()
 
 void Engine::Update()
 {
-    m_window.Update();
+    m_wind.ow.Update();
     // ...
 }
 
