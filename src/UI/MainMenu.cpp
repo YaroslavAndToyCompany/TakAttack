@@ -3,18 +3,13 @@
 #include "ResourceManager.h"
 
 MainMenu::MainMenu()
+    : m_btnStartGame("MenuButton")
 {
-    sf::Font* boldPixelsFont = ResourceManager::GetResource<sf::Font>("BoldPixels");
-
-    m_menuText.setFont(*boldPixelsFont);
-    m_menuText.setString("Start Game");
-    m_menuText.setCharacterSize(24);
-    m_menuText.setFillColor(sf::Color::Black);
-
-    m_menuText.setPosition(10, 10);
+    m_btnStartGame.SetText("Start the Game");
+    m_btnStartGame.SetTextColor(sf::Color::Black);
 }
 
 void MainMenu::Draw(sf::RenderWindow& window)
 {
-    window.draw(m_menuText);
+    m_btnStartGame.Draw(window);
 }

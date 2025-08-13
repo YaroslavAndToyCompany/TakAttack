@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Button.h"
 
 class MainMenu {
 public:
@@ -9,4 +10,5 @@ public:
 
 private:
     sf::Text m_menuText;
+    Button m_btnStartGame;
 };

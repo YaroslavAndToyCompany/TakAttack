@@ -23,7 +23,7 @@ void Engine::HandleInput()
 
 void Engine::Update()
 {
-    m_wind.ow.Update();
+    m_window.Update();
     // ...
 }
 
@@ -33,9 +33,4 @@ void Engine::Render()
     m_map->Draw(*m_window.GetRenderWindowPtr());
     m_mainMenu->Draw(*m_window.GetRenderWindowPtr());
     m_window.EndDraw();
-}
-
-void Engine::LoadResources()
-{   
-
 }

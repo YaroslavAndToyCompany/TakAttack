@@ -31,7 +31,8 @@ std::map<std::string, T*> ResourceManager::s_resources;
 
 void ResourceManager::Init() {
     ResourceManager::UploadResource<sf::Texture>("Map1", "res/Maps/Map1.png");
-    ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/Fonts/BoldPixels.ttf");
+    ResourceManager::UploadResource<sf::Texture>("MenuButton", "res/UI/Button.png");
+    ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/UI/Fonts/BoldPixels.ttf");
 }
 
 template <typename T>
@@ -39,9 +40,8 @@ void ResourceManager::UploadResource(const std::string& resourceName, const std:
 {
     T* resource = new T();
     if (!resource->loadFromFile(resourcePath)) {
-        std::cerr << "Failed to load resource: " << resourcePath << std::endl;
         delete resource;
-        return;
+        throw std::runtime_error("Failed to load resource from: " + resourcePath);
     }
 
     std::pair<std::string, T*> resourcePackage(resourceName, resource);

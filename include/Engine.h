@@ -20,8 +20,6 @@ public:
     Window* GetWindowPtr() { return &m_window; }
 
 private:
-    void LoadResources();
-
     Window m_window;
     InputSystem m_input;
     entt::registry m_registry;
