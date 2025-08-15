@@ -13,6 +13,8 @@ public:
 
     void Draw(sf::RenderWindow& window);
 
+    sf::Sprite GetSprite() const { return m_button; };
+
     void SetText(const std::string& text) { m_text.setString(text); TransformText(); }
     void SetTextSize(unsigned int size) { m_text.setCharacterSize(size); TransformText(); }
     void SetTextColor(const sf::Color& color) { m_text.setFillColor(color); }
@@ -23,8 +25,6 @@ public:
 
 private:
     void TransformText();
-
-    sf::Vector2f m_position;
 
     sf::Sprite m_button;
     sf::Text m_text;

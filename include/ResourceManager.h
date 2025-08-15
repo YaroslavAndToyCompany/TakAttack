@@ -32,6 +32,7 @@ std::map<std::string, T*> ResourceManager::s_resources;
 void ResourceManager::Init() {
     ResourceManager::UploadResource<sf::Texture>("Map1", "res/Maps/Map1.png");
     ResourceManager::UploadResource<sf::Texture>("MenuButton", "res/UI/Button.png");
+    ResourceManager::UploadResource<sf::Texture>("MenuFrame", "res/UI/MenuFrame.png");
     ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/UI/Fonts/BoldPixels.ttf");
 }
 

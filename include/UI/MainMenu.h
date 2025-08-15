@@ -2,14 +2,19 @@
 
 #include <SFML/Graphics.hpp>
 #include "Button.h"
+#include "Window.h"
 
 class MainMenu {
 public:
-    MainMenu();
+    MainMenu(Window& window);
     void Draw(sf::RenderWindow& window);
 
 private:
+    sf::Vector2f CalculateNextButtonPlacement(const Button& previousButton);
+
     sf::Text m_menuText;
+    sf::Sprite m_menuSprite;
+
     Button m_btnStartGame;
     Button m_btnSettings;
     Button m_btnExit;

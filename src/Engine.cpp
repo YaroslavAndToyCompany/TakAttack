@@ -8,7 +8,7 @@ Engine::Engine()
     DebugPanel::Init();
 
     m_map = std::make_unique<Map>("Map1");
-    m_mainMenu = std::make_unique<MainMenu>();
+    m_mainMenu = std::make_unique<MainMenu>(m_window);
 
     Entity::CreatePlayer(m_registry);
 }
