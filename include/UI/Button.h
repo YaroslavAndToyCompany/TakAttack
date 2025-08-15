@@ -13,15 +13,17 @@ public:
 
     void Draw(sf::RenderWindow& window);
 
-    void SetText(const std::string& text) { m_text.setString(text); }
-    void SetTextSize(unsigned int size) { m_text.setCharacterSize(size); }
+    void SetText(const std::string& text) { m_text.setString(text); TransformText(); }
+    void SetTextSize(unsigned int size) { m_text.setCharacterSize(size); TransformText(); }
     void SetTextColor(const sf::Color& color) { m_text.setFillColor(color); }
     void SetFont(const sf::Font& font) { m_text.setFont(font); }
 
-    void SetScale(const sf::Vector2f& scale) { m_button.setScale(scale); }
-    void SetPosition(const sf::Vector2f& pos) { m_button.setPosition(pos); }
+    void SetScale(const sf::Vector2f& scale) { m_button.setScale(scale); TransformText(); }
+    void SetPosition(const sf::Vector2f& pos) { m_button.setPosition(pos); TransformText(); }
 
 private:
+    void TransformText();
+
     sf::Vector2f m_position;
 
     sf::Sprite m_button;

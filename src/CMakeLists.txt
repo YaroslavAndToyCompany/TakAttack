@@ -1,5 +1,6 @@
 add_executable(${CMAKE_PROJECT_NAME}
     UI/Button.cpp
+    UI/DebugPanel.cpp
     UI/MainMenu.cpp
     Engine.cpp
     Entity.cpp

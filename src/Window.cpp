@@ -1,8 +1,11 @@
 #include "Window.h"
 
+unsigned int WINDOW_WIDTH = 800;
+unsigned int WINDOW_HEIGHT = 600;
+
 Window::Window()
 {
-    Setup("Window", sf::Vector2u(800, 600));
+    Setup("Window", sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT));
 }
 
 Window::Window(const std::string& title, const sf::Vector2u& size)
