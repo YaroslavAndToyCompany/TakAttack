@@ -1,6 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "View.h"
+
+enum class Resolution {
+    r1920x1080,
+    r1280x720,
+    r640x360
+};
 
 class Window {
 public:
@@ -20,6 +27,8 @@ public:
 
     void ToggleFullscreen();
 
+    void SetResolution(Resolution resType);
+
     void Draw(const sf::Drawable& drawable);
 
 private:
@@ -30,6 +39,9 @@ private:
     sf::RenderWindow m_window;
     sf::Vector2u m_windowSize;
     std::string m_windowTitle;
+
+    View m_view;
+
     bool m_isDone;
     bool m_isFullscreen;
 };

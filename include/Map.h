@@ -15,6 +15,5 @@ public:
 
 private:
     void SetUpMap(const std::string& mapName);
-
     sf::Sprite m_map;
 };

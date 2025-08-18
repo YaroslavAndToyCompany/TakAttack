@@ -10,10 +10,21 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(vendors)
 add_subdirectory(src)
 
+
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
-    PRIVATE
-    SFML
-    EnTT::EnTT
+PRIVATE
+SFML
+EnTT::EnTT
 )
+
+find_package(X11 REQUIRED)
+
+if (X11_FOUND)
+    target_link_libraries(${CMAKE_PROJECT_NAME}
+        PRIVATE
+        ${X11_LIBRARIES}
+        Xrandr
+    )
+endif()

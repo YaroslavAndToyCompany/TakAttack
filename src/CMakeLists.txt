@@ -2,11 +2,13 @@ add_executable(${CMAKE_PROJECT_NAME}
     UI/Button.cpp
     UI/DebugPanel.cpp
     UI/MainMenu.cpp
+    Utils/Screen.cpp
     Engine.cpp
     Entity.cpp
     InputSystem.cpp
     main.cpp
     Map.cpp
+    View.cpp
     Window.cpp
 )
 

@@ -2,13 +2,14 @@
 #include "UI/DebugPanel.h"
 
 Engine::Engine()
-    : m_window("TakAttack", sf::Vector2u(800, 600))
+    : m_window("TakAttack", sf::Vector2u(640, 360))
 {
     ResourceManager::Init();
     DebugPanel::Init();
 
     m_map = std::make_unique<Map>("Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window);
+    // m_window.SetResolution(Resolution::r1920x1080);
 
     Entity::CreatePlayer(m_registry);
 }
