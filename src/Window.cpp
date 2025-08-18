@@ -35,10 +35,6 @@ void Window::Update()
         case sf::Event::Closed:
             m_isDone = true;
             break;
-        
-        case sf::Event::Resized:
-            m_view.ResizeView(m_window);
-            break;
 
         case sf::Event::KeyPressed:
             if (event.key.code == sf::Keyboard::F5)
@@ -80,8 +76,7 @@ void Window::SetResolution(Resolution resType)
     switch (resType)
     {
     case Resolution::r1920x1080:
-        m_window.setSize(sf::Vector2u(1920, 1080));
-        m_view.ResizeView(m_window);
+        SetSize({1920, 1080});
         break;
     
     default:
@@ -113,15 +108,30 @@ void Window::Destroy()
 
 void Window::Create()
 {
-    ScreenInfo screen = GetPrimaryMonitorResoulution();
-
     auto style = (m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
     
     m_window.create({ m_windowSize.x, m_windowSize.y, 32 }, m_windowTitle, style);
+
+    MoveToCenter();   
+}
+
+void Window::MoveToCenter()
+{
+    ScreenInfo screen = GetPrimaryMonitorResoulution();
 
     int x = screen.x + (screen.width - m_windowSize.x) / 2;
     int y = screen.y + (screen.height - m_windowSize.y) / 2;
 
     m_window.setPosition(sf::Vector2i(x, y));
+}
+
+void Window::SetSize(const sf::Vector2u& newSize)
+{
+    m_windowSize = newSize;
+
+    m_window.setSize(newSize);
+    m_view.ResizeView(m_windowSize);
+
+    MoveToCenter();
 }
 

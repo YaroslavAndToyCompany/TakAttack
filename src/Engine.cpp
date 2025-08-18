@@ -9,7 +9,7 @@ Engine::Engine()
 
     m_map = std::make_unique<Map>("Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window);
-    // m_window.SetResolution(Resolution::r1920x1080);
+    m_window.SetResolution(Resolution::r1920x1080);
 
     Entity::CreatePlayer(m_registry);
 }

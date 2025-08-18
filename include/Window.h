@@ -36,6 +36,9 @@ private:
     void Destroy();
     void Create();
 
+    void MoveToCenter();
+    void SetSize(const sf::Vector2u& newSize);
+
     sf::RenderWindow m_window;
     sf::Vector2u m_windowSize;
     std::string m_windowTitle;
