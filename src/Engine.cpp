@@ -1,11 +1,14 @@
 #include "Engine.h"
 #include "UI/DebugPanel.h"
+#include "Managers/CursorManager.h"
 
 Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(640, 360))
 {
     ResourceManager::Init();
-    DebugPanel::Init();
+    CursorManager::LoadCursors();
+
+    DebugPanel::Init(m_window.GetView());
 
     m_map = std::make_unique<Map>("Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window);
@@ -27,6 +30,7 @@ void Engine::HandleInput()
 void Engine::Update()
 {
     m_window.Update();
+    m_mainMenu->Update(*m_window.GetRenderWindowPtr());
 }
 
 void Engine::Render()

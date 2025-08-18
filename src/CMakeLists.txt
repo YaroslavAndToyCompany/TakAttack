@@ -1,4 +1,5 @@
 add_executable(${CMAKE_PROJECT_NAME}
+    Managers/CursorManager.cpp
     UI/Button.cpp
     UI/DebugPanel.cpp
     UI/MainMenu.cpp

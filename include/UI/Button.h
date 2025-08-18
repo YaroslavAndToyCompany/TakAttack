@@ -11,6 +11,7 @@ public:
            const sf::Color& textColor = sf::Color::Black,
            const std::string& fontName = "BoldPixels");
 
+    void Update(sf::RenderWindow& window);
     void Draw(sf::RenderWindow& window);
 
     sf::Sprite GetSprite() const { return m_button; };
