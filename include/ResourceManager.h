@@ -39,14 +39,18 @@ void ResourceManager::Init() {
 template <typename T>
 void ResourceManager::UploadResource(const std::string& resourceName, const std::string& resourcePath)
 {
+    auto itr = s_resources<T>.find(resourceName);
+    if (itr != s_resources<T>.end()) {
+        throw std::runtime_error("Failed to upload resource because the resource with a name " + resourceName + " is already exist!");
+    }
+
     T* resource = new T();
     if (!resource->loadFromFile(resourcePath)) {
         delete resource;
         throw std::runtime_error("Failed to load resource from: " + resourcePath);
     }
 
-    std::pair<std::string, T*> resourcePackage(resourceName, resource);
-    s_resources<T>.insert(resourcePackage);
+    s_resources<T>.insert( {resourceName, resource} );
 }
 
 template <typename T>
