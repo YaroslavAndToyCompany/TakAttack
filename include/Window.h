@@ -24,7 +24,10 @@ public:
     bool IsFullscreen();
     sf::RenderWindow* GetRenderWindowPtr() { return &m_window; }
     sf::Vector2u GetWindowSize();
-    View& GetView() { return m_view; }
+    View& GetView() { return m_gameView; }
+
+    void SwitchToGameView() { m_window.setView(m_gameView.GetSfmlView()); }
+    void SwitchToUiView() { m_window.setView(m_uiView.GetSfmlView()); }
 
     void ToggleFullscreen();
 
@@ -44,7 +47,8 @@ private:
     sf::Vector2u m_windowSize;
     std::string m_windowTitle;
 
-    View m_view;
+    View m_gameView;
+    View m_uiView;
 
     bool m_isDone;
     bool m_isFullscreen;

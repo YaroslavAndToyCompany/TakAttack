@@ -3,7 +3,7 @@
 
 Window::Window()
 {
-    Setup("Window", sf::Vector2u(640, 360));
+    Setup("Window", sf::Vector2u(1920, 1080));
 }
 
 Window::Window(const std::string& title, const sf::Vector2u& size)
@@ -45,8 +45,6 @@ void Window::Update()
             break;
         }
     }
-
-    m_window.setView(m_view.GetSfmlView());
 }
 
 bool Window::IsDone()
@@ -97,8 +95,10 @@ void Window::Setup(const std::string& title, const sf::Vector2u& size)
     m_isFullscreen = false;
     m_isDone = false;
 
+    m_gameView = View();
+    m_uiView = View();
+
     Create();
-    m_view = View(m_window); 
 }
 
 void Window::Destroy()
@@ -108,7 +108,7 @@ void Window::Destroy()
 
 void Window::Create()
 {
-    auto style = (m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Titlebar | sf::Style::Close);
+    auto style = (m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Default);
     
     m_window.create({ m_windowSize.x, m_windowSize.y, 32 }, m_windowTitle, style);
 
@@ -130,7 +130,7 @@ void Window::SetSize(const sf::Vector2u& newSize)
     m_windowSize = newSize;
 
     m_window.setSize(newSize);
-    m_view.ResizeView(m_windowSize);
+    m_gameView.ResizeView(m_windowSize);
 
     MoveToCenter();
 }

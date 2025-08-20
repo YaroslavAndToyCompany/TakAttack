@@ -28,11 +28,10 @@ Button::Button(const std::string& textureName,
 void Button::Update(sf::RenderWindow& window)
 {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    // DebugPanel::SetString(std::to_string(mousePos.x) + ", " + std::to_string(mousePos.y)); TEMP
+    sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
 
-    if (m_button.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+    if (m_button.getGlobalBounds().contains(mousePosInCoords.x, mousePosInCoords.y)) {
         CursorManager::SetHand(window);
-        std::cout << "hand" << std::endl;
     }
     else {
         CursorManager::SetArrow(window);
