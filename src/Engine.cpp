@@ -8,8 +8,6 @@ Engine::Engine()
     ResourceManager::Init();
     CursorManager::LoadCursors();
 
-    DebugPanel::Init(m_window.GetView());
-
     m_map = std::make_unique<Map>("Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window);
 
