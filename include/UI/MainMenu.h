@@ -1,6 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
+#include <vector>
+
 #include "Button.h"
 #include "Window.h"
 
@@ -12,8 +15,7 @@ public:
 
 private:
     void ToggleDisplayMenu() { m_displayMenu = !m_displayMenu; }
-
-    sf::Vector2f CalculateNextButtonPlacement(const Button& previousButton);
+    void PlaceButtons(std::vector<Button*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize);
 
     sf::Text m_menuText;
     sf::Sprite m_menuSprite;
