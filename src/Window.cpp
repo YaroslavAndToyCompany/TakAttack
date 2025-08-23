@@ -117,7 +117,7 @@ void Window::Create()
 
 void Window::MoveToCenter()
 {
-    ScreenInfo screen = GetPrimaryMonitorResoulution();
+    utils::ScreenInfo screen = utils::GetPrimaryMonitorResoulution();
 
     int x = screen.x + (screen.width - m_windowSize.x) / 2;
     int y = screen.y + (screen.height - m_windowSize.y) / 2;
