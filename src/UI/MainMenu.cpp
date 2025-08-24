@@ -5,9 +5,12 @@
 MainMenu::MainMenu(Window& window)
     : m_btnStartGame("MenuButton"), m_btnSettings("MenuButton"), m_btnExit("MenuButton")
 {
-    m_menuSprite.setTexture(*ResourceManager::GetResource<sf::Texture>("MenuFrame"));
-    m_menuSprite.setScale(2, 2);
+    m_scale = sf::Vector2f(4, 4);
 
+    m_menuSprite.setTexture(*ResourceManager::GetResource<sf::Texture>("MenuFrame"));
+    m_menuSprite.setScale(m_scale);
+
+    // TODO: add to the utils function that sets sprite's orgin to the center of the sprite
     sf::FloatRect menuRect = m_menuSprite.getLocalBounds();
     sf::Vector2f menuCenter(menuRect.width / 2.0f, menuRect.height / 2.0f);
     m_menuSprite.setOrigin(menuCenter);
@@ -19,11 +22,11 @@ MainMenu::MainMenu(Window& window)
     m_btnExit.SetText("Exit");
 
     std::vector<Button*> buttons = { &m_btnStartGame, &m_btnSettings, &m_btnExit };
-    float startPositionY = m_menuSprite.getPosition().y - 15;
+    float startPositionY = m_menuSprite.getPosition().y - 7.0f * m_scale.x;
     float spacingBetweenY = 22;
-    int textSize = 15;
+    int textSize = 8 * m_scale.x;
 
-    PlaceButtons(buttons, startPositionY, spacingBetweenY, sf::Vector2f(2, 2), textSize);
+    PlaceButtons(buttons, startPositionY, spacingBetweenY, m_scale, textSize);
 
     m_displayMenu = true;
 }
