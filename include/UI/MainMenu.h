@@ -11,6 +11,8 @@ public:
     void Draw(sf::RenderWindow& window);
 
 private:
+    void ToggleDisplayMenu() { m_displayMenu = !m_displayMenu; }
+
     sf::Vector2f CalculateNextButtonPlacement(const Button& previousButton);
 
     sf::Text m_menuText;
@@ -19,4 +21,6 @@ private:
     Button m_btnStartGame;
     Button m_btnSettings;
     Button m_btnExit;
+
+    bool m_displayMenu;
 };

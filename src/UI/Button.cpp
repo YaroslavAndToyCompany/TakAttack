@@ -1,7 +1,6 @@
 #include "UI/Button.h"
 #include "ResourceManager.h"
 #include "UI/DebugPanel.h"
-#include "Managers/CursorManager.h"
 
 Button::Button(const std::string& textureName, 
                const sf::Vector2f& pos,
@@ -27,15 +26,7 @@ Button::Button(const std::string& textureName,
 
 void Button::Update(sf::RenderWindow& window)
 {
-    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
-
-    if (m_button.getGlobalBounds().contains(mousePosInCoords.x, mousePosInCoords.y)) {
-        CursorManager::SetHand(window);
-    }
-    else {
-        CursorManager::SetArrow(window);
-    }
+    // ...
 }
 
 void Button::Draw(sf::RenderWindow& window)
