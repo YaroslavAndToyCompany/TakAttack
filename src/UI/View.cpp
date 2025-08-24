@@ -1,4 +1,4 @@
-#include "View.h"
+#include "UI/View.hpp"
 
 View::View() {
     float viewWidth = 1920, viewHeight = 1080;

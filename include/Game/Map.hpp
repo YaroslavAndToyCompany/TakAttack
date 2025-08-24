@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
-#include "View.h"
+#include "UI/View.hpp"
 
 class Map {
 public:

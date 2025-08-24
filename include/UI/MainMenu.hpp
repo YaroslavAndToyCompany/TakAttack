@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Button.h"
-#include "Window.h"
+#include "UI/Button.hpp"
+#include "Game/Window.hpp"
 
 class MainMenu {
 public:

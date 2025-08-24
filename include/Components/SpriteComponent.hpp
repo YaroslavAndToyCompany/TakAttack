@@ -6,5 +6,5 @@ struct SpriteComponent
 	sf::Sprite m_sprite;
 	std::string m_textureID;
 
-	SpriteComponent(std::string id) : m_textureID(id) {}
+	SpriteComponent(std::string id) : m_textureID(id) { }
 };

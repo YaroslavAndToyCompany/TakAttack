@@ -1,5 +1,5 @@
-#include "RenderSystem.h"
-#include "SpriteComponent.h"
+#include "Systems/RenderSystem.hpp"
+#include "Components/SpriteComponent.hpp"
 void RenderSystem::draw(entt::registry& registry, sf::RenderWindow& m_window)
 {
 	auto View = registry.view<SpriteComponent>();

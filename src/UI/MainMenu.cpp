@@ -1,6 +1,6 @@
-#include "UI/MainMenu.h"
-#include "ResourceManager.h"
-#include "Managers/CursorManager.h"
+#include "UI/MainMenu.hpp"
+#include "Managers/ResourceManager.hpp"
+#include "Managers/CursorManager.hpp"
 
 MainMenu::MainMenu(Window& window)
     : m_btnStartGame("MenuButton"), m_btnSettings("MenuButton"), m_btnExit("MenuButton")

@@ -1,5 +1,5 @@
-#include "UI/DebugPanel.h" 
-#include "ResourceManager.h"
+#include "UI/DebugPanel.hpp" 
+#include "Managers/ResourceManager.hpp"
 
 sf::Text DebugPanel::m_text;
 sf::RectangleShape DebugPanel::m_panel;

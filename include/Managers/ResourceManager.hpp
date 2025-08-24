@@ -30,10 +30,18 @@ template <typename T>
 std::map<std::string, T*> ResourceManager::s_resources;
 
 void ResourceManager::Init() {
+// TEMP ifdef
+#if defined(SFML_SYSTEM_WINDOWS)
     ResourceManager::UploadResource<sf::Texture>("Map1", "D:/projects/takattack/TakAttack/res/Maps/Map1.png");
     ResourceManager::UploadResource<sf::Texture>("MenuButton", "D:/projects/takattack/TakAttack/res/UI/Button.png");
     ResourceManager::UploadResource<sf::Texture>("MenuFrame", "D:/projects/takattack/TakAttack/res/UI/MenuFrame.png");
     ResourceManager::UploadResource<sf::Font>("BoldPixels", "D:/projects/takattack/TakAttack/res/UI/Fonts/BoldPixels.ttf");
+#elif defined(SFML_SYSTEM_LINUX)
+    ResourceManager::UploadResource<sf::Texture>("Map1", "res/Maps/Map1.png");
+    ResourceManager::UploadResource<sf::Texture>("MenuButton", "res/UI/Button.png");
+    ResourceManager::UploadResource<sf::Texture>("MenuFrame", "res/UI/MenuFrame.png");
+    ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/UI/Fonts/BoldPixels.ttf");
+#endif
 }
 
 template <typename T>

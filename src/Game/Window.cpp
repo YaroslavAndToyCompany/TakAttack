@@ -1,5 +1,5 @@
-#include "Window.h"
-#include "Utils/Screen.h"
+#include "Game/Window.hpp"
+#include "Utils/Screen.hpp"
 
 Window::Window()
 {

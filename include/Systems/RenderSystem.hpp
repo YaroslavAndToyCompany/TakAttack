@@ -1,6 +1,6 @@
 #pragma once
-#include "Entity.h"
-#include "Window.h"
+#include "Entities/Entity.hpp"
+#include "Game/Window.hpp"
 class RenderSystem
 {
 public:

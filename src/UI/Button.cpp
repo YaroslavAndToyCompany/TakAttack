@@ -1,6 +1,6 @@
-#include "UI/Button.h"
-#include "ResourceManager.h"
-#include "UI/DebugPanel.h"
+#include "UI/Button.hpp"
+#include "Managers/ResourceManager.hpp"
+#include "UI/DebugPanel.hpp"
 
 Button::Button(const std::string& textureName, 
                const sf::Vector2f& pos,

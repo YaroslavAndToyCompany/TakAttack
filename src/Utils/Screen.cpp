@@ -1,4 +1,4 @@
-#include "Utils/Screen.h"
+#include "Utils/Screen.hpp"
 #include <SFML/Config.hpp>
 #include <iostream>
 

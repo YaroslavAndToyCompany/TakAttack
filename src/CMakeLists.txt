@@ -1,16 +1,17 @@
 add_executable(${CMAKE_PROJECT_NAME}
+    Entities/Entity.cpp
+    Game/Engine.cpp
+    Game/Map.cpp
+    Game/Window.cpp
     Managers/CursorManager.cpp
+    Systems/InputSystem.cpp
+    Systems/RenderSystem.cpp
     UI/Button.cpp
     UI/DebugPanel.cpp
     UI/MainMenu.cpp
+    UI/View.cpp
     Utils/Screen.cpp
-    Engine.cpp
-    Entity.cpp
-    InputSystem.cpp
     main.cpp
-    Map.cpp
-    View.cpp
-    Window.cpp
 )
 
 message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")

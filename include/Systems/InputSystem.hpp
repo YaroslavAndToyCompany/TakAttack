@@ -1,5 +1,6 @@
 #pragma once
-#include "Entity.h"
+
+#include "Entities/Entity.hpp"
 #include <iostream>
 #include "SFML/Graphics.hpp"
 class InputSystem

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "View.h"
+#include "UI/View.hpp"
 
 enum class Resolution {
     r1920x1080,
