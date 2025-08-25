@@ -19,7 +19,6 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-    ResourceManager::ReleaseResources();
 }
 
 void Engine::HandleInput()
