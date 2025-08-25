@@ -1,4 +1,4 @@
-#include "Managers/CursorManager.h"
+#include "Managers/CursorManager.hpp"
 
 sf::Cursor CursorManager::s_arrow;
 sf::Cursor CursorManager::s_hand;

@@ -1,5 +1,5 @@
-#include "Map.h"
-#include "ResourceManager.h"
+#include "Game/Map.hpp"
+#include "Managers/ResourceManager.hpp"
 
 Map::Map(const std::string& mapName)
 {

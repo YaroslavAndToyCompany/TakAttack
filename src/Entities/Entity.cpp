@@ -1,4 +1,4 @@
-#include "Entity.h"
+#include "Entities/Entity.hpp"
 
 entt::entity Entity::CreatePlayer(entt::registry& registry)
 {

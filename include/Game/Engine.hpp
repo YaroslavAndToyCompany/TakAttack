@@ -2,12 +2,12 @@
 
 #include <memory>
 
-#include "Window.h"
-#include "InputSystem.h"
-#include "Entity.h"
-#include "Map.h"
-#include "ResourceManager.h"
-#include "UI/MainMenu.h"
+#include "Game/Window.hpp"
+#include "Systems/InputSystem.hpp"
+#include "Entities/Entity.hpp"
+#include "Game/Map.hpp"
+#include "Managers/ResourceManager.hpp"
+#include "UI/MainMenu.hpp"
 
 class Engine {
 public:

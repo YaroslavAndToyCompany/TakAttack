@@ -1,6 +1,6 @@
-#include "Engine.h"
-#include "UI/DebugPanel.h"
-#include "Managers/CursorManager.h"
+#include "Game/Engine.hpp"
+#include "UI/DebugPanel.hpp"
+#include "Managers/CursorManager.hpp"
 
 Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(1920, 1080))
@@ -19,7 +19,6 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-    ResourceManager::ReleaseResources();
 }
 
 void Engine::HandleInput()

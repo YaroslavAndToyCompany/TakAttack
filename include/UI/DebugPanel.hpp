@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <View.h>
+#include "UI/View.hpp"
 
 class DebugPanel {
 public:
