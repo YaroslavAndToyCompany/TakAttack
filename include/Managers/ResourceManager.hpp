@@ -37,6 +37,8 @@ void ResourceManager::Init() {
     ResourceManager::UploadResource<sf::Texture>("MenuButton", "res/UI/Button.png");
     ResourceManager::UploadResource<sf::Texture>("MenuFrame", "res/UI/MenuFrame.png");
     ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/UI/Fonts/BoldPixels.ttf");
+    ResourceManager::UploadResource<sf::Texture>("CursorArrow", "res/Cursors/cursor_none.png");
+    ResourceManager::UploadResource<sf::Texture>("HandPoint", "res/Cursors/hand_point.png");
 #endif
 }
 

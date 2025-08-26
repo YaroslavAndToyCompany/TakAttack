@@ -26,4 +26,6 @@ private:
 
     std::unique_ptr<Map> m_map;
     std::unique_ptr<MainMenu> m_mainMenu;
+
+    sf::Sprite m_cursor; // TEMP
 };

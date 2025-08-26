@@ -14,6 +14,8 @@ Engine::Engine()
     m_window.GetView().SetCenter(m_map->GetGlobalCenter());
     m_window.GetView().SetSize(m_map->GetSize());
 
+    m_cursor.setTexture(*ResourceManager::GetResource<sf::Texture>("CursorArrow"));
+
     Entity::CreatePlayer(m_registry);
 }
 
@@ -30,12 +32,14 @@ void Engine::Update()
 {
     m_window.Update();
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
+    m_cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*m_window.GetRenderWindowPtr())));
     DebugPanel::SetString(std::to_string(m_window.GetView().GetSize().x));
 }
 
 void Engine::Render()
 {
     m_window.BeginDraw();
+    
     m_window.SwitchToGameView();
 
     m_map->Draw(*m_window.GetRenderWindowPtr());
@@ -44,5 +48,7 @@ void Engine::Render()
 
     m_mainMenu->Draw(*m_window.GetRenderWindowPtr());
     DebugPanel::Draw(*m_window.GetRenderWindowPtr());
+    m_window.Draw(m_cursor);
+
     m_window.EndDraw();
 }

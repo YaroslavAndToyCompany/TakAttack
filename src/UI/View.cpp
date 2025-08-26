@@ -14,8 +14,26 @@ View::View(const sf::Vector2f& center, const sf::Vector2f& size) {
 
 void View::ResizeView(const sf::Vector2u& windowSize)
 {
-    float aspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
-    m_view.setSize(m_size.x * aspectRatio, m_size.y * aspectRatio);
+    float windowAspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
+    float viewAspectRatio = m_size.x / m_size.y;
+
+    float viewportWidth = 1.0f;
+    float viewportHeight = 1.0f;
+    float viewportX = 0.0f;
+    float viewportY = 0.0f;
+
+    if (windowAspectRatio > viewAspectRatio) 
+    {
+        viewportWidth = viewAspectRatio / windowAspectRatio;
+        viewportX = (1.0f - viewportHeight) / 2.0f;
+    }
+    else 
+    {
+        viewportHeight = windowAspectRatio / viewAspectRatio;
+        viewportY = (1.0f - viewportHeight) / 2.0f;
+    }
+
+    m_view.setViewport(sf::FloatRect(viewportX, viewportY, viewportWidth, viewportHeight));
 }
 
 void View::Setup(const sf::Vector2f& center, const sf::Vector2f& size)
