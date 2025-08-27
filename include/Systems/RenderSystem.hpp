@@ -4,6 +4,6 @@
 class RenderSystem
 {
 public:
-	void draw(entt::registry& registry, sf::RenderWindow& m_window);
+	void draw(entt::registry& registry, Window& m_window);
 };
 

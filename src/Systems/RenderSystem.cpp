@@ -1,11 +1,15 @@
 #include "Systems/RenderSystem.hpp"
 #include "Components/SpriteComponent.hpp"
-void RenderSystem::draw(entt::registry& registry, sf::RenderWindow& m_window)
+#include "Components/TransformComponent.hpp"
+void RenderSystem::draw(entt::registry& registry, Window& window)
 {
-	auto View = registry.view<SpriteComponent>();
+	auto View = registry.view<SpriteComponent, TransformComponent>();
+
 	for(auto entity : View) 
 	{
 		auto& m_sprite = View.get<SpriteComponent>(entity);
-		m_window.draw(m_sprite.m_sprite);
+		auto& transform = View.get<TransformComponent>(entity);
+		m_sprite.m_sprite.setPosition(transform.m_position);
+		window.Draw(m_sprite.m_sprite);
 	}
 }

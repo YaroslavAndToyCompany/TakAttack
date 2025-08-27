@@ -32,11 +32,13 @@ void ResourceManager::Init() {
     ResourceManager::UploadResource<sf::Texture>("MenuButton", "D:/projects/takattack/TakAttack/res/UI/Button.png");
     ResourceManager::UploadResource<sf::Texture>("MenuFrame", "D:/projects/takattack/TakAttack/res/UI/MenuFrame.png");
     ResourceManager::UploadResource<sf::Font>("BoldPixels", "D:/projects/takattack/TakAttack/res/UI/Fonts/BoldPixels.ttf");
+    ResourceManager::UploadResource<sf::Texture>("Castle", "D:/projects/takattack/TakAttack/res/Sprites/Castle.png");
 #elif defined(SFML_SYSTEM_LINUX)
     ResourceManager::UploadResource<sf::Texture>("Map1", "res/Maps/Map1.png");
     ResourceManager::UploadResource<sf::Texture>("MenuButton", "res/UI/Button.png");
     ResourceManager::UploadResource<sf::Texture>("MenuFrame", "res/UI/MenuFrame.png");
     ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/UI/Fonts/BoldPixels.ttf");
+    ResourceManager::UploadResource<sf::Texture>("Castle", "res/Sprites/Castle.png");
 #endif
 }
 
