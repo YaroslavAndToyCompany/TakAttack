@@ -4,11 +4,50 @@
 Map::Map(const std::string& mapName)
 {
     SetUpMap(mapName);
+    SetUpGrid();
 }
 
 void Map::SetMap(const std::string& mapName)
 {
     SetUpMap(mapName);
+}
+
+GridCell* Map::GetCellPosition(const sf::Vector2f& pos)
+{
+    for(auto& cell : m_grid) 
+    {
+        if (cell.bounds.contains(pos)) {
+            return &cell;
+    }
+    }
+    return nullptr;
+}
+
+void Map::DrawGrid(sf::RenderWindow& window)
+{
+    for (auto& cell : m_grid)
+    {
+        sf::RectangleShape m_rect;
+        m_rect.setSize(sf::Vector2f(m_cellWitdh, m_cellHeight));
+        m_rect.setPosition(cell.bounds.left, cell.bounds.top);
+        m_rect.setFillColor(sf::Color::Transparent);
+        m_rect.setOutlineThickness(1.f);
+
+        if (cell.type == CellType::Castle)
+            m_rect.setOutlineColor(sf::Color::Red);
+        else
+            m_rect.setOutlineColor(sf::Color::Red);
+
+        window.draw(m_rect);
+    }
+}
+
+void Map::MarkCellAsCastle(int gridX, int gridY)
+{
+    int index = gridY * m_gridWidth + gridX;
+    if (index >= 0 && index < m_grid.size()) {
+        m_grid[index].type = CellType::Castle;
+    }
 }
 
 void Map::SetUpMap(const std::string& mapName)
@@ -29,6 +68,29 @@ void Map::CalculateGlobalMapCenter()
     m_globalCenter = center;
 }
 
+void Map::SetUpGrid()
+{
+    m_grid.clear();
+    for(int y = 0; y < m_gridHeight; ++y)
+    {
+    for(int x = 0; x < m_gridWidth; ++x) 
+    {
+        GridCell cell;
+        cell.gridX = x;
+        cell.gridY = y;
+        sf::Vector2f mapCenter = m_map.getPosition();
+        float posX = mapCenter.x - m_size.x / 2.f + x * m_cellWitdh;
+        float posY = mapCenter.y - m_size.y / 2.f + y * m_cellHeight;
+        cell.bounds = sf::FloatRect(posX, posY, m_cellWitdh, m_cellHeight);
+        cell.type = CellType::Empty;
+
+        m_grid.push_back(cell);
+    }
+    }
+    
+}
+
 void Map::Draw(sf::RenderWindow& window) {
     window.draw(m_map);
+    DrawGrid(window);
 }

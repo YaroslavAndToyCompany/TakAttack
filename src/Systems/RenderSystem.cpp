@@ -10,15 +10,15 @@ void RenderSystem::draw(entt::registry& registry, Window& window)
 		auto& m_sprite = View.get<SpriteComponent>(entity);
 		auto& transform = View.get<TransformComponent>(entity);
 		if (!m_sprite.m_sprite.getTexture())
-			std::cout << "Спрайт без текстури!\n";
+			std::cout << "Sprite without texture!!!\n";
 		m_sprite.m_sprite.setPosition(transform.m_position);
 		m_sprite.m_sprite.setScale(transform.m_scale);
 		m_sprite.m_sprite.setRotation(transform.m_rotation);
 
-		
+	/*	
 		auto bounds = m_sprite.m_sprite.getGlobalBounds();
 		std::cout << "Sprite bounds: " << bounds.left << ", " << bounds.top
-			<< ", size: " << bounds.width << "x" << bounds.height << std::endl;
+			<< ", size: " << bounds.width << "x" << bounds.height << std::endl;*/
 		window.Draw(m_sprite.m_sprite);
 	}
 }
