@@ -37,6 +37,7 @@ void Engine::Update()
 void Engine::Render()
 {
     m_window.BeginDraw();
+    
     m_window.SwitchToGameView();
     
     m_map->Draw(*m_window.GetRenderWindowPtr());
@@ -45,5 +46,6 @@ void Engine::Render()
 
     m_mainMenu->Draw(*m_window.GetRenderWindowPtr());
     DebugPanel::Draw(*m_window.GetRenderWindowPtr());
+
     m_window.EndDraw();
 }

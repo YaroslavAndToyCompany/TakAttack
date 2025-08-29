@@ -40,7 +40,16 @@ void Window::Update()
             if (event.key.code == sf::Keyboard::F5)
                 ToggleFullscreen();
             break;
+        
+        case sf::Event::Resized:
+        {
+            sf::Vector2u newWindowSize = { event.size.width, event.size.height };
+            m_uiView.ResizeView(newWindowSize);
+            m_gameView.ResizeView(newWindowSize);
 
+            break;
+        }
+            
         default:
             break;
         }
