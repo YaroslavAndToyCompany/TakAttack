@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include "UI/View.hpp"
-#include "Game/GridCell.h"
+#include "Game/GridCell.hpp"
 #include "Game/Window.hpp"
 
 

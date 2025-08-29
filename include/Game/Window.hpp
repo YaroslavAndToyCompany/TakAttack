@@ -18,18 +18,21 @@ public:
     void BeginDraw();
     void EndDraw();
 
-    void Update();
-
     bool IsDone();
     bool IsFullscreen();
     sf::RenderWindow* GetRenderWindowPtr() { return &m_window; }
     sf::Vector2u GetWindowSize();
-    View& GetView() { return m_gameView; }
+
+    View& GetGameView() { return m_gameView; }
+    View& GetUiView() { return m_uiView; }
+    const View& GetGameView() const { return m_gameView; }
+    const View& GetUiView() const { return m_uiView; }
 
     void SwitchToGameView() { m_window.setView(m_gameView.GetSfmlView()); }
     void SwitchToUiView() { m_window.setView(m_uiView.GetSfmlView()); }
 
     void ToggleFullscreen();
+    void ToggleDone() { m_isDone = !m_isDone; }
 
     void SetResolution(Resolution resType);
 

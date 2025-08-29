@@ -11,11 +11,10 @@ Engine::Engine()
     m_map = std::make_unique<Map>("Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window);
 
-    m_window.GetView().SetCenter(m_map->GetGlobalCenter());
-    m_window.GetView().SetSize(m_map->GetSize());
+    m_window.GetGameView().SetCenter(m_map->GetGlobalCenter());
+    m_window.GetGameView().SetSize(m_map->GetSize());
    
     Entity::CreatePlayer(m_registry);
-    
 }
 
 Engine::~Engine()
@@ -27,11 +26,38 @@ void Engine::HandleInput()
     m_input.Input(m_registry, m_window, *m_map);
 }
 
+void Engine::ProcessEvents() {
+    sf::Event event;
+    while (m_window.GetRenderWindowPtr()->pollEvent(event)) {
+        switch (event.type)
+        {
+        case sf::Event::Closed:
+            m_window.ToggleDone();
+            break;
+
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::F5)
+                m_window.ToggleFullscreen();
+            break;
+        
+        case sf::Event::Resized:
+        {
+            sf::Vector2u newWindowSize = { event.size.width, event.size.height };
+            m_window.GetGameView().ResizeView(newWindowSize);
+            m_window.GetUiView().ResizeView(newWindowSize);
+
+            break;
+        }
+            
+        default:
+            break;
+        }
+    }
+}
+
 void Engine::Update()
 {
-    m_window.Update();
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
-    DebugPanel::SetString(std::to_string(m_window.GetView().GetSize().x));
 }
 
 void Engine::Render()

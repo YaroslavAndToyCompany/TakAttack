@@ -15,4 +15,6 @@ private:
 
     static sf::RectangleShape m_panel;
     static sf::Text m_text;
+
+    static bool m_draw;
 };

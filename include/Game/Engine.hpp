@@ -16,8 +16,10 @@ public:
     ~Engine();
 
     void HandleInput();
+    void ProcessEvents();
     void Update(); // Update function for logic staff
     void Render(); // Render for drawing things to the screen
+    
     Window* GetWindowPtr() { return &m_window; }
 
 private:

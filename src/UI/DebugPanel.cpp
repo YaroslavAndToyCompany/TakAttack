@@ -3,6 +3,7 @@
 
 sf::Text DebugPanel::m_text;
 sf::RectangleShape DebugPanel::m_panel;
+bool DebugPanel::m_draw = false;
 
 void DebugPanel::Init(View& view)
 {
@@ -26,6 +27,8 @@ void DebugPanel::SetString(const std::string& text)
 
 void DebugPanel::Draw(sf::RenderWindow& window)
 {
-    // window.draw(m_panel); TODO: Panel that appears and stretchis when there is a text
-    window.draw(m_text);
+    if (m_draw) {
+        // window.draw(m_panel); TODO: Panel that appears and stretchis when there is a text
+        window.draw(m_text);
+    }
 }

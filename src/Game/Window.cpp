@@ -26,35 +26,6 @@ void Window::EndDraw()
     m_window.display();
 }
 
-void Window::Update()
-{
-    sf::Event event;
-    while (m_window.pollEvent(event)) {
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            m_isDone = true;
-            break;
-
-        case sf::Event::KeyPressed:
-            if (event.key.code == sf::Keyboard::F5)
-                ToggleFullscreen();
-            break;
-        
-        case sf::Event::Resized:
-        {
-            sf::Vector2u newWindowSize = { event.size.width, event.size.height };
-            m_uiView.ResizeView(newWindowSize);
-            m_gameView.ResizeView(newWindowSize);
-
-            break;
-        }
-            
-        default:
-            break;
-        }
-    }
-}
 
 bool Window::IsDone()
 {
