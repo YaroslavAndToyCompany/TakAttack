@@ -35,6 +35,10 @@ public:
 
     void Draw(const sf::Drawable& drawable);
 
+    sf::Vector2f MapPixelToCoords(const sf::Vector2i& pixelPos, bool ui = false);
+
+   
+
 private:
     void Setup(const std::string& title, const sf::Vector2u& size);
     void Destroy();

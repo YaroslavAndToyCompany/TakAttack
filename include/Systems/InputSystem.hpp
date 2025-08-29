@@ -3,9 +3,11 @@
 #include "Entities/Entity.hpp"
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "Game/Window.hpp"
+#include "Game/Map.hpp"
 class InputSystem
 {
 public:
-	void Input(entt::registry& regsitry);
+	void Input(entt::registry& regsitry, Window& m_window, Map& m_map);
 };
 

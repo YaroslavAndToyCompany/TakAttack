@@ -4,7 +4,7 @@
 Map::Map(const std::string& mapName)
 {
     SetUpMap(mapName);
-    SetUpGrid();
+
 }
 
 void Map::SetMap(const std::string& mapName)
@@ -45,8 +45,12 @@ void Map::DrawGrid(sf::RenderWindow& window)
 void Map::MarkCellAsCastle(int gridX, int gridY)
 {
     int index = gridY * m_gridWidth + gridX;
+    
     if (index >= 0 && index < m_grid.size()) {
         m_grid[index].type = CellType::Castle;
+    }
+    else {
+        std::cout << "Error: index out of range!" << std::endl;
     }
 }
 
@@ -58,6 +62,15 @@ void Map::SetUpMap(const std::string& mapName)
     m_map.setOrigin(m_size * 0.5f);
     
     CalculateGlobalMapCenter();
+
+    SetUpGrid();
+
+    for (int y = 8; y <= 9; ++y) {
+        for (int x = 17; x <= 19; ++x) {
+            MarkCellAsCastle(x, y);
+        }
+    }
+
 }
 
 void Map::CalculateGlobalMapCenter()
@@ -70,7 +83,11 @@ void Map::CalculateGlobalMapCenter()
 
 void Map::SetUpGrid()
 {
+    std::cout << "Grid width: " << m_gridWidth << ", Grid height: " << m_gridHeight << "\n";
+    std::cout << "Cell width: " << m_cellWitdh << ", Cell height: " << m_cellHeight << "\n";
+
     m_grid.clear();
+
     for(int y = 0; y < m_gridHeight; ++y)
     {
     for(int x = 0; x < m_gridWidth; ++x) 
@@ -81,6 +98,11 @@ void Map::SetUpGrid()
         sf::Vector2f mapCenter = m_map.getPosition();
         float posX = mapCenter.x - m_size.x / 2.f + x * m_cellWitdh;
         float posY = mapCenter.y - m_size.y / 2.f + y * m_cellHeight;
+        if (x < 3 && y < 3) {
+            std::cout << "Cell (" << x << ", " << y << ") bounds: ["
+                << posX << ", " << posY << ", "
+                << m_cellWitdh << ", " << m_cellHeight << "]\n";
+        }
         cell.bounds = sf::FloatRect(posX, posY, m_cellWitdh, m_cellHeight);
         cell.type = CellType::Empty;
 

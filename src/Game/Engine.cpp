@@ -24,7 +24,7 @@ Engine::~Engine()
 
 void Engine::HandleInput()
 {
-    m_input.Input(m_registry);
+    m_input.Input(m_registry, m_window, *m_map);
 }
 
 void Engine::Update()

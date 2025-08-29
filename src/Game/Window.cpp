@@ -87,6 +87,12 @@ void Window::Draw(const sf::Drawable& drawable)
     m_window.draw(drawable);
 }
 
+sf::Vector2f Window::MapPixelToCoords(const sf::Vector2i& pixelPos, bool ui)
+{
+    return m_window.mapPixelToCoords(pixelPos, ui ? m_uiView.GetSfmlView() : m_gameView.GetSfmlView());
+}
+
+
 void Window::Setup(const std::string& title, const sf::Vector2u& size)
 {
     m_windowTitle = title;
