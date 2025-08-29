@@ -25,7 +25,7 @@ void View::ResizeView(const sf::Vector2u& windowSize)
     if (windowAspectRatio > viewAspectRatio) 
     {
         viewportWidth = viewAspectRatio / windowAspectRatio;
-        viewportX = (1.0f - viewportHeight) / 2.0f;
+        viewportX = (1.0f - viewportWidth) / 2.0f;
     }
     else 
     {
