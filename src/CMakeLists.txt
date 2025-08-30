@@ -6,11 +6,13 @@ add_executable(${CMAKE_PROJECT_NAME}
     Managers/CursorManager.cpp
     Systems/InputSystem.cpp
     Systems/RenderSystem.cpp
-    UI/Button.cpp
+    UI/Widgets/Button.cpp
+    UI/Widgets/CheckBox.cpp
     UI/DebugPanel.cpp
     UI/MainMenu.cpp
     UI/View.cpp
     Utils/Screen.cpp
+    Utils/Widgets.cpp
     main.cpp
 )
 

@@ -26,7 +26,6 @@ void Window::EndDraw()
     m_window.display();
 }
 
-
 bool Window::IsDone()
 {
     return m_isDone;

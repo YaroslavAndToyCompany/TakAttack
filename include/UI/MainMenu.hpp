@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "UI/Button.hpp"
+#include "UI/Widgets/Button.hpp"
 #include "Game/Window.hpp"
 
 class MainMenu {

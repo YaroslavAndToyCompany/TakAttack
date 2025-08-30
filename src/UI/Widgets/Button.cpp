@@ -1,6 +1,7 @@
-#include "UI/Button.hpp"
+#include "UI/Widgets/Button.hpp"
 #include "Managers/ResourceManager.hpp"
 #include "UI/DebugPanel.hpp"
+#include "Utils/Widgets.hpp"
 
 Button::Button(const std::string& textureName, 
                const sf::Vector2f& pos,
@@ -37,15 +38,8 @@ void Button::Draw(sf::RenderWindow& window)
 
 void Button::TransformText()
 {
-    
-    sf::FloatRect textRect = m_text.getLocalBounds();
-    sf::Vector2f textCenter(textRect.left + (textRect.width / 2.0f), (textRect.top + (textRect.height / 2.0f)));
-    m_text.setOrigin(textCenter);
-
-    
-    sf::FloatRect buttonRect = m_button.getLocalBounds();
-    sf::Vector2f buttonCenter(buttonRect.width / 2.0f, buttonRect.height / 2.0f);
-    m_button.setOrigin(buttonCenter);
+    m_text.setOrigin(SetRectOriginToCenter(m_text.getLocalBounds()));
+    m_button.setOrigin(SetRectOriginToCenter(m_button.getLocalBounds()));
     
     sf::Vector2f buttonPos = m_button.getPosition();
     sf::Vector2f textPos = sf::Vector2f(buttonPos.x, buttonPos.y - 2);

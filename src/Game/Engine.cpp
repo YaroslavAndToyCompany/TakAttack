@@ -7,12 +7,14 @@ Engine::Engine()
 {
     ResourceManager::Init();
     CursorManager::LoadCursors();
+    DebugPanel::Init(m_window.GetUiView());
 
     m_map = std::make_unique<Map>("Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window);
 
     m_window.GetGameView().SetCenter(m_map->GetGlobalCenter());
     m_window.GetGameView().SetSize(m_map->GetSize());
+    DebugPanel::AddCheckBox();
    
     Entity::CreatePlayer(m_registry);
 }
@@ -36,8 +38,12 @@ void Engine::ProcessEvents() {
             break;
 
         case sf::Event::KeyPressed:
+        {
             if (event.key.code == sf::Keyboard::F5)
                 m_window.ToggleFullscreen();
+            else if (event.key.code == sf::Keyboard::F9)
+                DebugPanel::ToggleDraw();
+        }
             break;
         
         case sf::Event::Resized:
@@ -48,7 +54,7 @@ void Engine::ProcessEvents() {
 
             break;
         }
-            
+
         default:
             break;
         }
@@ -58,6 +64,8 @@ void Engine::ProcessEvents() {
 void Engine::Update()
 {
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
+    DebugPanel::SetString("Test");
+    DebugPanel::Update(*m_window.GetRenderWindowPtr());
 }
 
 void Engine::Render()
