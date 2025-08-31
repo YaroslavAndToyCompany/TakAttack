@@ -64,7 +64,6 @@ void Engine::ProcessEvents() {
 void Engine::Update()
 {
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
-    DebugPanel::SetString("Test");
     DebugPanel::Update(*m_window.GetRenderWindowPtr());
 }
 

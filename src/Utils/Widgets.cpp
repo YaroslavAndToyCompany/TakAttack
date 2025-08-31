@@ -1,6 +1,6 @@
 #include "Utils/Widgets.hpp"
 
-sf::Vector2f SetRectOriginToCenter(const sf::FloatRect& textRect)
+sf::Vector2f SetRectOriginToCenter(const sf::FloatRect& rect)
 {
-    return { textRect.left + (textRect.width / 2.0f), textRect.top + (textRect.height / 2.0f) };
+    return { rect.left + (rect.width / 2.0f), rect.top + (rect.height / 2.0f) };
 }
