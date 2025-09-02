@@ -15,7 +15,7 @@ void InputSystem::Input(entt::registry& regsitry, Window& m_window, Map& m_map)
 			sf::Vector2i pixelPos = sf::Mouse::getPosition(*m_window.GetRenderWindowPtr());
 			sf::Vector2f worldPos = m_window.MapPixelToCoords(pixelPos, false); //ui = false
 			std::cout << "Mouse world pos: (" << worldPos.x << ", " << worldPos.y << ")\n";
-
+		
 			GridCell* clickedCell = m_map.GetCellPosition(worldPos);
 			
 			if (clickedCell && clickedCell->type == CellType::Castle) {
@@ -23,7 +23,7 @@ void InputSystem::Input(entt::registry& regsitry, Window& m_window, Map& m_map)
 				castleUi.m_castleUIactive = true;
 				if(castleUi.m_castleUIactive) 
 				{
-					std::cout << "CASTLE UI VISIABLE!!!!!!!" << std::endl;
+					std::cout << "CASTLE UI IS VISIABLE!!!!!!!" << std::endl;
 				}
 			}
 			else 
