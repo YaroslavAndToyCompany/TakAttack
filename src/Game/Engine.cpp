@@ -17,6 +17,7 @@ Engine::Engine()
     DebugPanel::AddCheckBox();
    
     Entity::CreatePlayer(m_registry);
+    Entity::CreateArtillery(m_registry);
 }
 
 Engine::~Engine()

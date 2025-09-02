@@ -11,3 +11,12 @@ entt::entity Entity::CreatePlayer(entt::registry& registry)
 	registry.emplace<CastleUIComponent>(entity);
 	return entity;
 }
+
+entt::entity Entity::CreateArtillery(entt::registry& registry)
+{
+	auto entity = registry.create();
+	registry.emplace<TransformComponent>(entity);
+	registry.emplace<SpriteComponent>(entity, "Artillery");
+	registry.emplace<CastleUIComponent>(entity);
+	return entity;
+}
