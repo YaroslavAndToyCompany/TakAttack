@@ -13,10 +13,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 add_subdirectory(vendors)
 add_subdirectory(src)
 
-target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(TakAttack PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # --- Link necessary libraries ---
-target_link_libraries(${CMAKE_PROJECT_NAME}
+target_link_libraries(TakAttack
 PRIVATE
 SFML
 EnTT::EnTT
@@ -50,9 +50,32 @@ endif()
 find_package(X11 QUIET)
 
 if (X11_FOUND)
-    target_link_libraries(${CMAKE_PROJECT_NAME}
+    target_link_libraries(TakAttack
         PRIVATE
         ${X11_LIBRARIES}
         Xrandr
     )
 endif()
+
+
+# --- Copy resource folder to build/bin directory for convinient access ---
+file(GLOB_RECURSE RESOURCE_FILES "${CMAKE_SOURCE_DIR}/res/*")
+
+set(COPIED_RESOURCE_FILES "")
+
+foreach(RES_FILE ${RESOURCE_FILES})
+    file(RELATIVE_PATH REL_PATH "${CMAKE_SOURCE_DIR}/res" "${RES_FILE}")
+
+    set(DEST_FILE "${CMAKE_BINARY_DIR}/bin/res/${REL_PATH}")
+
+    add_custom_command(
+        OUTPUT ${DEST_FILE}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${RES_FILE}" "${DEST_FILE}"
+        DEPENDS ${RES_FILE}
+        COMMENT "Copying resource: ${REL_PATH}"
+    )
+
+    list(APPEND COPIED_RESOURCE_FILES ${DEST_FILE})
+endforeach()
+
+add_custom_target(copy_resources ALL DEPENDS ${COPIED_RESOURCE_FILES})
