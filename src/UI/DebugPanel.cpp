@@ -6,7 +6,8 @@
 #include <string>
 
 sf::RectangleShape DebugPanel::m_panel;
-sf::RectangleShape DebugPanel::m_bottomSide;
+
+std::array<sf::RectangleShape, static_cast<size_t>(DebugPanel::ResizeSideType::Count)> DebugPanel::m_resizeSides;
 
 sf::Text DebugPanel::m_text;
 CheckBox DebugPanel::m_checkBox;
@@ -17,23 +18,29 @@ void DebugPanel::Init(View& view)
 {
     m_text.setFont(*ResourceManager::GetResource<sf::Font>("BoldPixels"));
 
-    sf::Vector2f viewCenter = view.GetCenter();
+    int debugPanelLeftMargin = 20;
+    int debugPanelTopMargin = 20;
+    sf::Vector2f debugPanelSize = sf::Vector2f(200, 200);
 
-    m_panel.setFillColor(sf::Color::White);
-    m_panel.setSize({200, 200});
+    CreatePanel(debugPanelSize, debugPanelLeftMargin, debugPanelTopMargin);
 
-    sf::FloatRect panelLocalBounds = m_panel.getLocalBounds();
+    // Panel resize sides creaction
+    const sf::Vector2f horizontalSize = { 180, 5 };
+    const sf::Vector2f verticalSize = { 5, 180 };
 
-    m_panel.setOrigin(SetRectOriginToCenter(panelLocalBounds));
-    m_panel.move(panelLocalBounds.width / 2.0f, panelLocalBounds.height / 2.0f);
+    for (int i = 0; i < m_resizeSides.size(); i++) 
+    {
+        auto type = static_cast<ResizeSideType>(i);
+        auto& side = m_resizeSides[i];
 
-    m_bottomSide.setSize({180, 5});
-    m_bottomSide.setFillColor(sf::Color::Black);
-    m_bottomSide.setOrigin(SetRectOriginToCenter(m_bottomSide.getLocalBounds()));
+        sf::Vector2f size = (type == ResizeSideType::Top || type == ResizeSideType::Bottom) ? horizontalSize : verticalSize;
+        CreateResizeHandlers(side, size, type);
+    }
+    for (int i = 0; i < m_resizeSides.size(); i++) 
+    {
+        UpdateResizeHandlers(m_resizeSides[i], static_cast<ResizeSideType>(i));
+    }
 
-    sf::FloatRect panelGlobalBounds = m_panel.getGlobalBounds();
-    m_bottomSide.setPosition(panelGlobalBounds.left + (panelGlobalBounds.width / 2.0f), panelGlobalBounds.top + panelGlobalBounds.height);
-    m_bottomSide.move(0, -m_bottomSide.getOrigin().y);
 }
 
 void DebugPanel::AddText(const std::string& text)
@@ -51,10 +58,13 @@ void DebugPanel::AddText(const int& number)
 void DebugPanel::OnMove() 
 {
     sf::FloatRect panelGlobalBounds = m_panel.getGlobalBounds();
-    float finalXCoord = panelGlobalBounds.left + (panelGlobalBounds.width / 2.0f);
-    float finalYCoord = panelGlobalBounds.top + panelGlobalBounds.height - m_bottomSide.getOrigin().y;
 
-    m_bottomSide.setPosition(finalXCoord, finalYCoord);
+    for (int i = 0; i < m_resizeSides.size(); i++) 
+    {
+        UpdateResizeHandlers(m_resizeSides[i], static_cast<ResizeSideType>(i));
+    }
+
+    DebugPanel::AddText(sf::Vector2f(panelGlobalBounds.left, panelGlobalBounds.top));
 }
 
 void DebugPanel::AddCheckBox(bool state, const std::string& text)
@@ -86,11 +96,7 @@ void DebugPanel::Update(sf::RenderWindow& window)
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
         {
-            if (m_bottomSide.getGlobalBounds().contains(mousePosInCoords)) 
-            {
-                m_panel.setSize({m_panel.getSize().x, mousePosInCoords.y});
-            }
-            else if (m_panel.getGlobalBounds().contains(mousePosInCoords)) 
+            if (m_panel.getGlobalBounds().contains(mousePosInCoords)) 
             {
                 m_panel.setPosition(mousePosInCoords);
                 OnMove();
@@ -112,8 +118,59 @@ void DebugPanel::Draw(sf::RenderWindow& window)
     if (m_draw) 
     {
         window.draw(m_panel);
-        window.draw(m_bottomSide);
+        for (auto& side : m_resizeSides) 
+        {
+            window.draw(side);
+        }
         window.draw(m_text);
         m_checkBox.Draw(window);
     }
+}
+
+void DebugPanel::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin) 
+{
+    m_panel.setFillColor(sf::Color::White);
+    m_panel.setSize(size);
+
+    sf::FloatRect panelLocalBounds = m_panel.getLocalBounds();
+
+    m_panel.setOrigin(SetRectOriginToCenter(panelLocalBounds));
+    m_panel.move(panelLocalBounds.width / 2.0f + leftMargin, panelLocalBounds.height / 2.0f + topMargin);
+}
+
+void DebugPanel::CreateResizeHandlers(sf::RectangleShape& side, const sf::Vector2f& size, ResizeSideType sideType) 
+{
+    side.setSize(size);
+    side.setFillColor(sf::Color::Black);
+    side.setOrigin(SetRectOriginToCenter(side.getLocalBounds()));
+}
+
+void DebugPanel::UpdateResizeHandlers(sf::RectangleShape& side, ResizeSideType sideType)
+{
+    float finalXCoord;
+    float finalYCoord;
+
+    sf::FloatRect panelGlobalBounds = m_panel.getGlobalBounds();
+    if (sideType == ResizeSideType::Top) 
+    {
+        finalXCoord = panelGlobalBounds.left + (panelGlobalBounds.width / 2.0f);
+        finalYCoord = panelGlobalBounds.top + side.getOrigin().y;
+    }
+    else if (sideType == ResizeSideType::Bottom)
+    {
+        finalXCoord = panelGlobalBounds.left + (panelGlobalBounds.width / 2.0f);
+        finalYCoord = panelGlobalBounds.top + panelGlobalBounds.height - side.getOrigin().y;
+    }
+    else if (sideType == ResizeSideType::Left) 
+    {
+        finalXCoord = panelGlobalBounds.left + side.getOrigin().x;
+        finalYCoord = panelGlobalBounds.top + (panelGlobalBounds.height / 2.0f);
+    }
+    else if (sideType == ResizeSideType::Right)
+    {
+        finalXCoord = panelGlobalBounds.left + panelGlobalBounds.width - side.getOrigin().x;
+        finalYCoord = panelGlobalBounds.top + (panelGlobalBounds.height / 2.0f);
+    }
+
+    side.setPosition(finalXCoord, finalYCoord);
 }

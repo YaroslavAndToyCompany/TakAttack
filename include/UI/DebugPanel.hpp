@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <array>
 #include "UI/View.hpp"
 #include "UI/Widgets/CheckBox.hpp"
 
@@ -27,10 +28,18 @@ public:
     static void Draw(sf::RenderWindow& window);
 
 private:
+    enum class ResizeSideType {
+        Top, Bottom, Left, Right, Count
+    };
+
     DebugPanel() { }
+    static void CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin);
+    static void CreateResizeHandlers(sf::RectangleShape& side, const sf::Vector2f& size, ResizeSideType sideType);
+    static void UpdateResizeHandlers(sf::RectangleShape& side, ResizeSideType sideType);
 
     static sf::RectangleShape m_panel;
-    static sf::RectangleShape m_bottomSide;
+
+    static std::array<sf::RectangleShape, static_cast<size_t>(ResizeSideType::Count)> m_resizeSides;
 
     static sf::Text m_text;
     static CheckBox m_checkBox;

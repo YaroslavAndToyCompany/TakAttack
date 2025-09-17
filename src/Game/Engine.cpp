@@ -2,8 +2,11 @@
 #include "UI/DebugPanel.hpp"
 #include "Managers/CursorManager.hpp"
 
+const unsigned int WINDOW_WIDTH = 1920;
+const unsigned int WINDOW_HEIGHT = 1080;
+
 Engine::Engine()
-    : m_window("TakAttack", sf::Vector2u(1920, 1080))
+    : m_window("TakAttack", sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT))
 {
     ResourceManager::Init();
     CursorManager::LoadCursors();
@@ -40,7 +43,7 @@ void Engine::ProcessEvents() {
 
         case sf::Event::KeyPressed:
         {
-            if (event.key.code == sf::Keyboard::F5)
+            if (event.key.code == sf::Keyboard::F11)
                 m_window.ToggleFullscreen();
             else if (event.key.code == sf::Keyboard::F9)
                 DebugPanel::ToggleDraw();
