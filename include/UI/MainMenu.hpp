@@ -7,6 +7,7 @@
 class MainMenu {
 public:
     MainMenu(Window& window);
+    void HandleEvents(const sf::Event& event, sf::RenderWindow& window);
     void Update(sf::RenderWindow& window);
     void Draw(sf::RenderWindow& window);
 

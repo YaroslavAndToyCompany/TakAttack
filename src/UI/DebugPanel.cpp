@@ -72,14 +72,14 @@ void DebugPanel::AddCheckBox(bool state, const std::string& text)
     m_checkBox.SetPosition({ 50, 150 });
 }
 
-bool DebugPanel::IsMouseHover(sf::RenderWindow& window)
+bool DebugPanel::UpdateCursor(const sf::Vector2i& mousePos, sf::RenderWindow& window)
 {
-    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
-
-    if (m_checkBox.GetCheckBoxGlobalBounds().contains(mousePosInCoords)) {
-        return true;
-    }
+    if (m_resizeSides[0].getGlobalBounds().contains(mousePosInCoords))
+        CursorManager::SetSizeTop(window);
+    else
+        CursorManager::SetArrow(window);
+    
     return false;
 }
 
@@ -118,6 +118,11 @@ void DebugPanel::HandleEvents(sf::Event& event, sf::RenderWindow& window)
         }
         break;
     }
+    case sf::Event::MouseMoved:
+    {
+        sf::Vector2i mousePos = { event.mouseMove.x, event.mouseMove.y };
+        UpdateCursor(mousePos, window);
+    }
     default:
         break;
     }
@@ -138,17 +143,6 @@ void DebugPanel::Update(sf::RenderWindow& window)
         m_panel.setPosition(mousePosInCoords);
         OnMove();
     }
-
-    // if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
-    // {
-        
-
-    //     if (m_checkBox.GetCheckBoxGlobalBounds().contains(mousePosInCoords)) 
-    //     {
-    //         std::cout << "yep" << std::endl;
-    //     }
-    // }
-
 }
 
 void DebugPanel::Draw(sf::RenderWindow& window)

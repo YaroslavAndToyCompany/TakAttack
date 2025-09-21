@@ -1,6 +1,7 @@
 #include "UI/MainMenu.hpp"
 #include "Managers/ResourceManager.hpp"
 #include "Managers/CursorManager.hpp"
+#include "Utils/Utils.hpp"
 
 MainMenu::MainMenu(Window& window)
     : m_btnStartGame("MenuButton"), m_btnSettings("MenuButton"), m_btnExit("MenuButton")
@@ -31,40 +32,70 @@ MainMenu::MainMenu(Window& window)
     m_displayMenu = true;
 }
 
-
-void MainMenu::Update(sf::RenderWindow & window)
+void MainMenu::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
 {
-    if (m_displayMenu) {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+    if (!m_displayMenu)
+        return;
+    
+    sf::FloatRect btnRectStartGame = m_btnStartGame.GetSprite().getGlobalBounds();
+    sf::FloatRect btnRectSettings = m_btnSettings.GetSprite().getGlobalBounds();
+    sf::FloatRect btnRectExit = m_btnExit.GetSprite().getGlobalBounds();
 
-        sf::FloatRect btnRectStartGame = m_btnStartGame.GetSprite().getGlobalBounds();
-        sf::FloatRect btnRectSettings = m_btnSettings.GetSprite().getGlobalBounds();
-        sf::FloatRect btnRectExit = m_btnExit.GetSprite().getGlobalBounds();
-        
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && btnRectStartGame.contains(mousePosInCoords)) {
+    switch (event.type)
+    {
+    case sf::Event::MouseButtonPressed:
+    {
+        break;
+    }
+    case sf::Event::MouseButtonReleased:
+    {
+        sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
+                                event.mouseButton.x, event.mouseButton.y, window);
+
+        if (event.mouseButton.button == sf::Mouse::Left && btnRectStartGame.contains(mousePos))
+        {
             ToggleDisplayMenu();
             CursorManager::SetArrow(window);
-            return;  
         }
+        break;
+    }
+    case sf::Event::MouseMoved:
+    {
+        sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
+                                event.mouseMove.x, event.mouseMove.y, window);
 
-        if (btnRectStartGame.contains(mousePosInCoords) || btnRectSettings.contains(mousePosInCoords) || btnRectExit.contains(mousePosInCoords)) {
+        if (btnRectStartGame.contains(mousePos) 
+            || btnRectSettings.contains(mousePos) 
+            || btnRectExit.contains(mousePos))
+        {
             CursorManager::SetHand(window);
         }
-        else {
+
+        else 
+        {
             CursorManager::SetArrow(window);
         }
     }
+    default:
+        break;
+    }
+}
+
+void MainMenu::Update(sf::RenderWindow& window)
+{
+    if (!m_displayMenu)
+        return;
 }
 
 void MainMenu::Draw(sf::RenderWindow& window)
 {
-    if (m_displayMenu) {
-        window.draw(m_menuSprite);
-        m_btnStartGame.Draw(window);
-        m_btnSettings.Draw(window);
-        m_btnExit.Draw(window);
-    }
+    if (!m_displayMenu)
+        return;
+
+    window.draw(m_menuSprite);
+    m_btnStartGame.Draw(window);
+    m_btnSettings.Draw(window);
+    m_btnExit.Draw(window);
 }
 
 void MainMenu::PlaceButtons(std::vector<Button*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize) {

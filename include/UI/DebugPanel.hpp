@@ -22,7 +22,7 @@ public:
     static void ToggleActive() { m_isActive = !m_isActive; }
     static void ToggleMoving() { m_isMoving = !m_isMoving; }
 
-    static bool IsMouseHover(sf::RenderWindow& window);
+    static bool UpdateCursor(const sf::Vector2i& mousePos, sf::RenderWindow& window);
 
     static void HandleEvents(sf::Event& event, sf::RenderWindow& window);
     static void Update(sf::RenderWindow& window);

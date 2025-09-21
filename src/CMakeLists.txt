@@ -12,6 +12,7 @@ add_executable(TakAttack
     UI/MainMenu.cpp
     UI/View.cpp
     Utils/Screen.cpp
+    Utils/Utils.cpp
     Utils/Widgets.cpp
     main.cpp
 )
