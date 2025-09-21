@@ -12,6 +12,7 @@ Engine::Engine()
     CursorManager::LoadCursors();
     DebugPanel::Init(m_window.GetUiView());
 
+
     m_map = std::make_unique<Map>("Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window);
 
@@ -35,33 +36,8 @@ void Engine::HandleInput()
 void Engine::ProcessEvents() {
     sf::Event event;
     while (m_window.GetRenderWindowPtr()->pollEvent(event)) {
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            m_window.ToggleDone();
-            break;
-
-        case sf::Event::KeyPressed:
-        {
-            if (event.key.code == sf::Keyboard::F11)
-                m_window.ToggleFullscreen();
-            else if (event.key.code == sf::Keyboard::F9)
-                DebugPanel::ToggleDraw();
-        }
-            break;
-        
-        case sf::Event::Resized:
-        {
-            sf::Vector2u newWindowSize = { event.size.width, event.size.height };
-            m_window.GetGameView().ResizeView(newWindowSize);
-            m_window.GetUiView().ResizeView(newWindowSize);
-
-            break;
-        }
-
-        default:
-            break;
-        }
+        m_window.HandleEvents(event);
+        DebugPanel::HandleEvents(event, *m_window.GetRenderWindowPtr());
     }
 }
 

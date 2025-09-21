@@ -61,6 +61,32 @@ void Window::SetResolution(Resolution resType)
     }
 }
 
+void Window::HandleEvents(sf::Event& event) 
+{
+    switch (event.type)
+    {
+    case sf::Event::Closed:
+        ToggleDone();
+        break;
+    case sf::Event::KeyPressed:
+    {
+        if (event.key.code == sf::Keyboard::F11)
+            ToggleFullscreen();
+        break;
+    }   
+    case sf::Event::Resized:
+    {
+        sf::Vector2u newWindowSize = { event.size.width, event.size.height };
+        GetGameView().ResizeView(newWindowSize);
+        GetUiView().ResizeView(newWindowSize);
+
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void Window::Draw(const sf::Drawable& drawable)
 {
     m_window.draw(drawable);

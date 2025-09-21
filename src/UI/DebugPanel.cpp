@@ -12,7 +12,8 @@ std::array<sf::RectangleShape, static_cast<size_t>(DebugPanel::ResizeSideType::C
 sf::Text DebugPanel::m_text;
 CheckBox DebugPanel::m_checkBox;
 
-bool DebugPanel::m_draw = false;
+bool DebugPanel::m_isActive = false;
+bool DebugPanel::m_isMoving = false;
 
 void DebugPanel::Init(View& view)
 {
@@ -63,8 +64,6 @@ void DebugPanel::OnMove()
     {
         UpdateResizeHandlers(m_resizeSides[i], static_cast<ResizeSideType>(i));
     }
-
-    DebugPanel::AddText(sf::Vector2f(panelGlobalBounds.left, panelGlobalBounds.top));
 }
 
 void DebugPanel::AddCheckBox(bool state, const std::string& text)
@@ -75,56 +74,99 @@ void DebugPanel::AddCheckBox(bool state, const std::string& text)
 
 bool DebugPanel::IsMouseHover(sf::RenderWindow& window)
 {
-    if (m_draw) 
-    {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
 
-        if (m_checkBox.GetCheckBoxGlobalBounds().contains(mousePosInCoords)) {
-            return true;
-        }
+    if (m_checkBox.GetCheckBoxGlobalBounds().contains(mousePosInCoords)) {
+        return true;
     }
     return false;
 }
 
-void DebugPanel::Update(sf::RenderWindow& window) 
+void DebugPanel::HandleEvents(sf::Event& event, sf::RenderWindow& window)
 {
-    if (m_draw) 
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F9)
     {
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+        ToggleActive();
+    }
+    if (!m_isActive)
+    {
+        return;
+    }
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
+    switch (event.type)
+    {
+    case sf::Event::MouseButtonPressed:
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
         {
-            if (m_panel.getGlobalBounds().contains(mousePosInCoords)) 
-            {
-                m_panel.setPosition(mousePosInCoords);
-                OnMove();
-            }
+            sf::Vector2i mousePos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
+            sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
 
-            if (m_checkBox.GetCheckBoxGlobalBounds().contains(mousePosInCoords)) 
+            if (m_panel.getGlobalBounds().contains(mousePosInCoords))
             {
-                std::cout << "yep" << std::endl;
+                m_isMoving = true;
             }
         }
-
-        
+        break;
     }
-    
+    case sf::Event::MouseButtonReleased:
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            m_isMoving = false;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void DebugPanel::Update(sf::RenderWindow& window) 
+{
+    if (!m_isActive) 
+    {
+        return;
+    }
+
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+
+    if (m_isMoving)
+    {
+        m_panel.setPosition(mousePosInCoords);
+        OnMove();
+    }
+
+    // if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) 
+    // {
+        
+
+    //     if (m_checkBox.GetCheckBoxGlobalBounds().contains(mousePosInCoords)) 
+    //     {
+    //         std::cout << "yep" << std::endl;
+    //     }
+    // }
+
 }
 
 void DebugPanel::Draw(sf::RenderWindow& window)
 {
-    if (m_draw) 
+    if (!m_isActive)
     {
-        window.draw(m_panel);
-        for (auto& side : m_resizeSides) 
-        {
-            window.draw(side);
-        }
-        window.draw(m_text);
-        m_checkBox.Draw(window);
+        return;
     }
+
+    window.draw(m_panel);
+
+    for (auto& side : m_resizeSides) 
+    {
+        window.draw(side);
+    }
+
+    window.draw(m_text);
+    m_checkBox.Draw(window);
 }
 
 void DebugPanel::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin) 

@@ -19,11 +19,12 @@ public:
     static void OnMove();
 
     static void AddCheckBox(bool state = false, const std::string& text = "Text");
-    static void ToggleDraw() { m_draw = !m_draw; }
+    static void ToggleActive() { m_isActive = !m_isActive; }
+    static void ToggleMoving() { m_isMoving = !m_isMoving; }
 
     static bool IsMouseHover(sf::RenderWindow& window);
 
-    static void ProcessEvents();
+    static void HandleEvents(sf::Event& event, sf::RenderWindow& window);
     static void Update(sf::RenderWindow& window);
     static void Draw(sf::RenderWindow& window);
 
@@ -44,7 +45,8 @@ private:
     static sf::Text m_text;
     static CheckBox m_checkBox;
 
-    static bool m_draw;
+    static bool m_isActive;
+    static bool m_isMoving;
 };
 
 template<typename T>

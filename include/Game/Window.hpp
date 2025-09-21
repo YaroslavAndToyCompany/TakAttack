@@ -27,22 +27,23 @@ public:
     View& GetUiView() { return m_uiView; }
     const View& GetGameView() const { return m_gameView; }
     const View& GetUiView() const { return m_uiView; }
-
+    
     void SwitchToGameView() { m_window.setView(m_gameView.GetSfmlView()); }
     void SwitchToUiView() { m_window.setView(m_uiView.GetSfmlView()); }
-
+    
     void ToggleFullscreen();
     void ToggleDone() { m_isDone = !m_isDone; }
 
     void SetResolution(Resolution resType);
-
+    
+    void HandleEvents(sf::Event& event);
     void Draw(const sf::Drawable& drawable);
-
+    
     sf::Vector2f MapPixelToCoords(const sf::Vector2i& pixelPos, bool ui = false);
-
+    
 private:
-    void Setup(const std::string& title, const sf::Vector2u& size);
     void Destroy();
+    void Setup(const std::string& title, const sf::Vector2u& size);
     void Create();
 
     void MoveToCenter();
