@@ -11,6 +11,8 @@ public:
     void Update(sf::RenderWindow& window);
     void Draw(sf::RenderWindow& window);
 
+    bool IsCursorSetted() { return m_isCursorSetted; }
+
 private:
     void ToggleDisplayMenu() { m_displayMenu = !m_displayMenu; }
     void PlaceButtons(std::vector<Button*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize);
@@ -24,4 +26,5 @@ private:
     sf::Vector2f m_scale;
 
     bool m_displayMenu;
+    bool m_isCursorSetted;
 };

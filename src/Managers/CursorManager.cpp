@@ -4,17 +4,15 @@
 sf::Cursor CursorManager::s_arrow;
 sf::Cursor CursorManager::s_hand;
 
-sf::Cursor CursorManager::s_sizeTop;
-sf::Cursor CursorManager::s_sizeBottom;
-sf::Cursor CursorManager::s_sizeLeft;
-sf::Cursor CursorManager::s_sizeRight;
+sf::Cursor CursorManager::s_sizeVertical;
+sf::Cursor CursorManager::s_sizeHorizontal;
 
 void CursorManager::LoadCursors()
 {
-    s_arrow.loadFromSystem(sf::Cursor::Type::Arrow);
-    s_hand.loadFromSystem(sf::Cursor::Type::Hand);
+    s_arrow.loadFromSystem(sf::Cursor::Arrow);
+    s_hand.loadFromSystem(sf::Cursor::Hand);
 
-    s_sizeTop.loadFromSystem(sf::Cursor::Type::SizeVertical);
+    s_sizeVertical.loadFromSystem(sf::Cursor::SizeVertical);
 }
 
 void CursorManager::SetArrow(sf::RenderWindow& window)
@@ -27,7 +25,12 @@ void CursorManager::SetHand(sf::RenderWindow& window)
     window.setMouseCursor(s_hand);
 }
 
-void CursorManager::SetSizeTop(sf::RenderWindow& window)
+void CursorManager::SetSizeVertical(sf::RenderWindow& window)
 {
-    window.setMouseCursor(s_sizeTop);
+    window.setMouseCursor(s_sizeVertical);
+}
+
+void CursorManager::SetSizeHorizontal(sf::RenderWindow& window)
+{
+    window.setMouseCursor(s_sizeHorizontal);
 }

@@ -34,9 +34,10 @@ MainMenu::MainMenu(Window& window)
 
 void MainMenu::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
 {
+
     if (!m_displayMenu)
         return;
-    
+
     sf::FloatRect btnRectStartGame = m_btnStartGame.GetSprite().getGlobalBounds();
     sf::FloatRect btnRectSettings = m_btnSettings.GetSprite().getGlobalBounds();
     sf::FloatRect btnRectExit = m_btnExit.GetSprite().getGlobalBounds();
@@ -56,25 +57,9 @@ void MainMenu::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
         {
             ToggleDisplayMenu();
             CursorManager::SetArrow(window);
+            m_isCursorSetted = false;
         }
         break;
-    }
-    case sf::Event::MouseMoved:
-    {
-        sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
-                                event.mouseMove.x, event.mouseMove.y, window);
-
-        if (btnRectStartGame.contains(mousePos) 
-            || btnRectSettings.contains(mousePos) 
-            || btnRectExit.contains(mousePos))
-        {
-            CursorManager::SetHand(window);
-        }
-
-        else 
-        {
-            CursorManager::SetArrow(window);
-        }
     }
     default:
         break;
@@ -85,6 +70,23 @@ void MainMenu::Update(sf::RenderWindow& window)
 {
     if (!m_displayMenu)
         return;
+
+    m_isCursorSetted = false;
+
+    sf::FloatRect btnRectStartGame = m_btnStartGame.GetSprite().getGlobalBounds();
+    sf::FloatRect btnRectSettings = m_btnSettings.GetSprite().getGlobalBounds();
+    sf::FloatRect btnRectExit = m_btnExit.GetSprite().getGlobalBounds();
+
+    sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
+                                sf::Mouse::getPosition(window), window);
+
+        if (btnRectStartGame.contains(mousePos) 
+            || btnRectSettings.contains(mousePos) 
+            || btnRectExit.contains(mousePos))
+        {
+            CursorManager::SetHand(window);
+            m_isCursorSetted = true;
+        }
 }
 
 void MainMenu::Draw(sf::RenderWindow& window)

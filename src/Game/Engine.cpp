@@ -46,6 +46,12 @@ void Engine::Update()
 {
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
     DebugPanel::Update(*m_window.GetRenderWindowPtr());
+
+    if (!m_mainMenu.get()->IsCursorSetted()
+        && !DebugPanel::IsCursorSetted())
+    {
+        CursorManager::SetArrow(*m_window.GetRenderWindowPtr());
+    }
 }
 
 void Engine::Render()

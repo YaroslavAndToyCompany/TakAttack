@@ -7,18 +7,14 @@ public:
     static void LoadCursors();
     static void SetArrow(sf::RenderWindow& window);
     static void SetHand(sf::RenderWindow& window);
-    static void SetSizeTop(sf::RenderWindow& window);
-    static void SetSizeBottom(sf::RenderWindow& window);
-    static void SetSizeLeft(sf::RenderWindow& window);
-    static void SetSizeRight(sf::RenderWindow& window);
+    static void SetSizeVertical(sf::RenderWindow& window);
+    static void SetSizeHorizontal(sf::RenderWindow& window);
 
 private:
     CursorManager() { };
 
     static sf::Cursor s_arrow;
     static sf::Cursor s_hand;
-    static sf::Cursor s_sizeTop;
-    static sf::Cursor s_sizeBottom;
-    static sf::Cursor s_sizeLeft;
-    static sf::Cursor s_sizeRight;
+    static sf::Cursor s_sizeVertical;
+    static sf::Cursor s_sizeHorizontal;
 };

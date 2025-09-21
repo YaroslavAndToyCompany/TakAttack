@@ -2,6 +2,7 @@
 #include "Managers/ResourceManager.hpp"
 #include "Managers/CursorManager.hpp"
 #include "Utils/Widgets.hpp"
+#include "Utils/Utils.hpp"
 
 #include <string>
 
@@ -14,6 +15,7 @@ CheckBox DebugPanel::m_checkBox;
 
 bool DebugPanel::m_isActive = false;
 bool DebugPanel::m_isMoving = false;
+bool DebugPanel::m_isCursorSetted = false;
 
 void DebugPanel::Init(View& view)
 {
@@ -72,15 +74,13 @@ void DebugPanel::AddCheckBox(bool state, const std::string& text)
     m_checkBox.SetPosition({ 50, 150 });
 }
 
-bool DebugPanel::UpdateCursor(const sf::Vector2i& mousePos, sf::RenderWindow& window)
+void DebugPanel::UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& window)
 {
-    sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
-    if (m_resizeSides[0].getGlobalBounds().contains(mousePosInCoords))
-        CursorManager::SetSizeTop(window);
-    else
-        CursorManager::SetArrow(window);
-    
-    return false;
+    if (m_resizeSides[0].getGlobalBounds().contains(mousePos))
+    {
+        CursorManager::SetSizeVertical(window);
+        m_isCursorSetted = true;
+    }
 }
 
 void DebugPanel::HandleEvents(sf::Event& event, sf::RenderWindow& window)
@@ -118,11 +118,6 @@ void DebugPanel::HandleEvents(sf::Event& event, sf::RenderWindow& window)
         }
         break;
     }
-    case sf::Event::MouseMoved:
-    {
-        sf::Vector2i mousePos = { event.mouseMove.x, event.mouseMove.y };
-        UpdateCursor(mousePos, window);
-    }
     default:
         break;
     }
@@ -135,12 +130,14 @@ void DebugPanel::Update(sf::RenderWindow& window)
         return;
     }
 
-    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-    sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+    m_isCursorSetted = false;
+
+    sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(sf::Mouse::getPosition(window), window);
+    UpdateCursor(mousePos, window);
 
     if (m_isMoving)
     {
-        m_panel.setPosition(mousePosInCoords);
+        m_panel.setPosition(mousePos);
         OnMove();
     }
 }

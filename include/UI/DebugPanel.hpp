@@ -21,8 +21,10 @@ public:
     static void AddCheckBox(bool state = false, const std::string& text = "Text");
     static void ToggleActive() { m_isActive = !m_isActive; }
     static void ToggleMoving() { m_isMoving = !m_isMoving; }
+    
+    static bool IsCursorSetted() { return m_isCursorSetted; }
 
-    static bool UpdateCursor(const sf::Vector2i& mousePos, sf::RenderWindow& window);
+    static void UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& window);
 
     static void HandleEvents(sf::Event& event, sf::RenderWindow& window);
     static void Update(sf::RenderWindow& window);
@@ -47,6 +49,7 @@ private:
 
     static bool m_isActive;
     static bool m_isMoving;
+    static bool m_isCursorSetted;
 };
 
 template<typename T>
