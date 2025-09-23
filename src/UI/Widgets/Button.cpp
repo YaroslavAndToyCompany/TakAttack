@@ -1,19 +1,17 @@
 #include "UI/Widgets/Button.hpp"
-#include "Managers/ResourceManager.hpp"
 #include "Utils/Widgets.hpp"
 
-Button::Button(const std::string& textureName, 
+Button::Button(const std::string& textureName,
+               ResourceManager& resManager,
                const sf::Vector2f& pos,
                const std::string& btnText,
                const sf::Vector2f& scale,
                const sf::Color& textColor,
                const std::string& fontName)
 {
-    sf::Texture* texture = ResourceManager::GetResource<sf::Texture>(textureName);
-    m_button.setTexture(*texture);
-
-    sf::Font* font = ResourceManager::GetResource<sf::Font>(fontName);
-    m_text.setFont(*font);
+    
+    m_button.setTexture(*resManager.GetResource<sf::Texture>(textureName));
+    m_text.setFont(*resManager.GetResource<sf::Font>(fontName));
 
     m_text.setString(btnText);
     m_text.setFillColor(textColor);

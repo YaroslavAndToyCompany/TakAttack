@@ -1,8 +1,7 @@
 #include <UI/Widgets/CheckBox.hpp>
-#include "Managers/ResourceManager.hpp"
 #include "Utils/Widgets.hpp"
 
-CheckBox::CheckBox(bool state, const std::string& text) 
+CheckBox::CheckBox(ResourceManager& resManager, bool state, const std::string& text) 
 {
     m_outerBox.setSize({ 50, 50 });
     m_innerBox.setSize({ 30, 30 });
@@ -10,7 +9,7 @@ CheckBox::CheckBox(bool state, const std::string& text)
     m_outerBox.setFillColor(sf::Color::Black);
     m_innerBox.setFillColor(sf::Color::White);
        
-    m_text.setFont(*ResourceManager::GetResource<sf::Font>("BoldPixels"));
+    m_text.setFont(*resManager.GetResource<sf::Font>("BoldPixels"));
     m_text.setString(text);
     m_text.setFillColor(sf::Color::Black);
     m_text.setCharacterSize(28);

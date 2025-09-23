@@ -26,6 +26,8 @@ private:
     Window m_window;
     InputSystem m_input;
     entt::registry m_registry;
+
+    ResourceManager m_resManager;
     
     RenderSystem m_rendersystem;
     std::unique_ptr<Map> m_map;

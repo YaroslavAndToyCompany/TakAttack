@@ -1,11 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "Managers/ResourceManager.hpp"
 
 class CheckBox
 {
 public:
-    CheckBox(bool state = false, const std::string& text = "Text");
+    CheckBox(ResourceManager& resManager, bool state = false, const std::string& text = "Text");
 
     bool GetChecked() { return m_isChecked; }
     sf::FloatRect GetCheckBoxGlobalBounds() { return m_outerBox.getGlobalBounds(); };

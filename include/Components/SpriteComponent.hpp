@@ -7,8 +7,8 @@ struct SpriteComponent
 	sf::Sprite m_sprite;
 	std::string m_textureID;
 
-	SpriteComponent(std::string id) : m_textureID(id) { 
-		auto tex = ResourceManager::GetResource<sf::Texture>(id);
+	SpriteComponent(const std::string& id, ResourceManager& resManager) : m_textureID(id) { 
+		auto tex = resManager.GetResource<sf::Texture>(id);
 		if(tex) 
 		{
 			m_sprite.setTexture(*tex);
