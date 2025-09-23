@@ -1,4 +1,4 @@
-#include "UI/DebugPanel.hpp" 
+#include "Debug/DebugPanel.hpp" 
 #include "Managers/ResourceManager.hpp"
 #include "Managers/CursorManager.hpp"
 #include "Utils/Widgets.hpp"

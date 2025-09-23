@@ -1,5 +1,5 @@
 #include "Game/Engine.hpp"
-#include "UI/DebugPanel.hpp"
+#include "Debug/DebugPanel.hpp"
 #include "Managers/CursorManager.hpp"
 
 const unsigned int WINDOW_WIDTH = 1920;

@@ -1,6 +1,5 @@
 #include "UI/Widgets/Button.hpp"
 #include "Managers/ResourceManager.hpp"
-#include "UI/DebugPanel.hpp"
 #include "Utils/Widgets.hpp"
 
 Button::Button(const std::string& textureName, 

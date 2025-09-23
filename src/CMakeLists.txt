@@ -1,4 +1,5 @@
 add_executable(TakAttack
+    Debug/DebugPanel.cpp
     Entities/Entity.cpp
     Game/Engine.cpp
     Game/Map.cpp
@@ -8,7 +9,6 @@ add_executable(TakAttack
     Systems/RenderSystem.cpp
     UI/Widgets/Button.cpp
     UI/Widgets/CheckBox.cpp
-    UI/DebugPanel.cpp
     UI/MainMenu.cpp
     UI/View.cpp
     Utils/Screen.cpp
