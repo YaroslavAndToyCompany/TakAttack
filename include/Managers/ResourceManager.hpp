@@ -7,67 +7,66 @@
 
 class ResourceManager {
 public:
-    ResourceManager() = delete;
-
-    static inline void Init();
+    ResourceManager();
 
     template <typename T>
-    static T* GetResource(const std::string& resourceName);
+    T* GetResource(const std::string& resourceName);
     
 private:
     template <typename T>
-    static void UploadResource(const std::string& resourceName, const std::string& resourcePath);
+    void UploadResource(const std::string& resourceName, const std::string& resourcePath);
     
-    template <typename T>
-    static std::unordered_map<std::string, std::unique_ptr<T>> s_resources;
+    std::unordered_map<std::string, std::unique_ptr<sf::Texture>> m_textures;
+    std::unordered_map<std::string, std::unique_ptr<sf::Font>> m_fonts;
 };
-
-template <typename T>
-std::unordered_map<std::string, std::unique_ptr<T>> ResourceManager::s_resources;
-
-void ResourceManager::Init() {
-// TEMP ifdef
-#if defined(SFML_SYSTEM_WINDOWS)
-    ResourceManager::UploadResource<sf::Texture>("Map1", "D:/projects/takattack/TakAttack/res/Maps/Map1.png");
-    ResourceManager::UploadResource<sf::Texture>("MenuButton", "D:/projects/takattack/TakAttack/res/UI/Button.png");
-    ResourceManager::UploadResource<sf::Texture>("MenuFrame", "D:/projects/takattack/TakAttack/res/UI/MenuFrame.png");
-    ResourceManager::UploadResource<sf::Font>("BoldPixels", "D:/projects/takattack/TakAttack/res/UI/Fonts/BoldPixels.ttf");
-    ResourceManager::UploadResource<sf::Texture>("Castle", "D:/projects/takattack/TakAttack/res/Sprites/Castle.png");
-    ResourceManager::UploadResource <sf::Texture>("Artillery", "D:/projects/takattack/TakAttack/res/Sprites/artillery.png");
-#elif defined(SFML_SYSTEM_LINUX)
-    ResourceManager::UploadResource<sf::Texture>("Map1", "res/Maps/Map1.png");
-    ResourceManager::UploadResource<sf::Texture>("MenuButton", "res/UI/Button.png");
-    ResourceManager::UploadResource<sf::Texture>("MenuFrame", "res/UI/MenuFrame.png");
-    ResourceManager::UploadResource<sf::Font>("BoldPixels", "res/UI/Fonts/BoldPixels.ttf");
-    ResourceManager::UploadResource<sf::Texture>("Castle", "res/Sprites/Castle.png");
-    ResourceManager::UploadResource<sf::Texture>("Artillery", "res/Sprites/artillery.png");
-#endif
-}
 
 template <typename T>
 void ResourceManager::UploadResource(const std::string& resourceName, const std::string& resourcePath)
 {
-    auto itr = s_resources<T>.find(resourceName);
-    if (itr != s_resources<T>.end()) {
-        throw std::runtime_error("Failed to upload resource because the resource with a name " + resourceName + " is already exist!");
-    }
+    auto uploadLogic = [](auto& map, const std::string& resourceName,
+                          const std::string& resourcePath, const std::string& resourceTypeName)
+    {
+        using ResourceType = typename std::remove_reference_t<decltype(map)>::mapped_type::element_type;
 
-    std::unique_ptr<T> resource = std::make_unique<T>();
-    if (!resource.get()->loadFromFile(resourcePath)) {
-        throw std::runtime_error("Failed to load resource from: " + resourcePath);
-    }
+        if (map.count(resourceName) > 0)
+            throw std::runtime_error("Failed to upload " + resourceTypeName + " because a resource named '" + resourceName + "' already exists!");
 
-    s_resources<T>.insert( {resourceName, std::move(resource)} );
+        auto resource = std::make_unique<ResourceType>();
+        if (!resource->loadFromFile(resourcePath))
+            throw std::runtime_error("Failed to load " + resourceTypeName + " from path: " + resourcePath);
+
+        map.emplace(resourceName, std::move(resource));
+    };
+
+    if constexpr (std::is_same_v<T, sf::Texture>)
+    {
+        uploadLogic(m_textures, resourceName, resourcePath, "Texture");
+    }
+    else if constexpr (std::is_same_v<T, sf::Font>)
+    {
+        uploadLogic(m_fonts, resourceName, resourcePath, "Font");
+    }
 }
 
 template <typename T>
 T* ResourceManager::GetResource(const std::string& resourceName)
 {
-    auto itr = s_resources<T>.find(resourceName);
-    if (itr == s_resources<T>.end()) {
-        std::cerr << "Cannot retrieve " << resourceName << " resource" << std::endl; 
-        return nullptr;
-    }
+    auto getLogic = [](auto& map, const std::string& resourceName)
+    {
+        using ResourcePtrType = decltype(map.begin()->second.get());
 
-    return itr->second.get();
+        auto itr = map.find(resourceName);
+
+        if (itr != map.end())
+            return itr->second.get();
+
+        throw std::runtime_error("Cannot retrieve resource '" + resourceName + "' - not found");
+    };
+
+    if constexpr (std::is_same_v<T, sf::Texture>)
+        return getLogic(m_textures, resourceName);
+    else if constexpr (std::is_same_v<T, sf::Font>)
+        return getLogic(m_fonts, resourceName);
+    else
+        throw std::runtime_error("You specified unsupported type in ResourceManager::GetResource()");
 }

@@ -6,13 +6,14 @@
 #include "UI/View.hpp"
 #include "Game/GridCell.hpp"
 #include "Game/Window.hpp"
+#include "Managers/ResourceManager.hpp"
 
 
 class Map {
 public:
-    Map(const std::string& mapName);
+    Map(ResourceManager& resManager, const std::string& mapName);
 
-    void SetMap(const std::string& mapName);
+    void SetMap(ResourceManager& resManager, const std::string& mapName);
     
     void Draw(sf::RenderWindow& window);
     
@@ -25,7 +26,7 @@ public:
     void MarkCellAsCastle(int gridX, int gridY);
 
 private:
-    void SetUpMap(const std::string& mapName);
+    void SetUpMap(ResourceManager& resManager, const std::string& mapName);
     void CalculateGlobalMapCenter();
     void SetUpGrid();
 

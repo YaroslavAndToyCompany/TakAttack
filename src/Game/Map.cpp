@@ -1,15 +1,14 @@
 #include "Game/Map.hpp"
-#include "Managers/ResourceManager.hpp"
 
-Map::Map(const std::string& mapName)
+Map::Map(ResourceManager& resManager, const std::string& mapName)
 {
-    SetUpMap(mapName);
+    SetUpMap(resManager, mapName);
 
 }
 
-void Map::SetMap(const std::string& mapName)
+void Map::SetMap(ResourceManager& resManager, const std::string& mapName)
 {
-    SetUpMap(mapName);
+    SetUpMap(resManager, mapName);
 }
 
 GridCell* Map::GetCellPosition(const sf::Vector2f& pos)
@@ -54,9 +53,9 @@ void Map::MarkCellAsCastle(int gridX, int gridY)
     }
 }
 
-void Map::SetUpMap(const std::string& mapName)
+void Map::SetUpMap(ResourceManager& resManager, const std::string& mapName)
 {
-    m_map.setTexture(*ResourceManager::GetResource<sf::Texture>(mapName));
+    m_map.setTexture(*resManager.GetResource<sf::Texture>(mapName));
 
     m_size = sf::Vector2f(m_map.getLocalBounds().width, m_map.getLocalBounds().height);
     m_map.setOrigin(m_size * 0.5f);

@@ -1,10 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Managers/ResourceManager.hpp"
 
 class Button {
 public:
     Button(const std::string& textureName,
+           ResourceManager& resManager,
            const sf::Vector2f& pos = sf::Vector2f(0, 0),
            const std::string& btnText = "Button",
            const sf::Vector2f& scale = sf::Vector2f(1, 1),

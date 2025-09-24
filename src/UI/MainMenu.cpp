@@ -3,12 +3,12 @@
 #include "Managers/CursorManager.hpp"
 #include "Utils/Utils.hpp"
 
-MainMenu::MainMenu(Window& window)
-    : m_btnStartGame("MenuButton"), m_btnSettings("MenuButton"), m_btnExit("MenuButton")
+MainMenu::MainMenu(Window& window, ResourceManager& resManager)
+    : m_btnStartGame("MenuButton", resManager), m_btnSettings("MenuButton", resManager), m_btnExit("MenuButton", resManager)
 {
     m_scale = sf::Vector2f(4, 4);
 
-    m_menuSprite.setTexture(*ResourceManager::GetResource<sf::Texture>("MenuFrame"));
+    m_menuSprite.setTexture(*resManager.GetResource<sf::Texture>("MenuFrame"));
     m_menuSprite.setScale(m_scale);
 
     // TODO: add to the utils function that sets sprite's orgin to the center of the sprite

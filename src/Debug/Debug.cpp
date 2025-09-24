@@ -1,25 +1,16 @@
-#include "UI/DebugPanel.hpp" 
-#include "Managers/ResourceManager.hpp"
+#include "Debug/Debug.hpp" 
 #include "Managers/CursorManager.hpp"
 #include "Utils/Widgets.hpp"
 #include "Utils/Utils.hpp"
 
 #include <string>
 
-sf::RectangleShape DebugPanel::m_panel;
+std::unique_ptr<Debug> Debug::s_instance = nullptr;
+bool Debug::s_isInitialized = false;
 
-std::array<sf::RectangleShape, static_cast<size_t>(DebugPanel::ResizeSideType::Count)> DebugPanel::m_resizeSides;
-
-sf::Text DebugPanel::m_text;
-CheckBox DebugPanel::m_checkBox;
-
-bool DebugPanel::m_isActive = false;
-bool DebugPanel::m_isMoving = false;
-bool DebugPanel::m_isCursorSetted = false;
-
-void DebugPanel::Init(View& view)
+Debug::Debug(ResourceManager& resourceManager)
 {
-    m_text.setFont(*ResourceManager::GetResource<sf::Font>("BoldPixels"));
+    m_text.setFont(*resourceManager.GetResource<sf::Font>("BoldPixels"));
 
     int debugPanelLeftMargin = 20;
     int debugPanelTopMargin = 20;
@@ -46,19 +37,36 @@ void DebugPanel::Init(View& view)
 
 }
 
-void DebugPanel::AddText(const std::string& text)
+void Debug::Init(ResourceManager& resourceManager)
+{
+    if (s_isInitialized)
+        return;
+
+    s_instance.reset(new Debug(resourceManager));
+    s_isInitialized = true;
+}
+
+Debug& Debug::GetInstance()
+{
+    if (!s_isInitialized)
+        throw std::logic_error("Debug hasn't been initialized. Call Init() first");
+    
+    return *s_instance;
+}
+
+void Debug::AddText(const std::string& text)
 {
     m_text.setString(text);
     m_text.setCharacterSize(28);
     m_text.setFillColor(sf::Color::Black);
 }
 
-void DebugPanel::AddText(const int& number) 
+void Debug::AddText(const int& number) 
 {
     AddText(std::to_string(number));
 }
 
-void DebugPanel::OnMove() 
+void Debug::OnMove() 
 {
     sf::FloatRect panelGlobalBounds = m_panel.getGlobalBounds();
 
@@ -68,13 +76,13 @@ void DebugPanel::OnMove()
     }
 }
 
-void DebugPanel::AddCheckBox(bool state, const std::string& text)
+void Debug::AddCheckBox(ResourceManager& resManager, bool state, const std::string& text)
 {
-    m_checkBox = CheckBox(state, text);
-    m_checkBox.SetPosition({ 50, 150 });
+    m_checkBox = std::make_unique<CheckBox>(resManager, state, text);
+    m_checkBox->SetPosition({ 50, 150 });
 }
 
-void DebugPanel::UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& window)
+void Debug::UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& window)
 {
     if (m_resizeSides[0].getGlobalBounds().contains(mousePos))
     {
@@ -83,7 +91,7 @@ void DebugPanel::UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& wi
     }
 }
 
-void DebugPanel::HandleEvents(sf::Event& event, sf::RenderWindow& window)
+void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
 {
     if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F9)
     {
@@ -123,7 +131,7 @@ void DebugPanel::HandleEvents(sf::Event& event, sf::RenderWindow& window)
     }
 }
 
-void DebugPanel::Update(sf::RenderWindow& window) 
+void Debug::Update(sf::RenderWindow& window) 
 {
     if (!m_isActive) 
     {
@@ -142,7 +150,7 @@ void DebugPanel::Update(sf::RenderWindow& window)
     }
 }
 
-void DebugPanel::Draw(sf::RenderWindow& window)
+void Debug::Draw(sf::RenderWindow& window)
 {
     if (!m_isActive)
     {
@@ -157,10 +165,10 @@ void DebugPanel::Draw(sf::RenderWindow& window)
     }
 
     window.draw(m_text);
-    m_checkBox.Draw(window);
+    m_checkBox->Draw(window);
 }
 
-void DebugPanel::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin) 
+void Debug::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin) 
 {
     m_panel.setFillColor(sf::Color::White);
     m_panel.setSize(size);
@@ -171,14 +179,14 @@ void DebugPanel::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMa
     m_panel.move(panelLocalBounds.width / 2.0f + leftMargin, panelLocalBounds.height / 2.0f + topMargin);
 }
 
-void DebugPanel::CreateResizeHandlers(sf::RectangleShape& side, const sf::Vector2f& size, ResizeSideType sideType) 
+void Debug::CreateResizeHandlers(sf::RectangleShape& side, const sf::Vector2f& size, ResizeSideType sideType) 
 {
     side.setSize(size);
     side.setFillColor(sf::Color::Black);
     side.setOrigin(SetRectOriginToCenter(side.getLocalBounds()));
 }
 
-void DebugPanel::UpdateResizeHandlers(sf::RectangleShape& side, ResizeSideType sideType)
+void Debug::UpdateResizeHandlers(sf::RectangleShape& side, ResizeSideType sideType)
 {
     float finalXCoord;
     float finalYCoord;
