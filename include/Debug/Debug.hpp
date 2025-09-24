@@ -53,9 +53,9 @@ private:
     sf::Text m_text;
     std::unique_ptr<CheckBox> m_checkBox;
 
-    bool m_isActive;
-    bool m_isMoving;
-    bool m_isCursorSetted;
+    bool m_isActive = false;
+    bool m_isMoving = false;
+    bool m_isCursorSetted = false;
 
     static std::unique_ptr<Debug> s_instance;
     static bool s_isInitialized;
