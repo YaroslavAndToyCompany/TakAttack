@@ -1,5 +1,6 @@
 #include "Debug/Debug.hpp" 
 #include "Managers/CursorManager.hpp"
+#include "UI/Widgets/ResizeSide.hpp"
 #include "Utils/Widgets.hpp"
 #include "Utils/Utils.hpp"
 
@@ -17,24 +18,22 @@ Debug::Debug(ResourceManager& resourceManager)
     sf::Vector2f debugPanelSize = sf::Vector2f(200, 200);
 
     CreatePanel(debugPanelSize, debugPanelLeftMargin, debugPanelTopMargin);
+    sf::FloatRect panelGlobalBounds = m_panel.getGlobalBounds();
 
+	m_resizeSides.reserve(8);
+	
     // Panel resize sides creaction
     const sf::Vector2f horizontalSize = { 180, 5 };
     const sf::Vector2f verticalSize = { 5, 180 };
-
-    for (int i = 0; i < m_resizeSides.size(); i++) 
+	
+    for (int i = 0; i < static_cast<int>(ResizeSide::ResizeSideType::Count); i++) 
     {
-        auto type = static_cast<ResizeSideType>(i);
-        auto& side = m_resizeSides[i];
+		ResizeSide::ResizeSideType type = static_cast<ResizeSide::ResizeSideType>(i);
+        sf::Vector2f size = (type == ResizeSide::ResizeSideType::Top || type == ResizeSide::ResizeSideType::Bottom) ? horizontalSize : verticalSize;
 
-        sf::Vector2f size = (type == ResizeSideType::Top || type == ResizeSideType::Bottom) ? horizontalSize : verticalSize;
-        CreateResizeHandlers(side, size, type);
+		m_resizeSides.emplace_back(size, type);
+		m_resizeSides[i].Update(panelGlobalBounds);
     }
-    for (int i = 0; i < m_resizeSides.size(); i++) 
-    {
-        UpdateResizeHandlers(m_resizeSides[i], static_cast<ResizeSideType>(i));
-    }
-
 }
 
 void Debug::Init(ResourceManager& resourceManager)
@@ -72,7 +71,7 @@ void Debug::OnMove()
 
     for (int i = 0; i < m_resizeSides.size(); i++) 
     {
-        UpdateResizeHandlers(m_resizeSides[i], static_cast<ResizeSideType>(i));
+		m_resizeSides[i].Update(panelGlobalBounds);
     }
 }
 
@@ -84,7 +83,7 @@ void Debug::AddCheckBox(ResourceManager& resManager, bool state, const std::stri
 
 void Debug::UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& window)
 {
-    if (m_resizeSides[0].getGlobalBounds().contains(mousePos))
+    if (m_resizeSides[0].GetSideRecShape().getGlobalBounds().contains(mousePos))
     {
         CursorManager::SetSizeVertical(window);
         m_isCursorSetted = true;
@@ -161,7 +160,7 @@ void Debug::Draw(sf::RenderWindow& window)
 
     for (auto& side : m_resizeSides) 
     {
-        window.draw(side);
+		side.Draw(window);
     }
 
     window.draw(m_text);
@@ -177,41 +176,4 @@ void Debug::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin)
 
     m_panel.setOrigin(SetRectOriginToCenter(panelLocalBounds));
     m_panel.move(panelLocalBounds.width / 2.0f + leftMargin, panelLocalBounds.height / 2.0f + topMargin);
-}
-
-void Debug::CreateResizeHandlers(sf::RectangleShape& side, const sf::Vector2f& size, ResizeSideType sideType) 
-{
-    side.setSize(size);
-    side.setFillColor(sf::Color::Black);
-    side.setOrigin(SetRectOriginToCenter(side.getLocalBounds()));
-}
-
-void Debug::UpdateResizeHandlers(sf::RectangleShape& side, ResizeSideType sideType)
-{
-    float finalXCoord;
-    float finalYCoord;
-
-    sf::FloatRect panelGlobalBounds = m_panel.getGlobalBounds();
-    if (sideType == ResizeSideType::Top) 
-    {
-        finalXCoord = panelGlobalBounds.left + (panelGlobalBounds.width / 2.0f);
-        finalYCoord = panelGlobalBounds.top + side.getOrigin().y;
-    }
-    else if (sideType == ResizeSideType::Bottom)
-    {
-        finalXCoord = panelGlobalBounds.left + (panelGlobalBounds.width / 2.0f);
-        finalYCoord = panelGlobalBounds.top + panelGlobalBounds.height - side.getOrigin().y;
-    }
-    else if (sideType == ResizeSideType::Left) 
-    {
-        finalXCoord = panelGlobalBounds.left + side.getOrigin().x;
-        finalYCoord = panelGlobalBounds.top + (panelGlobalBounds.height / 2.0f);
-    }
-    else if (sideType == ResizeSideType::Right)
-    {
-        finalXCoord = panelGlobalBounds.left + panelGlobalBounds.width - side.getOrigin().x;
-        finalYCoord = panelGlobalBounds.top + (panelGlobalBounds.height / 2.0f);
-    }
-
-    side.setPosition(finalXCoord, finalYCoord);
 }

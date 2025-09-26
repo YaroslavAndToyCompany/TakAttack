@@ -29,7 +29,10 @@ void CheckBox::SetPosition(const sf::Vector2f& pos)
     m_text.setPosition({m_position.x + 60, m_position.y});
 }
 
-void CheckBox::Draw(sf::RenderWindow& window) 
+void CheckBox::HandleEvents(sf::RenderWindow& window) {}
+void CheckBox::Update(sf::RenderWindow& window) {}
+
+void CheckBox::Draw(sf::RenderWindow& window)
 {
     window.draw(m_outerBox);
     window.draw(m_innerBox);

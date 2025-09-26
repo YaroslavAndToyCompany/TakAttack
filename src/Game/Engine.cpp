@@ -19,7 +19,7 @@ Engine::Engine()
 
     // Temp CheckBox() (It was created for testing purposes)
     Debug::GetInstance().AddCheckBox(m_resManager);
-   
+
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
 }

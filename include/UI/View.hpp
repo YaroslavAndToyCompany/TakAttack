@@ -6,6 +6,7 @@ public:
     View();
     View(const sf::Vector2f& center, const sf::Vector2f& size);
     void ResizeView(const sf::Vector2u& windowSize);
+    sf::View* operator->() { return &m_view; }
 
     sf::View GetSfmlView() { return m_view; }
     sf::Vector2f GetCenter() { return m_center; }
