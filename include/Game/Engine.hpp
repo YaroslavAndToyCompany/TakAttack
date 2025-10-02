@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Game/Window.hpp"
+#include "Managers/CursorManager.hpp"
 #include "Systems/InputSystem.hpp"
 #include "Entities/Entity.hpp"
 #include "Game/Map.hpp"
@@ -23,11 +24,12 @@ public:
     Window* GetWindowPtr() { return &m_window; }
 
 private:
+    ResourceManager m_resManager;
+	CursorManager m_curManager;
+
     Window m_window;
     InputSystem m_input;
     entt::registry m_registry;
-
-    ResourceManager m_resManager;
     
     RenderSystem m_rendersystem;
     std::unique_ptr<Map> m_map;

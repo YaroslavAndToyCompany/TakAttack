@@ -8,17 +8,16 @@ const unsigned int WINDOW_HEIGHT = 1080;
 Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT))
 {
-    Debug::Init(m_resManager);
-    CursorManager::LoadCursors();
+    Debug::Init(m_resManager, m_curManager);
 
     m_map = std::make_unique<Map>(m_resManager, "Map1");
-    m_mainMenu = std::make_unique<MainMenu>(m_window, m_resManager);
+    m_mainMenu = std::make_unique<MainMenu>(m_window, m_resManager, m_curManager);
 
     m_window.GetGameView().SetCenter(m_map->GetGlobalCenter());
     m_window.GetGameView().SetSize(m_map->GetSize());
 
     // Temp CheckBox() (It was created for testing purposes)
-    Debug::GetInstance().AddCheckBox(m_resManager);
+    Debug::GetInstance().AddCheckBox();
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
@@ -46,12 +45,6 @@ void Engine::Update()
 {
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
     Debug::GetInstance().Update(*m_window.GetRenderWindowPtr());
-
-    if (!m_mainMenu.get()->IsCursorSetted()
-        && !Debug::GetInstance().IsCursorSetted())
-    {
-        CursorManager::SetArrow(*m_window.GetRenderWindowPtr());
-    }
 }
 
 void Engine::Render()
@@ -66,6 +59,7 @@ void Engine::Render()
 
     m_mainMenu->Draw(*m_window.GetRenderWindowPtr());
     Debug::GetInstance().Draw(*m_window.GetRenderWindowPtr());
+    m_curManager.Draw(*m_window.GetRenderWindowPtr());
 
     m_window.EndDraw();
 }

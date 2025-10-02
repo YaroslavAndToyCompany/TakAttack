@@ -10,6 +10,17 @@ ResizeSide::ResizeSide(const sf::Vector2f& size, ResizeSideType sideType)
 	m_sideType = sideType;
 }
 
+void ResizeSide::ChangeCursor(CursorManager& curManager, const sf::Vector2f& mousePos)
+{
+	if (m_side.getGlobalBounds().contains(mousePos))
+    {
+        if (m_sideType == ResizeSideType::Top || m_sideType == ResizeSideType::Bottom)
+		    curManager.Set(CursorType::SizeHorizontal);
+        else if (m_sideType == ResizeSideType::Left || m_sideType == ResizeSideType::Right)
+            curManager.Set(CursorType::SizeVertical);
+    }
+}
+
 void ResizeSide::Update(const sf::FloatRect panelGlobalBounds)
 {
     float finalXCoord;

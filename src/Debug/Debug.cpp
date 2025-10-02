@@ -9,9 +9,10 @@
 std::unique_ptr<Debug> Debug::s_instance = nullptr;
 bool Debug::s_isInitialized = false;
 
-Debug::Debug(ResourceManager& resourceManager)
+Debug::Debug(ResourceManager& resManager, CursorManager& curManager)
+	: m_resManager(resManager), m_curManager(curManager)
 {
-    m_text.setFont(*resourceManager.GetResource<sf::Font>("BoldPixels"));
+    m_text.setFont(*m_resManager.GetResource<sf::Font>("BoldPixels"));
 
     int debugPanelLeftMargin = 20;
     int debugPanelTopMargin = 20;
@@ -36,13 +37,18 @@ Debug::Debug(ResourceManager& resourceManager)
     }
 }
 
-void Debug::Init(ResourceManager& resourceManager)
+void Debug::Init(ResourceManager& resManager, CursorManager& curManager)
 {
     if (s_isInitialized)
         return;
 
-    s_instance.reset(new Debug(resourceManager));
+    s_instance.reset(new Debug(resManager, curManager));
     s_isInitialized = true;
+}
+
+void Debug::Shutdown() 
+{
+    GetInstance().m_checkBox.release();
 }
 
 Debug& Debug::GetInstance()
@@ -75,19 +81,10 @@ void Debug::OnMove()
     }
 }
 
-void Debug::AddCheckBox(ResourceManager& resManager, bool state, const std::string& text)
+void Debug::AddCheckBox(bool state, const std::string& text)
 {
-    m_checkBox = std::make_unique<CheckBox>(resManager, state, text);
+    m_checkBox = std::make_unique<CheckBox>(m_resManager, state, text);
     m_checkBox->SetPosition({ 50, 150 });
-}
-
-void Debug::UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& window)
-{
-    if (m_resizeSides[0].GetSideRecShape().getGlobalBounds().contains(mousePos))
-    {
-        CursorManager::SetSizeVertical(window);
-        m_isCursorSetted = true;
-    }
 }
 
 void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
@@ -137,10 +134,10 @@ void Debug::Update(sf::RenderWindow& window)
         return;
     }
 
-    m_isCursorSetted = false;
-
     sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(sf::Mouse::getPosition(window), window);
-    UpdateCursor(mousePos, window);
+    
+    for (auto& resSide : m_resizeSides)
+        resSide.ChangeCursor(m_curManager, mousePos);
 
     if (m_isMoving)
     {

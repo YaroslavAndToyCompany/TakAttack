@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "Managers/CursorManager.hpp"
+#include "SFML/Window/Cursor.hpp"
 #include "UI/View.hpp"
 #include "UI/Widgets/CheckBox.hpp"
 #include "UI/Widgets/ResizeSide.hpp"
@@ -14,7 +16,8 @@ public:
     Debug(const Debug&) = delete;
     Debug& operator=(const Debug&) = delete;
 
-    static void Init(ResourceManager& resourceManager);
+    static void Init(ResourceManager& resManager, CursorManager& curManager);
+    static void Shutdown();
     static Debug& GetInstance();
 
     void AddText(const std::string& text);
@@ -25,20 +28,20 @@ public:
 
     void OnMove();
 
-    void AddCheckBox(ResourceManager& resManager, bool state = false, const std::string& text = "Text");
+    void AddCheckBox(bool state = false, const std::string& text = "Text");
     void ToggleActive() { m_isActive = !m_isActive; }
     void ToggleMoving() { m_isMoving = !m_isMoving; }
-    
-    bool IsCursorSetted() { return m_isCursorSetted; }
-
-    void UpdateCursor(const sf::Vector2f& mousePos, sf::RenderWindow& window);
 
     void HandleEvents(sf::Event& event, sf::RenderWindow& window);
     void Update(sf::RenderWindow& window);
     void Draw(sf::RenderWindow& window);
 
 private:
-    Debug(ResourceManager& resourceManager);
+    Debug(ResourceManager& resManager, CursorManager& curManager);
+	
+	ResourceManager& m_resManager;
+	CursorManager& m_curManager;
+
     void CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin);
 
     sf::RectangleShape m_panel;
@@ -50,7 +53,6 @@ private:
 
     bool m_isActive = false;
     bool m_isMoving = false;
-    bool m_isCursorSetted = false;
 
     static std::unique_ptr<Debug> s_instance;
     static bool s_isInitialized;
