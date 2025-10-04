@@ -171,6 +171,6 @@ void Debug::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin)
 
     sf::FloatRect panelLocalBounds = m_panel.getLocalBounds();
 
-    m_panel.setOrigin(SetRectOriginToCenter(panelLocalBounds));
+    m_panel.setOrigin(CalcRectOriginCenter(panelLocalBounds));
     m_panel.move(panelLocalBounds.width / 2.0f + leftMargin, panelLocalBounds.height / 2.0f + topMargin);
 }

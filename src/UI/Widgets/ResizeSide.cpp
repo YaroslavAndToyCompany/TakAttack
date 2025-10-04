@@ -5,7 +5,7 @@ ResizeSide::ResizeSide(const sf::Vector2f& size, ResizeSideType sideType)
 {
 	m_side.setSize(size);
 	m_side.setFillColor(sf::Color::Black);
-	m_side.setOrigin(SetRectOriginToCenter(m_side.getLocalBounds()));
+	m_side.setOrigin(CalcRectOriginCenter(m_side.getLocalBounds()));
 
 	m_sideType = sideType;
 }
@@ -15,9 +15,9 @@ void ResizeSide::ChangeCursor(CursorManager& curManager, const sf::Vector2f& mou
 	if (m_side.getGlobalBounds().contains(mousePos))
     {
         if (m_sideType == ResizeSideType::Top || m_sideType == ResizeSideType::Bottom)
-		    curManager.Set(CursorType::SizeHorizontal);
+		    curManager.Set(CursorType::SizeVertical);
         else if (m_sideType == ResizeSideType::Left || m_sideType == ResizeSideType::Right)
-            curManager.Set(CursorType::SizeVertical);
+            curManager.Set(CursorType::SizeHorizontal);
     }
 }
 

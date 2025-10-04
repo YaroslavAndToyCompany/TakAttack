@@ -15,9 +15,9 @@ CheckBox::CheckBox(ResourceManager& resManager, bool state, const std::string& t
     m_text.setCharacterSize(28);
     m_text.setPosition({20, m_text.getPosition().y});
 
-    m_outerBox.setOrigin(SetRectOriginToCenter(m_outerBox.getLocalBounds()));
-    m_innerBox.setOrigin(SetRectOriginToCenter(m_innerBox.getLocalBounds()));
-    m_text.setOrigin(SetRectOriginToCenter(m_text.getLocalBounds()));
+    m_outerBox.setOrigin(CalcRectOriginCenter(m_outerBox.getLocalBounds()));
+    m_innerBox.setOrigin(CalcRectOriginCenter(m_innerBox.getLocalBounds()));
+    m_text.setOrigin(CalcRectOriginCenter(m_text.getLocalBounds()));
 }
 
 void CheckBox::SetPosition(const sf::Vector2f& pos) 

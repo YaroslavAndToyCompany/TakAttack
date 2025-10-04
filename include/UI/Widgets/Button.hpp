@@ -1,9 +1,17 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <functional>
 #include "Managers/ResourceManager.hpp"
+#include "Managers/CursorManager.hpp"
 
-class Button {
+enum class ButtonEventType
+{
+    Pressed, Released
+};
+
+class Button 
+{
 public:
     Button(const std::string& textureName,
            ResourceManager& resManager,
@@ -13,11 +21,12 @@ public:
            const sf::Color& textColor = sf::Color::Black,
            const std::string& fontName = "BoldPixels");
 
-    void Update(sf::RenderWindow& window);
+    void ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType = CursorType::Hand);
     void Draw(sf::RenderWindow& window);
 
     sf::Sprite GetSprite() const { return m_button; };
 
+    // void SetOnPressed(std::function<void()> event);
     void SetText(const std::string& text) { m_text.setString(text); TransformText(); }
     void SetTextSize(unsigned int size) { m_text.setCharacterSize(size); TransformText(); }
     void SetTextColor(const sf::Color& color) { m_text.setFillColor(color); }
@@ -28,6 +37,8 @@ public:
 
 private:
     void TransformText();
+
+    // std::unordered_map<std::function<void()>, ButtonEventType> m_callbacks;
 
     sf::Sprite m_button;
     sf::Text m_text;
