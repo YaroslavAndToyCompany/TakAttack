@@ -2,18 +2,18 @@
 #include "Managers/ResourceManager.hpp"
 #include "Managers/CursorManager.hpp"
 #include "Utils/Utils.hpp"
+#include "Utils/Widgets.hpp"
 
-MainMenu::MainMenu(Window& window, ResourceManager& resManager)
-    : m_btnStartGame("MenuButton", resManager), m_btnSettings("MenuButton", resManager), m_btnExit("MenuButton", resManager)
+MainMenu::MainMenu(Window& window, ResourceManager& resManager, CursorManager& curManager)
+	: m_resManager(resManager), m_curManager(curManager),
+     m_btnStartGame("MenuButton", m_resManager), m_btnSettings("MenuButton", m_resManager), m_btnExit("MenuButton", m_resManager)
 {
     m_scale = sf::Vector2f(4, 4);
 
-    m_menuSprite.setTexture(*resManager.GetResource<sf::Texture>("MenuFrame"));
+    m_menuSprite.setTexture(*m_resManager.GetResource<sf::Texture>("MenuFrame"));
     m_menuSprite.setScale(m_scale);
 
-    // TODO: add to the utils function that sets sprite's orgin to the center of the sprite
-    sf::FloatRect menuRect = m_menuSprite.getLocalBounds();
-    sf::Vector2f menuCenter(menuRect.width / 2.0f, menuRect.height / 2.0f);
+    sf::Vector2f menuCenter = CalcRectOriginCenter(m_menuSprite.getLocalBounds());
     m_menuSprite.setOrigin(menuCenter);
 
     m_menuSprite.setPosition(sf::Vector2f(window.GetWindowSize().x / 2.0f, window.GetWindowSize().y / 2.0f));
@@ -34,7 +34,6 @@ MainMenu::MainMenu(Window& window, ResourceManager& resManager)
 
 void MainMenu::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
 {
-
     if (!m_displayMenu)
         return;
 
@@ -56,8 +55,6 @@ void MainMenu::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
         if (event.mouseButton.button == sf::Mouse::Left && btnRectStartGame.contains(mousePos))
         {
             ToggleDisplayMenu();
-            CursorManager::SetArrow(window);
-            m_isCursorSetted = false;
         }
         break;
     }
@@ -71,22 +68,9 @@ void MainMenu::Update(sf::RenderWindow& window)
     if (!m_displayMenu)
         return;
 
-    m_isCursorSetted = false;
-
-    sf::FloatRect btnRectStartGame = m_btnStartGame.GetSprite().getGlobalBounds();
-    sf::FloatRect btnRectSettings = m_btnSettings.GetSprite().getGlobalBounds();
-    sf::FloatRect btnRectExit = m_btnExit.GetSprite().getGlobalBounds();
-
-    sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
-                                sf::Mouse::getPosition(window), window);
-
-        if (btnRectStartGame.contains(mousePos) 
-            || btnRectSettings.contains(mousePos) 
-            || btnRectExit.contains(mousePos))
-        {
-            CursorManager::SetHand(window);
-            m_isCursorSetted = true;
-        }
+    m_btnStartGame.ChangeCursor(window, m_curManager);
+    m_btnSettings.ChangeCursor(window, m_curManager);
+    m_btnExit.ChangeCursor(window, m_curManager);
 }
 
 void MainMenu::Draw(sf::RenderWindow& window)

@@ -1,35 +1,54 @@
+#include <iostream>
 #include "Managers/CursorManager.hpp"
 
-sf::Cursor CursorManager::s_arrow;
-sf::Cursor CursorManager::s_hand;
-
-sf::Cursor CursorManager::s_sizeVertical;
-sf::Cursor CursorManager::s_sizeHorizontal;
-
-void CursorManager::LoadCursors()
+CursorManager::CursorManager()
 {
-    s_arrow.loadFromSystem(sf::Cursor::Arrow);
-    s_hand.loadFromSystem(sf::Cursor::Hand);
+    m_arrow.loadFromSystem(sf::Cursor::Type::Arrow);
+    m_hand.loadFromSystem(sf::Cursor::Type::Hand);
 
-    s_sizeVertical.loadFromSystem(sf::Cursor::SizeVertical);
+    m_sizeVertical.loadFromSystem(sf::Cursor::Type::SizeVertical);
+    m_sizeHorizontal.loadFromSystem(sf::Cursor::Type::SizeHorizontal);
 }
 
-void CursorManager::SetArrow(sf::RenderWindow& window)
+void CursorManager::Set(CursorType type) 
 {
-    window.setMouseCursor(s_arrow);
+    m_curType = type;
+    m_isCursorSpecified = true;
 }
 
-void CursorManager::SetHand(sf::RenderWindow& window)
+void CursorManager::Draw(sf::RenderWindow& window) 
 {
-    window.setMouseCursor(s_hand);
+    if (m_isCursorSpecified) 
+    {
+        AssignCurToWindow(window);
+        m_isCursorSpecified = false;
+    }
+    else
+        window.setMouseCursor(m_arrow);
 }
 
-void CursorManager::SetSizeVertical(sf::RenderWindow& window)
+void CursorManager::AssignCurToWindow(sf::RenderWindow& window) 
 {
-    window.setMouseCursor(s_sizeVertical);
-}
+    switch (m_curType)
+    {
+    case CursorType::Hand:
+        window.setMouseCursor(m_hand);
+        break;
+    
+    case CursorType::SizeVertical:
+        window.setMouseCursor(m_sizeVertical);
+        break;
 
-void CursorManager::SetSizeHorizontal(sf::RenderWindow& window)
-{
-    window.setMouseCursor(s_sizeHorizontal);
+    case CursorType::SizeHorizontal:
+        window.setMouseCursor(m_sizeHorizontal);
+        break;
+
+    case CursorType::Arrow:
+        window.setMouseCursor(m_sizeVertical);
+        break;
+
+    default:
+        std::cerr << "Error. You specifie unsupported cursor!" << std::endl;
+        break;
+    }
 }

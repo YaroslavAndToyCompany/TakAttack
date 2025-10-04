@@ -2,19 +2,30 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Cursor.hpp>
 
-class CursorManager {
+enum class CursorType 
+{
+    Arrow, Hand, 
+    SizeVertical, SizeHorizontal
+};
+
+class CursorManager 
+{
 public:
-    static void LoadCursors();
-    static void SetArrow(sf::RenderWindow& window);
-    static void SetHand(sf::RenderWindow& window);
-    static void SetSizeVertical(sf::RenderWindow& window);
-    static void SetSizeHorizontal(sf::RenderWindow& window);
+    CursorManager();
+
+    void Set(CursorType type);
+
+    void Draw(sf::RenderWindow& window);
 
 private:
-    CursorManager() { };
+    void AssignCurToWindow(sf::RenderWindow& window);
 
-    static sf::Cursor s_arrow;
-    static sf::Cursor s_hand;
-    static sf::Cursor s_sizeVertical;
-    static sf::Cursor s_sizeHorizontal;
+    sf::Cursor m_arrow;
+    sf::Cursor m_hand;
+    sf::Cursor m_sizeVertical;
+    sf::Cursor m_sizeHorizontal;
+
+    CursorType m_curType;
+
+    bool m_isCursorSpecified;
 };

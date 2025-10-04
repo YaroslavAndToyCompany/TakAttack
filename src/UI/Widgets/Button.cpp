@@ -1,5 +1,6 @@
 #include "UI/Widgets/Button.hpp"
 #include "Utils/Widgets.hpp"
+#include "Utils/Utils.hpp"
 
 Button::Button(const std::string& textureName,
                ResourceManager& resManager,
@@ -22,9 +23,16 @@ Button::Button(const std::string& textureName,
     TransformText();
 }
 
-void Button::Update(sf::RenderWindow& window)
+void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType)
 {
-    // ...
+    sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
+                                sf::Mouse::getPosition(window), window);
+
+    sf::FloatRect btnRect = m_button.getGlobalBounds();
+    if (btnRect.contains(mousePos))
+    {
+        curManager.Set(curType);
+    }
 }
 
 void Button::Draw(sf::RenderWindow& window)
@@ -33,10 +41,17 @@ void Button::Draw(sf::RenderWindow& window)
     window.draw(m_text);
 }
 
+// void Button::SetOnPressed(std::function<void()> event)
+// {
+//     m_callbacks.find()
+
+//     m_callbacks.emplace(std::move(event), ButtonEventType::Pressed);
+// }
+
 void Button::TransformText()
 {
-    m_text.setOrigin(SetRectOriginToCenter(m_text.getLocalBounds()));
-    m_button.setOrigin(SetRectOriginToCenter(m_button.getLocalBounds()));
+    m_text.setOrigin(CalcRectOriginCenter(m_text.getLocalBounds()));
+    m_button.setOrigin(CalcRectOriginCenter(m_button.getLocalBounds()));
     
     sf::Vector2f buttonPos = m_button.getPosition();
     sf::Vector2f textPos = sf::Vector2f(buttonPos.x, buttonPos.y - 2);
