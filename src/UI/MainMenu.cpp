@@ -17,22 +17,13 @@ MainMenu::MainMenu(Window& window, ResourceManager& resManager, CursorManager& c
     m_menuSprite.setOrigin(menuCenter);
 
     m_menuSprite.setPosition(sf::Vector2f(window.GetWindowSize().x / 2.0f, window.GetWindowSize().y / 2.0f));
-
-    m_btnStartGame.SetText("Start the Game");
-    m_btnSettings.SetText("Settings");
-    m_btnExit.SetText("Exit");
-
-    std::vector<Button*> buttons = { &m_btnStartGame, &m_btnSettings, &m_btnExit };
-    float startPositionY = m_menuSprite.getPosition().y - 7.0f * m_scale.x;
-    float spacingBetweenY = 22;
-    int textSize = 8 * m_scale.x;
-
-    PlaceButtons(buttons, startPositionY, spacingBetweenY, m_scale, textSize);
+    
+    GenerateButtons();
 
     m_displayMenu = true;
 }
 
-void MainMenu::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
+void MainMenu::HandleEvents(const sf::Event& event, Window& window)
 {
     if (!m_displayMenu)
         return;
@@ -50,11 +41,17 @@ void MainMenu::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
     case sf::Event::MouseButtonReleased:
     {
         sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
-                                event.mouseButton.x, event.mouseButton.y, window);
+                                event.mouseButton.x, event.mouseButton.y, *window.GetRenderWindowPtr());
 
-        if (event.mouseButton.button == sf::Mouse::Left && btnRectStartGame.contains(mousePos))
+        if (event.mouseButton.button == sf::Mouse::Left)
         {
-            ToggleDisplayMenu();
+            if (btnRectStartGame.contains(mousePos))
+                ToggleDisplayMenu();
+            else if (btnRectSettings.contains(mousePos)) {}
+                // Open Settings
+            else if (btnRectExit.contains(mousePos))
+                window.ToggleDone();
+
         }
         break;
     }
@@ -84,10 +81,26 @@ void MainMenu::Draw(sf::RenderWindow& window)
     m_btnExit.Draw(window);
 }
 
-void MainMenu::PlaceButtons(std::vector<Button*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize) {
+void MainMenu::GenerateButtons() 
+{
+    m_btnStartGame.SetText("Start the Game");
+    m_btnSettings.SetText("Settings");
+    m_btnExit.SetText("Exit");
+
+    std::vector<Button*> buttons = { &m_btnStartGame, &m_btnSettings, &m_btnExit };
+    float startPositionY = m_menuSprite.getPosition().y - 7.0f * m_scale.x;
+    float spacingBetweenY = 22;
+    int textSize = 8 * m_scale.x;
+
+    PlaceButtons(buttons, startPositionY, spacingBetweenY, m_scale, textSize);
+}
+
+void MainMenu::PlaceButtons(std::vector<Button*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize) 
+{
     spacingBetweenY *= scale.y;
 
-    for (int i = 0; i < buttons.size(); i++) {
+    for (int i = 0; i < buttons.size(); i++) 
+    {
         if (i == 0) {
             buttons[i]->SetPosition(sf::Vector2f(m_menuSprite.getPosition().x, startPosY));
         }

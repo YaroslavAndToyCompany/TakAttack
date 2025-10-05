@@ -37,7 +37,7 @@ void Engine::ProcessEvents() {
     while (m_window.GetRenderWindowPtr()->pollEvent(event)) {
         m_window.HandleEvents(event);
         Debug::GetInstance().HandleEvents(event, *m_window.GetRenderWindowPtr());
-        m_mainMenu.get()->HandleEvents(event, *m_window.GetRenderWindowPtr());
+        m_mainMenu.get()->HandleEvents(event, m_window);
     }
 }
 

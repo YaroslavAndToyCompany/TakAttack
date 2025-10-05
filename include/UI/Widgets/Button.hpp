@@ -5,11 +5,6 @@
 #include "Managers/ResourceManager.hpp"
 #include "Managers/CursorManager.hpp"
 
-enum class ButtonEventType
-{
-    Pressed, Released
-};
-
 class Button 
 {
 public:
@@ -26,7 +21,6 @@ public:
 
     sf::Sprite GetSprite() const { return m_button; };
 
-    // void SetOnPressed(std::function<void()> event);
     void SetText(const std::string& text) { m_text.setString(text); TransformText(); }
     void SetTextSize(unsigned int size) { m_text.setCharacterSize(size); TransformText(); }
     void SetTextColor(const sf::Color& color) { m_text.setFillColor(color); }
@@ -37,8 +31,6 @@ public:
 
 private:
     void TransformText();
-
-    // std::unordered_map<std::function<void()>, ButtonEventType> m_callbacks;
 
     sf::Sprite m_button;
     sf::Text m_text;

@@ -9,12 +9,13 @@
 class MainMenu {
 public:
     MainMenu(Window& window, ResourceManager& resManager, CursorManager& curManager);
-    void HandleEvents(const sf::Event& event, sf::RenderWindow& window);
+    void HandleEvents(const sf::Event& event, Window& window);
     void Update(sf::RenderWindow& window);
     void Draw(sf::RenderWindow& window);
 
 private:
     void ToggleDisplayMenu() { m_displayMenu = !m_displayMenu; }
+    void GenerateButtons();
     void PlaceButtons(std::vector<Button*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize);
 
 	ResourceManager& m_resManager;
