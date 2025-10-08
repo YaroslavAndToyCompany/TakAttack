@@ -8,7 +8,6 @@
 #include "Game/Window.hpp"
 #include "Managers/ResourceManager.hpp"
 
-
 class Map {
 public:
     Map(ResourceManager& resManager, const std::string& mapName);
@@ -36,7 +35,7 @@ private:
 
     std::vector<GridCell> m_grid;
     int m_gridWidth = 20;
-    int m_gridHeight = 15;
-    float m_cellWitdh = 32.0f;
-    float m_cellHeight = 32.0f;
+    int m_gridHeight = 12;
+    float m_cellWitdh = 16.0f;
+    float m_cellHeight = 16.0f;
 };

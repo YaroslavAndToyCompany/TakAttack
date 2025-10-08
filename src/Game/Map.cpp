@@ -30,7 +30,7 @@ void Map::DrawGrid(sf::RenderWindow& window)
         m_rect.setSize(sf::Vector2f(m_cellWitdh, m_cellHeight));
         m_rect.setPosition(cell.bounds.left, cell.bounds.top);
         m_rect.setFillColor(sf::Color::Transparent);
-        m_rect.setOutlineThickness(1.f);
+        m_rect.setOutlineThickness(0.5f);
 
         if (cell.type == CellType::Castle)
             m_rect.setOutlineColor(sf::Color::Red);
