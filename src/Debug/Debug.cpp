@@ -79,25 +79,28 @@ void Debug::OnMove()
 		m_resizeSides[i].Update(panelGlobalBounds);
     }
 
-    for (auto& [name, widget] : m_widgets) 
+    for (auto& [name, dWidget] : m_widgets) 
     {
         sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-        upperLeftCorner.x += elementLeftMargin;
-        upperLeftCorner.y += elementTopMargin;
+        upperLeftCorner.x += dWidget.widgetLeftMargin;
+        upperLeftCorner.y += dWidget.widgetTopMargin;
 
-        widget.get()->SetPosition(upperLeftCorner);
+        dWidget.widget.get()->SetPosition(upperLeftCorner);
     }
 }
 
 void Debug::AddWidget(const std::string name, std::unique_ptr<IWidget> widget) 
 {
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += elementLeftMargin;
-    upperLeftCorner.y += elementTopMargin;
+    upperLeftCorner.x += m_widgetLeftMargin;
+    upperLeftCorner.y += m_widgetTopMargin;
 
     widget.get()->SetPosition(upperLeftCorner);
-    AddText(m_panel.getPosition());
-    m_widgets.emplace(name, std::move(widget));
+    
+    DebugWidget dWidget = { std::move(widget), m_widgetLeftMargin, m_widgetTopMargin };
+    m_widgetTopMargin += m_distanceWithinWidgets;
+
+    m_widgets.emplace(name, std::move(dWidget));
 }
 
 void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
@@ -131,6 +134,8 @@ void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
     {
         if (event.mouseButton.button == sf::Mouse::Left)
         {
+            m_panelPosBeforeMove = m_panel.getPosition();
+
             m_isMoving = false;
         }
         break;
@@ -174,9 +179,9 @@ void Debug::Draw(sf::RenderWindow& window)
     }
 
     window.draw(m_text);
-    for (auto& [name, widget] : m_widgets) 
+    for (auto& [name, dWidget] : m_widgets) 
     {
-        widget.get()->Draw(window);
+        dWidget.widget.get()->Draw(window);
     }
 }
 
@@ -189,4 +194,6 @@ void Debug::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin)
 
     m_panel.setOrigin(CalcRectOriginCenter(panelLocalBounds));
     m_panel.move(panelLocalBounds.width / 2.0f + leftMargin, panelLocalBounds.height / 2.0f + topMargin);
+
+    m_panelPosBeforeMove = m_panel.getPosition();
 }

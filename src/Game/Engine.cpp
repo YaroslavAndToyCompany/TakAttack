@@ -18,8 +18,10 @@ Engine::Engine()
 
     // Temp CheckBox() (It was created for testing purposes)
     std::unique_ptr<IWidget> checkBox = std::make_unique<CheckBox>(m_resManager);
-    checkBox.get()->SetPosition({ 50, 150 });
     Debug::GetInstance().AddWidget("Test", std::move(checkBox));
+
+    std::unique_ptr<IWidget> checkBox2 = std::make_unique<CheckBox>(m_resManager);
+    Debug::GetInstance().AddWidget("Tesasd", std::move(checkBox2));
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);

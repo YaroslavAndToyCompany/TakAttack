@@ -38,6 +38,13 @@ public:
     void Draw(sf::RenderWindow& window);
 
 private:
+    struct DebugWidget 
+    {
+        std::unique_ptr<IWidget> widget;
+        int widgetLeftMargin;
+        int widgetTopMargin;
+    };
+
     Debug(ResourceManager& resManager, CursorManager& curManager);
 	
 	ResourceManager& m_resManager;
@@ -50,9 +57,12 @@ private:
     std::vector<ResizeSide> m_resizeSides;
 
     sf::Text m_text;
-    std::unordered_map<std::string, std::unique_ptr<IWidget>> m_widgets;
-    int elementLeftMargin = 30;
-    int elementTopMargin = 30;
+    std::unordered_map<std::string, DebugWidget> m_widgets;
+    sf::Vector2f m_panelPosBeforeMove;
+
+    int m_widgetLeftMargin = 30;
+    int m_widgetTopMargin = 30;
+    int m_distanceWithinWidgets = 40;
 
     bool m_isActive = false;
     bool m_isMoving = false;
