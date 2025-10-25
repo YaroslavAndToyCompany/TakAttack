@@ -12,7 +12,7 @@ public:
     bool GetChecked() { return m_isChecked; }
     sf::FloatRect GetCheckBoxGlobalBounds() { return m_outerBox.getGlobalBounds(); };
 
-    void SetPosition(const sf::Vector2f& pos);
+    void SetPosition(const sf::Vector2f& pos) override;
     void ToggleChecked() { m_isChecked = !m_isChecked; }
 
 	void HandleEvents(sf::RenderWindow& window) override;

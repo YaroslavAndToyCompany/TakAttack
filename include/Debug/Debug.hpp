@@ -29,7 +29,6 @@ public:
 
     void OnMove();
 
-    void AddCheckBox(bool state = false, const std::string& text = "Text");
     void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
     void ToggleActive() { m_isActive = !m_isActive; }
     void ToggleMoving() { m_isMoving = !m_isMoving; }
@@ -52,6 +51,8 @@ private:
 
     sf::Text m_text;
     std::unordered_map<std::string, std::unique_ptr<IWidget>> m_widgets;
+    int elementLeftMargin = 30;
+    int elementTopMargin = 30;
 
     bool m_isActive = false;
     bool m_isMoving = false;

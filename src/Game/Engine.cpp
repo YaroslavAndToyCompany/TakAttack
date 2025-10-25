@@ -17,7 +17,9 @@ Engine::Engine()
     m_window.GetGameView().SetSize(m_map->GetSize());
 
     // Temp CheckBox() (It was created for testing purposes)
-    Debug::GetInstance().AddCheckBox();
+    std::unique_ptr<IWidget> checkBox = std::make_unique<CheckBox>(m_resManager);
+    checkBox.get()->SetPosition({ 50, 150 });
+    Debug::GetInstance().AddWidget("Test", std::move(checkBox));
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);

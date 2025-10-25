@@ -35,9 +35,6 @@ Debug::Debug(ResourceManager& resManager, CursorManager& curManager)
 		m_resizeSides.emplace_back(size, type);
 		m_resizeSides[i].Update(panelGlobalBounds);
     }
-
-    std::unique_ptr<IWidget> checkBox = std::make_unique<CheckBox>(m_resManager);
-    AddWidget("Test", std::move(checkBox));
 }
 
 void Debug::Init(ResourceManager& resManager, CursorManager& curManager)
@@ -81,16 +78,25 @@ void Debug::OnMove()
     {
 		m_resizeSides[i].Update(panelGlobalBounds);
     }
-}
 
-void Debug::AddCheckBox(bool state, const std::string& text)
-{
-    // m_checkBox = std::make_unique<CheckBox>(m_resManager, state, text);
-    // m_checkBox->SetPosition({ 50, 150 });
+    for (auto& [name, widget] : m_widgets) 
+    {
+        sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
+        upperLeftCorner.x += elementLeftMargin;
+        upperLeftCorner.y += elementTopMargin;
+
+        widget.get()->SetPosition(upperLeftCorner);
+    }
 }
 
 void Debug::AddWidget(const std::string name, std::unique_ptr<IWidget> widget) 
 {
+    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
+    upperLeftCorner.x += elementLeftMargin;
+    upperLeftCorner.y += elementTopMargin;
+
+    widget.get()->SetPosition(upperLeftCorner);
+    AddText(m_panel.getPosition());
     m_widgets.emplace(name, std::move(widget));
 }
 
