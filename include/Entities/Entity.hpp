@@ -9,4 +9,8 @@ namespace Entity {
 namespace Entity 
 {
 	entt::entity CreateArtillery(ResourceManager& resManager, entt::registry& registry);
-}
+} 
+
+
+
+

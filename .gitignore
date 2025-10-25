@@ -4,3 +4,4 @@
 .clangd
 build-Debug/
 build-Release/
+build/
