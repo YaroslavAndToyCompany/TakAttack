@@ -35,6 +35,9 @@ Debug::Debug(ResourceManager& resManager, CursorManager& curManager)
 		m_resizeSides.emplace_back(size, type);
 		m_resizeSides[i].Update(panelGlobalBounds);
     }
+
+    std::unique_ptr<IWidget> checkBox = std::make_unique<CheckBox>(m_resManager);
+    AddWidget("Test", std::move(checkBox));
 }
 
 void Debug::Init(ResourceManager& resManager, CursorManager& curManager)
@@ -48,7 +51,6 @@ void Debug::Init(ResourceManager& resManager, CursorManager& curManager)
 
 void Debug::Shutdown() 
 {
-    GetInstance().m_checkBox.release();
 }
 
 Debug& Debug::GetInstance()
@@ -83,8 +85,13 @@ void Debug::OnMove()
 
 void Debug::AddCheckBox(bool state, const std::string& text)
 {
-    m_checkBox = std::make_unique<CheckBox>(m_resManager, state, text);
-    m_checkBox->SetPosition({ 50, 150 });
+    // m_checkBox = std::make_unique<CheckBox>(m_resManager, state, text);
+    // m_checkBox->SetPosition({ 50, 150 });
+}
+
+void Debug::AddWidget(const std::string name, std::unique_ptr<IWidget> widget) 
+{
+    m_widgets.emplace(name, std::move(widget));
 }
 
 void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
@@ -161,7 +168,10 @@ void Debug::Draw(sf::RenderWindow& window)
     }
 
     window.draw(m_text);
-    m_checkBox->Draw(window);
+    for (auto& [name, widget] : m_widgets) 
+    {
+        widget.get()->Draw(window);
+    }
 }
 
 void Debug::CreatePanel(const sf::Vector2f& size, int leftMargin, int topMargin) 

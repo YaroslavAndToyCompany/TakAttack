@@ -2,9 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "Managers/ResourceManager.hpp"
-#include "UI/Widgets/Widget.hpp"
+#include "UI/Widgets/IWidget.hpp"
 
-class CheckBox : public Widget
+class CheckBox : public IWidget
 {
 public:
     CheckBox(ResourceManager& resManager, bool state = false, const std::string& text = "Text");
@@ -18,6 +18,8 @@ public:
 	void HandleEvents(sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override;
     void Draw(sf::RenderWindow& window) override;
+
+    const float CHECKBOX_SIZE = 30;
 
 private:
     sf::Text m_text;

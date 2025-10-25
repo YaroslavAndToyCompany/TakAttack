@@ -3,8 +3,8 @@
 
 CheckBox::CheckBox(ResourceManager& resManager, bool state, const std::string& text) 
 {
-    m_outerBox.setSize({ 50, 50 });
-    m_innerBox.setSize({ 30, 30 });
+    m_outerBox.setSize({ CHECKBOX_SIZE, CHECKBOX_SIZE });
+    m_innerBox.setSize({ CHECKBOX_SIZE / 2.0f, CHECKBOX_SIZE / 2.0f });
 
     m_outerBox.setFillColor(sf::Color::Black);
     m_innerBox.setFillColor(sf::Color::White);

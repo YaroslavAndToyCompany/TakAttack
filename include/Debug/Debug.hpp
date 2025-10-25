@@ -9,6 +9,7 @@
 #include "UI/View.hpp"
 #include "UI/Widgets/CheckBox.hpp"
 #include "UI/Widgets/ResizeSide.hpp"
+#include "UI/Widgets/IWidget.hpp"
 #include "Managers/ResourceManager.hpp"
 
 class Debug {
@@ -29,6 +30,7 @@ public:
     void OnMove();
 
     void AddCheckBox(bool state = false, const std::string& text = "Text");
+    void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
     void ToggleActive() { m_isActive = !m_isActive; }
     void ToggleMoving() { m_isMoving = !m_isMoving; }
 
@@ -49,7 +51,7 @@ private:
     std::vector<ResizeSide> m_resizeSides;
 
     sf::Text m_text;
-    std::unique_ptr<CheckBox> m_checkBox;
+    std::unordered_map<std::string, std::unique_ptr<IWidget>> m_widgets;
 
     bool m_isActive = false;
     bool m_isMoving = false;

@@ -23,6 +23,7 @@ private:
 
     sf::Sprite m_menuSprite;
 
+    const int m_buttonCount = 3;
     Button m_btnStartGame;
     Button m_btnSettings;
     Button m_btnExit;
