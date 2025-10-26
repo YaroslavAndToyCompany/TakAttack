@@ -6,7 +6,7 @@
 
 MainMenu::MainMenu(Window& window, ResourceManager& resManager, CursorManager& curManager)
 	: m_resManager(resManager), m_curManager(curManager),
-     m_btnStartGame("MenuButton", m_resManager), m_btnSettings("MenuButton", m_resManager), m_btnExit("MenuButton", m_resManager)
+    m_btnStartGame(m_resManager, "MenuButton"), m_btnSettings(m_resManager, "MenuButton"), m_btnExit(m_resManager, "MenuButton")
 {
     m_scale = sf::Vector2f(4, 4);
 

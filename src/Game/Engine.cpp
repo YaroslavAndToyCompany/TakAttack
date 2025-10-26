@@ -25,9 +25,9 @@ Engine::Engine()
     std::unique_ptr<IWidget> checkBox = std::make_unique<CheckBox>(m_resManager);
     Debug::GetInstance().AddWidget("CheckBox", std::move(checkBox));
 
-    // TEMP
-    std::unique_ptr<IWidget> checkBox2 = std::make_unique<CheckBox>(m_resManager);
-    Debug::GetInstance().AddWidget("CheckBox2", std::move(checkBox2));
+    //TEMP
+    std::unique_ptr<IWidget> button = std::make_unique<Button>(m_resManager, sf::Vector2f(100, 40));
+    Debug::GetInstance().AddWidget("Button", std::move(button));
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
