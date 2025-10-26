@@ -21,12 +21,6 @@ public:
     static void Shutdown();
     static Debug& GetInstance();
 
-    void AddText(const std::string& text);
-    void AddText(const int& number);
-
-    template<typename T>
-    void AddText(const sf::Vector2<T>& vec);
-
     void OnMove();
 
     void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
@@ -56,7 +50,6 @@ private:
 
     std::vector<ResizeSide> m_resizeSides;
 
-    sf::Text m_text;
     std::unordered_map<std::string, DebugWidget> m_widgets;
     sf::Vector2f m_panelPosBeforeMove;
 
@@ -70,9 +63,3 @@ private:
     static std::unique_ptr<Debug> s_instance;
     static bool s_isInitialized;
 };
-
-template<typename T>
-void Debug::AddText(const sf::Vector2<T>& vec)
-{
-    AddText(std::to_string(vec.x) + ", " + std::to_string(vec.y));
-}
