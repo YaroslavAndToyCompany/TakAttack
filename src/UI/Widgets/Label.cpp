@@ -7,7 +7,7 @@ Label::Label(ResourceManager& resManager)
     m_text.setCharacterSize(28);
     m_text.setFillColor(sf::Color::Black);
     m_text.setFont(*m_resManager.GetResource<sf::Font>("BoldPixels"));
-    m_text.setString("Something");
+    m_text.setString("Text");
 
     AlignTextToLeft();
 }

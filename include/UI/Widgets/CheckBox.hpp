@@ -3,6 +3,7 @@
 #include <string>
 #include "Managers/ResourceManager.hpp"
 #include "UI/Widgets/IWidget.hpp"
+#include "UI/Widgets/Label.hpp"
 
 class CheckBox : public IWidget
 {
@@ -23,7 +24,7 @@ public:
     const float CHECKBOX_SIZE = 30;
 
 private:
-    sf::Text m_text;
+    Label m_label;
 
     sf::RectangleShape m_outerBox;
     sf::RectangleShape m_innerBox;
