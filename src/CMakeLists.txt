@@ -10,6 +10,7 @@ add_executable(TakAttack
 	Systems/RenderSystem.cpp
 	UI/Widgets/Button.cpp
 	UI/Widgets/CheckBox.cpp
+	UI/Widgets/Label.cpp
 	UI/Widgets/ResizeSide.cpp
 	UI/MainMenu.cpp
 	UI/View.cpp
