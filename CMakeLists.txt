@@ -27,6 +27,28 @@ get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
 if(is_multi_config)
     message(STATUS "Generator is multi config")
+
+    # --- Copy resource folder to build/bin directory for convinient access ---
+    file(GLOB_RECURSE RESOURCE_FILES "${CMAKE_SOURCE_DIR}/res/*")
+
+    set(COPIED_RESOURCE_FILES "")
+
+    foreach(RES_FILE ${RESOURCE_FILES})
+        file(RELATIVE_PATH REL_PATH "${CMAKE_SOURCE_DIR}/res" "${RES_FILE}")
+
+        set(DEST_FILE "${CMAKE_BINARY_DIR}/src/res/${REL_PATH}")
+
+        add_custom_command(
+            OUTPUT ${DEST_FILE}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${RES_FILE}" "${DEST_FILE}"
+            DEPENDS ${RES_FILE}
+            COMMENT "Copying resource: ${REL_PATH}"
+        )
+
+        list(APPEND COPIED_RESOURCE_FILES ${DEST_FILE})
+    endforeach()
+
+    add_custom_target(copy_resources ALL DEPENDS ${COPIED_RESOURCE_FILES})
 else()
     message(STATUS "Generator isn't multi config")
     
@@ -45,6 +67,28 @@ else()
         # If Relese mode is on, we define NDEBUG macros for c++
         $<$<CONFIG:RELEASE>:NDEBUG>
     )
+
+    # --- Copy resource folder to build/bin directory for convinient access ---
+    file(GLOB_RECURSE RESOURCE_FILES "${CMAKE_SOURCE_DIR}/res/*")
+
+    set(COPIED_RESOURCE_FILES "")
+
+    foreach(RES_FILE ${RESOURCE_FILES})
+        file(RELATIVE_PATH REL_PATH "${CMAKE_SOURCE_DIR}/res" "${RES_FILE}")
+
+        set(DEST_FILE "${CMAKE_BINARY_DIR}/bin/res/${REL_PATH}")
+
+        add_custom_command(
+            OUTPUT ${DEST_FILE}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${RES_FILE}" "${DEST_FILE}"
+            DEPENDS ${RES_FILE}
+            COMMENT "Copying resource: ${REL_PATH}"
+        )
+
+        list(APPEND COPIED_RESOURCE_FILES ${DEST_FILE})
+    endforeach()
+
+    add_custom_target(copy_resources ALL DEPENDS ${COPIED_RESOURCE_FILES})
 endif()
 
 find_package(X11 QUIET)
@@ -56,26 +100,3 @@ if (X11_FOUND)
         Xrandr
     )
 endif()
-
-
-# --- Copy resource folder to build/bin directory for convinient access ---
-file(GLOB_RECURSE RESOURCE_FILES "${CMAKE_SOURCE_DIR}/res/*")
-
-set(COPIED_RESOURCE_FILES "")
-
-foreach(RES_FILE ${RESOURCE_FILES})
-    file(RELATIVE_PATH REL_PATH "${CMAKE_SOURCE_DIR}/res" "${RES_FILE}")
-
-    set(DEST_FILE "${CMAKE_BINARY_DIR}/bin/res/${REL_PATH}")
-
-    add_custom_command(
-        OUTPUT ${DEST_FILE}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${RES_FILE}" "${DEST_FILE}"
-        DEPENDS ${RES_FILE}
-        COMMENT "Copying resource: ${REL_PATH}"
-    )
-
-    list(APPEND COPIED_RESOURCE_FILES ${DEST_FILE})
-endforeach()
-
-add_custom_target(copy_resources ALL DEPENDS ${COPIED_RESOURCE_FILES})
