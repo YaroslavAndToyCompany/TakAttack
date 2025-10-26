@@ -15,6 +15,9 @@ public:
     template<typename T>
     void AddText(const sf::Vector2<T>& vec);
 
+    void AlignTextToLeft();
+    void AlignTextToCenter();
+
     sf::Vector2f GetPosition() override { return m_position; }
 
     void SetFont(const std::string& fontName);
