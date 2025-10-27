@@ -1,9 +1,9 @@
 #include "Systems/RenderSystem.hpp"
 #include "Components/SpriteComponent.hpp"
 #include "Components/TransformComponent.hpp"
-void RenderSystem::draw(entt::registry& registry, Window& window)
+void RenderSystem::draw(entt::registry& registry, Window& window, ResourceManager& resmaneger)
 {
-	auto View = registry.view<SpriteComponent, TransformComponent>();
+	auto View = registry.view<SpriteComponent, TransformComponent, CastleUIComponent>();
 
 	for(auto entity : View) 
 	{
@@ -14,11 +14,7 @@ void RenderSystem::draw(entt::registry& registry, Window& window)
 		m_sprite.m_sprite.setPosition(transform.m_position);
 		m_sprite.m_sprite.setScale(transform.m_scale);
 		m_sprite.m_sprite.setRotation(transform.m_rotation);
-
-	/*	
-		auto bounds = m_sprite.m_sprite.getGlobalBounds();
-		std::cout << "Sprite bounds: " << bounds.left << ", " << bounds.top
-			<< ", size: " << bounds.width << "x" << bounds.height << std::endl;*/
 		window.Draw(m_sprite.m_sprite);
+		m_interface.Draw(registry, window, resmaneger);
 	}
 }

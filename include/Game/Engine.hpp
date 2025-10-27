@@ -10,6 +10,7 @@
 #include "Managers/ResourceManager.hpp"
 #include "UI/MainMenu.hpp"
 #include "Systems/RenderSystem.hpp"
+#include "Systems/UISystem.hpp"
 
 class Engine {
 public:
