@@ -4,3 +4,8 @@ sf::Vector2f CalcRectOriginCenter(const sf::FloatRect& rect)
 {
     return { rect.left + (rect.width / 2.0f), rect.top + (rect.height / 2.0f) };
 }
+
+sf::Vector2f CalcRectOriginLeft(const sf::FloatRect& rect) 
+{
+    return { rect.left, rect.top + (rect.height / 2.0f) };
+}

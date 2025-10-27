@@ -12,8 +12,6 @@ bool Debug::s_isInitialized = false;
 Debug::Debug(ResourceManager& resManager, CursorManager& curManager)
 	: m_resManager(resManager), m_curManager(curManager)
 {
-    m_text.setFont(*m_resManager.GetResource<sf::Font>("BoldPixels"));
-
     int debugPanelLeftMargin = 20;
     int debugPanelTopMargin = 20;
     sf::Vector2f debugPanelSize = sf::Vector2f(200, 200);
@@ -56,18 +54,6 @@ Debug& Debug::GetInstance()
         throw std::logic_error("Debug hasn't been initialized. Call Init() first");
     
     return *s_instance;
-}
-
-void Debug::AddText(const std::string& text)
-{
-    m_text.setString(text);
-    m_text.setCharacterSize(28);
-    m_text.setFillColor(sf::Color::Black);
-}
-
-void Debug::AddText(const int& number) 
-{
-    AddText(std::to_string(number));
 }
 
 void Debug::OnMove() 
@@ -178,7 +164,6 @@ void Debug::Draw(sf::RenderWindow& window)
 		side.Draw(window);
     }
 
-    window.draw(m_text);
     for (auto& [name, dWidget] : m_widgets) 
     {
         dWidget.widget.get()->Draw(window);
