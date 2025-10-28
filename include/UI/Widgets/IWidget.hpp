@@ -5,6 +5,7 @@
 class IWidget {
 public:
 	virtual sf::Vector2f GetPosition() = 0;
+	virtual sf::Vector2f GetSize() = 0;
 
 	virtual void SetPosition(const sf::Vector2f& pos) = 0;
 

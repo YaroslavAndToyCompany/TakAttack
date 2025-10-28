@@ -19,6 +19,7 @@ public:
     void AlignTextToCenter();
 
     sf::Vector2f GetPosition() override { return m_position; }
+    sf::Vector2f GetSize() override;
 
     void SetFont(const std::string& fontName);
     void SetPosition(const sf::Vector2f& pos) override;

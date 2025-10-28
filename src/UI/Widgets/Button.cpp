@@ -11,10 +11,10 @@ Button::Button(ResourceManager& resManager, const std::string& textureName)
     m_isButtonDefault = false;
 }
 
-Button::Button(ResourceManager& resManager, const sf::Vector2f& size)
+Button::Button(ResourceManager& resManager)
     : m_resManager(resManager), m_label(resManager)
 {
-    m_buttonDefault.setSize(size);
+    m_buttonDefault.setSize({ 60, 20 });
     m_buttonDefault.setFillColor(sf::Color::White);
     m_buttonDefault.setOutlineColor(sf::Color::Black);
     m_buttonDefault.setOutlineThickness(4);

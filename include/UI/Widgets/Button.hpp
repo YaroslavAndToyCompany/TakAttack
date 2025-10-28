@@ -11,12 +11,13 @@ class Button : public IWidget
 {
 public:
     Button(ResourceManager& resManager, const std::string& textureName);
-    Button(ResourceManager& resManager, const sf::Vector2f& size);
+    Button(ResourceManager& resManager);
 
     void ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType = CursorType::Hand);
     
     sf::Sprite GetSprite() const;
     sf::Vector2f GetPosition() { return m_position; }
+    sf::Vector2f GetSize() override { return m_buttonDefault.getSize(); }
     
     void SetText(const std::string& text) { m_label.AddText(text); TransformText(); }
     void SetTextSize(unsigned int size) { m_label.SetCharacterSize(size); TransformText(); }
@@ -25,6 +26,7 @@ public:
     
     void SetScale(const sf::Vector2f& scale) { m_buttonSpr.setScale(scale); TransformText(); }
     void SetPosition(const sf::Vector2f& pos);
+    void SetSize(const sf::Vector2f& size) { m_buttonDefault.setSize(size); TransformText(); }
     
     void HandleEvents(sf::RenderWindow& window) {}
     void Update(sf::RenderWindow& window) {}
