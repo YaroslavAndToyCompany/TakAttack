@@ -24,7 +24,7 @@ public:
 
     void OnMove();
 
-    void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
+    // void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
     Label* CreateLabel(const std::string& widgetName);
     CheckBox* CreateCheckBox(const std::string& widgetName);
     Button* CreateButton(const std::string& widgetName);
@@ -44,8 +44,7 @@ private:
     {
         std::unique_ptr<IWidget> widget;
         int widgetLeftMargin;
-        int widgetTopMargin;
-        int distanceToNextWidget;
+        int distanceFromPreviousWidget;
     };
 
     Debug(ResourceManager& resManager, CursorManager& curManager);
@@ -62,9 +61,8 @@ private:
     std::unordered_map<std::string, WidgetPlace> m_widgets;
     sf::Vector2f m_panelPosBeforeMove;
 
-    int m_widgetLeftMargin = 30;
-    int m_widgetTopMargin = 30;
-    int m_distanceToNextWidget = 40;
+    int m_defaultWidgetLeftMargin = 10;
+    int m_distanceFromPreviousElement = 10;
 
     bool m_isActive = false;
     bool m_isMoving = false;

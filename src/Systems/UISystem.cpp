@@ -9,7 +9,7 @@ void UISystem::Draw(entt::registry& registry, Window& m_window, ResourceManager&
         auto& castleUi = view.get<CastleUIComponent>(castleEntity);
 
         if (castleUi.m_castleUIactive) {
-            InterfaceSprite.setTexture(*resManager.GetResource<sf::Texture>("UpgradeInterface"));
+            InterfaceSprite.setTexture(*resManager.GetResource<sf::Texture>("Castle")); // TEMP Castle
             InterfaceSprite.setScale({ 0.08f, 0.08f });
             InterfaceSprite.setPosition({ 76.f, -80.f });
             sf::Color color = InterfaceSprite.getColor();

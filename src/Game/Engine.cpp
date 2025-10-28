@@ -18,13 +18,14 @@ Engine::Engine()
     m_window.GetGameView().SetSize(m_map->GetSize());
 
     // TEMP
+    Debug::GetInstance().CreateButton("Button");
     Debug::GetInstance().CreateLabel("Label");
 
     // TEMP CheckBox() (It was created for testing purposes)
+    Debug::GetInstance().CreateButton("Button1");
     Debug::GetInstance().CreateCheckBox("CheckBox");
 
     //TEMP
-    Debug::GetInstance().CreateButton("Button");
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);

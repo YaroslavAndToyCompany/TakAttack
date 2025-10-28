@@ -8,6 +8,7 @@ add_executable(TakAttack
 	Managers/ResourceManager.cpp
 	Systems/InputSystem.cpp
 	Systems/RenderSystem.cpp
+	Systems/UISystem.cpp
 	UI/Widgets/Button.cpp
 	UI/Widgets/CheckBox.cpp
 	UI/Widgets/Label.cpp
