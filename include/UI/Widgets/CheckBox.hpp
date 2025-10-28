@@ -18,7 +18,7 @@ public:
     void SetPosition(const sf::Vector2f& pos) override;
     void ToggleChecked() { m_isChecked = !m_isChecked; }
 
-	void HandleEvents(sf::RenderWindow& window) override;
+	void HandleEvents(const sf::Event& event, sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override;
     void Draw(sf::RenderWindow& window) override;
 

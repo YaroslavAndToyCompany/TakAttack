@@ -26,7 +26,7 @@ public:
     void SetFillColor(const sf::Color& color) { m_text.setFillColor(color); }
     void SetCharacterSize(unsigned int size) { m_text.setCharacterSize(size); }
 
-    void HandleEvents(sf::RenderWindow& window) override {}
+    void HandleEvents(const sf::Event& event, sf::RenderWindow& window) override {}
     void Update(sf::RenderWindow& window) override {}
     void Draw(sf::RenderWindow& window) override { window.draw(m_text); }
 

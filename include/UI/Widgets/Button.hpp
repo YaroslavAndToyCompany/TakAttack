@@ -18,6 +18,7 @@ public:
     sf::Sprite GetSprite() const;
     sf::Vector2f GetPosition() { return m_position; }
     sf::Vector2f GetSize() override { return m_buttonDefault.getSize(); }
+    bool GetIsClicked() { return m_isClicked; }
     
     void SetText(const std::string& text) { m_label.AddText(text); TransformText(); }
     void SetTextSize(unsigned int size) { m_label.SetCharacterSize(size); TransformText(); }
@@ -28,8 +29,8 @@ public:
     void SetPosition(const sf::Vector2f& pos);
     void SetSize(const sf::Vector2f& size) { m_buttonDefault.setSize(size); TransformText(); }
     
-    void HandleEvents(sf::RenderWindow& window) {}
-    void Update(sf::RenderWindow& window) {}
+    void HandleEvents(const sf::Event& event, sf::RenderWindow& window);
+    void Update(sf::RenderWindow& window);
     void Draw(sf::RenderWindow& window);
 
 private:
@@ -44,4 +45,5 @@ private:
     sf::Vector2f m_position;
 
     bool m_isButtonDefault;
+    bool m_isClicked;
 };

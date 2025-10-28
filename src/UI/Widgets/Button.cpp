@@ -9,6 +9,7 @@ Button::Button(ResourceManager& resManager, const std::string& textureName)
 
     TransformText();
     m_isButtonDefault = false;
+    m_isClicked = false;
 }
 
 Button::Button(ResourceManager& resManager)
@@ -38,6 +39,28 @@ void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, C
     {
         curManager.Set(curType);
     }
+}
+
+void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
+{
+    sf::Vector2f mousePos;
+    switch (event.type)
+    {
+    case sf::Event::MouseButtonReleased:
+        mousePos = utils::ConvertMousePixelsToCoords(event.mouseButton.x, event.mouseButton.y, window);
+
+        if (event.mouseButton.button == sf::Mouse::Button::Left && m_buttonDefault.getGlobalBounds().contains(mousePos))
+            m_isClicked = true;
+        break;
+    
+    default:
+        break;
+    }
+}
+
+void Button::Update(sf::RenderWindow& window) 
+{
+    m_isClicked = false;
 }
 
 void Button::Draw(sf::RenderWindow& window)

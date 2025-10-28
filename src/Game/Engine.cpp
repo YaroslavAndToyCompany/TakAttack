@@ -17,16 +17,6 @@ Engine::Engine()
     m_window.GetGameView().SetCenter(m_map->GetGlobalCenter());
     m_window.GetGameView().SetSize(m_map->GetSize());
 
-    // TEMP
-    Debug::GetInstance().CreateButton("Button");
-    Debug::GetInstance().CreateLabel("Label");
-
-    // TEMP CheckBox() (It was created for testing purposes)
-    Debug::GetInstance().CreateButton("Button1");
-    Debug::GetInstance().CreateCheckBox("CheckBox");
-
-    //TEMP
-
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
 }
@@ -52,6 +42,7 @@ void Engine::ProcessEvents() {
 void Engine::Update()
 {
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
+    
     Debug::GetInstance().Update(*m_window.GetRenderWindowPtr());
 }
 
