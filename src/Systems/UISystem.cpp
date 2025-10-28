@@ -1,6 +1,6 @@
 #include "Systems/UISystem.hpp" 
 
-using namespace entt::literals;
+
 void UISystem::Draw(entt::registry& registry, Window& m_window, ResourceManager& resManager)
 {
     auto view = registry.view<TagCastle, CastleUIComponent>();
