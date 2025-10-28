@@ -120,7 +120,7 @@ CheckBox* Debug::CreateCheckBox(const std::string& widgetName)
     CheckBox* checkBoxPtr = checkBox.get();
     
     std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(checkBox));
-
+    
     m_distanceFromPreviousElement += 40;
     int widgetLeftMargin = m_defaultWidgetLeftMargin + (widget.get()->GetSize().x / 2) + 7;    
 
