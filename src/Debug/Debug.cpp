@@ -64,29 +64,104 @@ void Debug::OnMove()
     {
 		m_resizeSides[i].Update(panelGlobalBounds);
     }
-
-    for (auto& [name, dWidget] : m_widgets) 
+    
+    for (auto& [name, widgetMarg] : m_widgets) 
     {
         sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-        upperLeftCorner.x += dWidget.widgetLeftMargin;
-        upperLeftCorner.y += dWidget.widgetTopMargin;
+        upperLeftCorner.x += widgetMarg.widgetLeftMargin;
+        upperLeftCorner.y += widgetMarg.distanceFromPreviousWidget;
 
-        dWidget.widget.get()->SetPosition(upperLeftCorner);
+        widgetMarg.widget.get()->SetPosition(upperLeftCorner);
     }
 }
 
-void Debug::AddWidget(const std::string name, std::unique_ptr<IWidget> widget) 
+// void Debug::AddWidget(const std::string name, std::unique_ptr<IWidget> widget) 
+// {
+//     m_distanceFromPreviousElement += 30;
+
+//     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
+//     upperLeftCorner.x += m_widgetLeftMargin;
+//     upperLeftCorner.y += m_widgetTopMargin;
+
+//     widget.get()->SetPosition(upperLeftCorner);
+    
+//     WidgetPlace dWidget = { std::move(widget), m_widgetLeftMargin, m_widgetTopMargin };
+//     m_widgetTopMargin += m_distanceToNextWidget;
+
+//     m_widgets.emplace(name, std::move(dWidget));
+// }
+
+Label* Debug::CreateLabel(const std::string& widgetName)
 {
+    std::unique_ptr<Label> label = std::make_unique<Label>(m_resManager);
+    Label* labelPtr = label.get();
+    
+    std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(label));
+
+    m_distanceFromPreviousElement += 35;
+    int widgetLeftMargin = m_defaultWidgetLeftMargin + (widget.get()->GetSize().x / 2) - 20;
+
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += m_widgetLeftMargin;
-    upperLeftCorner.y += m_widgetTopMargin;
+    upperLeftCorner.x += widgetLeftMargin;
+    upperLeftCorner.y += m_distanceFromPreviousElement;
 
     widget.get()->SetPosition(upperLeftCorner);
-    
-    DebugWidget dWidget = { std::move(widget), m_widgetLeftMargin, m_widgetTopMargin };
-    m_widgetTopMargin += m_distanceWithinWidgets;
 
-    m_widgets.emplace(name, std::move(dWidget));
+    WidgetPlace dWidget = { std::move(widget), widgetLeftMargin, m_distanceFromPreviousElement };
+
+    m_widgets.emplace(widgetName, std::move(dWidget));
+
+    return labelPtr;
+}
+
+CheckBox* Debug::CreateCheckBox(const std::string& widgetName)
+{
+    std::unique_ptr<CheckBox> checkBox = std::make_unique<CheckBox>(m_resManager);
+    CheckBox* checkBoxPtr = checkBox.get();
+    
+    std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(checkBox));
+
+    m_distanceFromPreviousElement += 40;
+    int widgetLeftMargin = m_defaultWidgetLeftMargin + (widget.get()->GetSize().x / 2) + 7;    
+
+    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
+    upperLeftCorner.x += widgetLeftMargin;
+    upperLeftCorner.y += m_distanceFromPreviousElement;
+
+    widget.get()->SetPosition(upperLeftCorner);
+
+    WidgetPlace dWidget = { std::move(widget), widgetLeftMargin, m_distanceFromPreviousElement };
+
+    m_widgets.emplace(widgetName, std::move(dWidget));
+
+    return checkBoxPtr;
+}
+
+Button* Debug::CreateButton(const std::string& widgetName)
+{
+    std::unique_ptr<Button> button = std::make_unique<Button>(m_resManager);
+    Button* buttonPtr = button.get();
+    
+    std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(button));
+
+    m_distanceFromPreviousElement += 40;
+    int widgetLeftMargin = m_defaultWidgetLeftMargin + widget.get()->GetSize().x;
+
+    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
+    upperLeftCorner.x += widgetLeftMargin;
+    upperLeftCorner.y += m_distanceFromPreviousElement;
+
+    widget.get()->SetPosition(upperLeftCorner);
+
+    WidgetPlace dWidget = { std::move(widget), widgetLeftMargin, m_distanceFromPreviousElement };
+
+    m_widgets.emplace(widgetName, std::move(dWidget));
+
+    buttonPtr->SetSize({ 100, 30 });
+
+    // sf::Vector2f newPos = { buttonPtr->GetPosition().x + (buttonPtr->GetSize().x / 2) - 11, buttonPtr->GetPosition().y };
+    // buttonPtr->SetPosition(newPos);
+    return buttonPtr;
 }
 
 void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
@@ -95,6 +170,7 @@ void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
     {
         ToggleActive();
     }
+
     if (!m_isActive)
     {
         return;
@@ -102,20 +178,20 @@ void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
 
     switch (event.type)
     {
-    case sf::Event::MouseButtonPressed:
-    {
-        if (event.mouseButton.button == sf::Mouse::Left)
-        {
-            sf::Vector2i mousePos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
-            sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+    // case sf::Event::MouseButtonPressed:
+    // {
+    //     if (event.mouseButton.button == sf::Mouse::Left)
+    //     {
+    //         sf::Vector2i mousePos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
+    //         sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
 
-            if (m_panel.getGlobalBounds().contains(mousePosInCoords))
-            {
-                m_isMoving = true;
-            }
-        }
-        break;
-    }
+    //         if (m_panel.getGlobalBounds().contains(mousePosInCoords))
+    //         {
+    //             m_isMoving = true;
+    //         }
+    //     }
+    //     break;
+    // }
     case sf::Event::MouseButtonReleased:
     {
         if (event.mouseButton.button == sf::Mouse::Left)
@@ -128,6 +204,11 @@ void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
     }
     default:
         break;
+    }
+
+    for (auto& [name, widgetPlace] : m_widgets)
+    {
+        widgetPlace.widget.get()->HandleEvents(event, window);
     }
 }
 
@@ -147,6 +228,11 @@ void Debug::Update(sf::RenderWindow& window)
     {
         m_panel.setPosition(mousePos);
         OnMove();
+    }
+
+    for (auto& [name, widgetPlace] : m_widgets)
+    {
+        widgetPlace.widget.get()->Update(window);
     }
 }
 

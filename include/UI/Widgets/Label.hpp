@@ -19,11 +19,14 @@ public:
     void AlignTextToCenter();
 
     sf::Vector2f GetPosition() override { return m_position; }
+    sf::Vector2f GetSize() override;
 
     void SetFont(const std::string& fontName);
     void SetPosition(const sf::Vector2f& pos) override;
+    void SetFillColor(const sf::Color& color) { m_text.setFillColor(color); }
+    void SetCharacterSize(unsigned int size) { m_text.setCharacterSize(size); }
 
-    void HandleEvents(sf::RenderWindow& window) override {}
+    void HandleEvents(const sf::Event& event, sf::RenderWindow& window) override {}
     void Update(sf::RenderWindow& window) override {}
     void Draw(sf::RenderWindow& window) override { window.draw(m_text); }
 

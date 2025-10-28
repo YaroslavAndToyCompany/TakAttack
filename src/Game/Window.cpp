@@ -4,6 +4,7 @@
 Window::Window()
 {
     Setup("Window", sf::Vector2u(1920, 1080));
+    m_window.setFramerateLimit(60);
 }
 
 Window::Window(const std::string& title, const sf::Vector2u& size)

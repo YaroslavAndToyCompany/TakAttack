@@ -3,6 +3,7 @@
 #include <string>
 #include "Managers/ResourceManager.hpp"
 #include "UI/Widgets/IWidget.hpp"
+#include "UI/Widgets/Label.hpp"
 
 class CheckBox : public IWidget
 {
@@ -12,18 +13,19 @@ public:
     bool GetChecked() { return m_isChecked; }
     sf::FloatRect GetCheckBoxGlobalBounds() { return m_outerBox.getGlobalBounds(); };
     sf::Vector2f GetPosition() override { return m_position; }
+    sf::Vector2f GetSize() override { return m_outerBox.getSize(); }
 
     void SetPosition(const sf::Vector2f& pos) override;
     void ToggleChecked() { m_isChecked = !m_isChecked; }
 
-	void HandleEvents(sf::RenderWindow& window) override;
+	void HandleEvents(const sf::Event& event, sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override;
     void Draw(sf::RenderWindow& window) override;
 
     const float CHECKBOX_SIZE = 30;
 
 private:
-    sf::Text m_text;
+    Label m_label;
 
     sf::RectangleShape m_outerBox;
     sf::RectangleShape m_innerBox;

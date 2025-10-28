@@ -17,18 +17,6 @@ Engine::Engine()
     m_window.GetGameView().SetCenter(m_map->GetGlobalCenter());
     m_window.GetGameView().SetSize(m_map->GetSize());
 
-    // TEMP
-    std::unique_ptr<IWidget> label = std::make_unique<Label>(m_resManager);
-    Debug::GetInstance().AddWidget("Label", std::move(label));
-
-    // TEMP CheckBox() (It was created for testing purposes)
-    std::unique_ptr<IWidget> checkBox = std::make_unique<CheckBox>(m_resManager);
-    Debug::GetInstance().AddWidget("CheckBox", std::move(checkBox));
-
-    // TEMP
-    std::unique_ptr<IWidget> checkBox2 = std::make_unique<CheckBox>(m_resManager);
-    Debug::GetInstance().AddWidget("CheckBox2", std::move(checkBox2));
-
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
 }
@@ -54,6 +42,7 @@ void Engine::ProcessEvents() {
 void Engine::Update()
 {
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
+    
     Debug::GetInstance().Update(*m_window.GetRenderWindowPtr());
 }
 

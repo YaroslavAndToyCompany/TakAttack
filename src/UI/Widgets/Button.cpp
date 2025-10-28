@@ -2,25 +2,26 @@
 #include "Utils/Widgets.hpp"
 #include "Utils/Utils.hpp"
 
-Button::Button(const std::string& textureName,
-               ResourceManager& resManager,
-               const sf::Vector2f& pos,
-               const std::string& btnText,
-               const sf::Vector2f& scale,
-               const sf::Color& textColor,
-               const std::string& fontName)
+Button::Button(ResourceManager& resManager, const std::string& textureName)
+    : m_resManager(resManager), m_label(resManager)
 {
-    
-    m_button.setTexture(*resManager.GetResource<sf::Texture>(textureName));
-    m_text.setFont(*resManager.GetResource<sf::Font>(fontName));
-
-    m_text.setString(btnText);
-    m_text.setFillColor(textColor);
-
-    m_button.setPosition(pos);
-    m_button.setScale(scale);
+    m_buttonSpr.setTexture(*m_resManager.GetResource<sf::Texture>(textureName));
 
     TransformText();
+    m_isButtonDefault = false;
+    m_isClicked = false;
+}
+
+Button::Button(ResourceManager& resManager)
+    : m_resManager(resManager), m_label(resManager)
+{
+    m_buttonDefault.setSize({ 60, 20 });
+    m_buttonDefault.setFillColor(sf::Color::White);
+    m_buttonDefault.setOutlineColor(sf::Color::Black);
+    m_buttonDefault.setOutlineThickness(4);
+
+    TransformText();
+    m_isButtonDefault = true;
 }
 
 void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType)
@@ -28,33 +29,70 @@ void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, C
     sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
                                 sf::Mouse::getPosition(window), window);
 
-    sf::FloatRect btnRect = m_button.getGlobalBounds();
+    sf::FloatRect btnRect;
+    if (m_isButtonDefault)
+        btnRect = m_buttonDefault.getGlobalBounds();
+    else
+        btnRect = m_buttonSpr.getGlobalBounds();
+    
     if (btnRect.contains(mousePos))
     {
         curManager.Set(curType);
     }
 }
 
-void Button::Draw(sf::RenderWindow& window)
+void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
 {
-    window.draw(m_button);
-    window.draw(m_text);
+    sf::Vector2f mousePos;
+    switch (event.type)
+    {
+    case sf::Event::MouseButtonReleased:
+        mousePos = utils::ConvertMousePixelsToCoords(event.mouseButton.x, event.mouseButton.y, window);
+
+        if (event.mouseButton.button == sf::Mouse::Button::Left && m_buttonDefault.getGlobalBounds().contains(mousePos))
+            m_isClicked = true;
+        break;
+    
+    default:
+        break;
+    }
 }
 
-// void Button::SetOnPressed(std::function<void()> event)
-// {
-//     m_callbacks.find()
+void Button::Update(sf::RenderWindow& window) 
+{
+    m_isClicked = false;
+}
 
-//     m_callbacks.emplace(std::move(event), ButtonEventType::Pressed);
-// }
+void Button::Draw(sf::RenderWindow& window)
+{
+    m_isButtonDefault ? window.draw(m_buttonDefault) : window.draw(m_buttonSpr);
+    m_label.Draw(window);
+}
+
+sf::Sprite Button::GetSprite() const
+{
+    if (!m_isButtonDefault) return m_buttonSpr;
+    throw std::runtime_error("Can't get a sprite from button that doesn't hava a spite!");
+}
+
+void Button::SetPosition(const sf::Vector2f& pos)
+{
+    m_position = pos;
+    m_isButtonDefault ? m_buttonDefault.setPosition(m_position) : m_buttonSpr.setPosition(m_position);
+    TransformText();
+}
 
 void Button::TransformText()
 {
-    m_text.setOrigin(CalcRectOriginCenter(m_text.getLocalBounds()));
-    m_button.setOrigin(CalcRectOriginCenter(m_button.getLocalBounds()));
-    
-    sf::Vector2f buttonPos = m_button.getPosition();
-    sf::Vector2f textPos = sf::Vector2f(buttonPos.x, buttonPos.y - 2);
+    m_label.SetFont("BoldPixels");
 
-    m_text.setPosition(textPos);
+    m_label.AlignTextToCenter();
+    if (m_isButtonDefault)
+        m_buttonDefault.setOrigin(CalcRectOriginCenter(m_buttonDefault.getLocalBounds()));
+    else
+        m_buttonSpr.setOrigin(CalcRectOriginCenter(m_buttonSpr.getLocalBounds()));
+    
+    sf::Vector2f textPos = sf::Vector2f(m_position.x, m_position.y - 2);
+
+    m_label.SetPosition(textPos);
 }

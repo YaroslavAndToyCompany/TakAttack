@@ -8,7 +8,7 @@ ResourceManager::ResourceManager() {
     UploadResource<sf::Texture>("MenuFrame", "res/UI/MenuFrame.png");
     UploadResource<sf::Texture>("Castle", "res/Sprites/Castle.png");
     UploadResource<sf::Texture>("Artillery", "res/Sprites/artillery.png");
-    UploadResource<sf::Texture>("UpgradeInterface", "res/UI/Castleinterface.png");
+    // UploadResource<sf::Texture>("UpgradeInterface", "res/UI/Castleinterface.png");
     UploadResource<sf::Font>("BoldPixels", "res/UI/Fonts/BoldPixels.ttf");
 
 } 

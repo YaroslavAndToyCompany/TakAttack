@@ -9,6 +9,7 @@
 #include "UI/View.hpp"
 #include "UI/Widgets/CheckBox.hpp"
 #include "UI/Widgets/ResizeSide.hpp"
+#include "UI/Widgets/Button.hpp"
 #include "UI/Widgets/IWidget.hpp"
 #include "Managers/ResourceManager.hpp"
 
@@ -23,7 +24,14 @@ public:
 
     void OnMove();
 
-    void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
+    // void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
+    Label* CreateLabel(const std::string& widgetName);
+    CheckBox* CreateCheckBox(const std::string& widgetName);
+    Button* CreateButton(const std::string& widgetName);
+
+    template <typename T>
+    T* GetWidgetPtr(const std::string& name);
+
     void ToggleActive() { m_isActive = !m_isActive; }
     void ToggleMoving() { m_isMoving = !m_isMoving; }
 
@@ -32,11 +40,11 @@ public:
     void Draw(sf::RenderWindow& window);
 
 private:
-    struct DebugWidget 
+    struct WidgetPlace
     {
         std::unique_ptr<IWidget> widget;
         int widgetLeftMargin;
-        int widgetTopMargin;
+        int distanceFromPreviousWidget;
     };
 
     Debug(ResourceManager& resManager, CursorManager& curManager);
@@ -50,12 +58,11 @@ private:
 
     std::vector<ResizeSide> m_resizeSides;
 
-    std::unordered_map<std::string, DebugWidget> m_widgets;
+    std::unordered_map<std::string, WidgetPlace> m_widgets;
     sf::Vector2f m_panelPosBeforeMove;
 
-    int m_widgetLeftMargin = 30;
-    int m_widgetTopMargin = 30;
-    int m_distanceWithinWidgets = 40;
+    int m_defaultWidgetLeftMargin = 10;
+    int m_distanceFromPreviousElement = 10;
 
     bool m_isActive = false;
     bool m_isMoving = false;
@@ -63,3 +70,15 @@ private:
     static std::unique_ptr<Debug> s_instance;
     static bool s_isInitialized;
 };
+
+template <typename T>
+T* Debug::GetWidgetPtr(const std::string& name)
+{
+    auto it = m_widgets.find(name);
+    if (it == m_widgets.end())
+    {
+        throw std::runtime_error("Can't find " + name + " Widge in Debug panel!");
+    }
+
+    return dynamic_cast<T*>(it->second.widget.get());
+}
