@@ -1,6 +1,7 @@
 #pragma once
 #include "InputSystem.hpp"
 #include "Managers/ResourceManager.hpp"
+#include "Entities/Entity.hpp"
 
 class UISystem 
 {
