@@ -1,5 +1,5 @@
 #include "Systems/InputSystem.hpp"
-#include "Components/CastleUIComponent.hpp"
+
 void InputSystem::Input(entt::registry& regsitry, Window& m_window, Map& m_map)
 {
 	auto view = regsitry.view<InputComponent, CastleUIComponent>();

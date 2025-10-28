@@ -4,6 +4,7 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "Game/Window.hpp"
+#include "Components/CastleUIComponent.hpp"
 #include "Game/Map.hpp"
 class InputSystem
 {

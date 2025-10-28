@@ -64,7 +64,7 @@ void Engine::Render()
     m_window.SwitchToGameView();
     
     m_map->Draw(*m_window.GetRenderWindowPtr());
-    m_rendersystem.draw(m_registry, m_window);
+    m_rendersystem.draw(m_registry, m_window, m_resManager);
     m_window.SwitchToUiView();
 
     m_mainMenu->Draw(*m_window.GetRenderWindowPtr());

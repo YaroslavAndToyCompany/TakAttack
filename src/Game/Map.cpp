@@ -64,8 +64,8 @@ void Map::SetUpMap(ResourceManager& resManager, const std::string& mapName)
 
     SetUpGrid();
 
-    for (int y = 8; y <= 9; ++y) {
-        for (int x = 17; x <= 19; ++x) {
+    for (int y = 6; y <= 7; ++y) {
+        for (int x = 18; x <= 19; ++x) {
             MarkCellAsCastle(x, y);
         }
     }
