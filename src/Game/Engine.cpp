@@ -17,6 +17,11 @@ Engine::Engine()
     m_window.GetGameView().SetCenter(m_map->GetGlobalCenter());
     m_window.GetGameView().SetSize(m_map->GetSize());
 
+    // TEMP
+    Debug::GetInstance().CreateLabel("Label");
+    Debug::GetInstance().CreateCheckBox("CheckBox");
+    Debug::GetInstance().CreateButton("Button");
+
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
 }

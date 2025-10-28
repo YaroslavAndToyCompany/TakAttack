@@ -22,9 +22,6 @@ public:
     static void Shutdown();
     static Debug& GetInstance();
 
-    void OnMove();
-
-    // void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
     Label* CreateLabel(const std::string& widgetName);
     CheckBox* CreateCheckBox(const std::string& widgetName);
     Button* CreateButton(const std::string& widgetName);
@@ -40,12 +37,7 @@ public:
     void Draw(sf::RenderWindow& window);
 
 private:
-    struct WidgetPlace
-    {
-        std::unique_ptr<IWidget> widget;
-        int widgetLeftMargin;
-        int distanceFromPreviousWidget;
-    };
+    void OnMove(const sf::Vector2f& mousePos);
 
     Debug(ResourceManager& resManager, CursorManager& curManager);
 	
@@ -58,8 +50,7 @@ private:
 
     std::vector<ResizeSide> m_resizeSides;
 
-    std::unordered_map<std::string, WidgetPlace> m_widgets;
-    sf::Vector2f m_panelPosBeforeMove;
+    std::unordered_map<std::string, std::unique_ptr<IWidget>> m_widgets;
 
     int m_defaultWidgetLeftMargin = 10;
     int m_distanceFromPreviousElement = 10;
@@ -80,5 +71,5 @@ T* Debug::GetWidgetPtr(const std::string& name)
         throw std::runtime_error("Can't find " + name + " Widge in Debug panel!");
     }
 
-    return dynamic_cast<T*>(it->second.widget.get());
+    return dynamic_cast<T*>(it->second.get());
 }

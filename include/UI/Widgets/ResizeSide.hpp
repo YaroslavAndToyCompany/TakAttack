@@ -12,11 +12,13 @@ public:
 	};
 
 	ResizeSide(const sf::Vector2f& size, ResizeSideType sideType);
+	
+	void SetUp(const sf::FloatRect panelGlobalBounds);
 
 	sf::RectangleShape GetSideRecShape() { return m_side; }
 	ResizeSideType GetType() { return m_sideType; }
 
-	void Update(const sf::FloatRect panelGlobalBounds);
+	void Update(const sf::Vector2f& newPos);
 	void Draw(sf::RenderWindow& window);
 	
 	void ChangeCursor(CursorManager& curManager, const sf::Vector2f& mousePos);
