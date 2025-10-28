@@ -19,10 +19,6 @@ Engine::Engine()
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
-
-    Debug::GetInstance().CreateCheckBox("TestCheckBox"); 
-    Debug::GetInstance().CreateLabel("TestLabel");
-    
 }
 
 Engine::~Engine()
@@ -48,17 +44,6 @@ void Engine::Update()
     m_mainMenu->Update(*m_window.GetRenderWindowPtr());
     
     Debug::GetInstance().Update(*m_window.GetRenderWindowPtr());
-
-    CheckBox* testcheckbox = Debug::GetInstance().GetWidgetPtr<CheckBox>("TestCheckBox");
-    Label* testlable = Debug::GetInstance().GetWidgetPtr<Label>("TestLabel");
-    if(testcheckbox->GetChecked()) 
-    {
-        testlable->AddText("True");
-    }
-    else 
-    {
-        testlable->AddText("False");
-    }
 }
 
 void Engine::Render()

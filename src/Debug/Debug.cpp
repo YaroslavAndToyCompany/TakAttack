@@ -75,22 +75,6 @@ void Debug::OnMove()
     }
 }
 
-// void Debug::AddWidget(const std::string name, std::unique_ptr<IWidget> widget) 
-// {
-//     m_distanceFromPreviousElement += 30;
-
-//     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-//     upperLeftCorner.x += m_widgetLeftMargin;
-//     upperLeftCorner.y += m_widgetTopMargin;
-
-//     widget.get()->SetPosition(upperLeftCorner);
-    
-//     WidgetPlace dWidget = { std::move(widget), m_widgetLeftMargin, m_widgetTopMargin };
-//     m_widgetTopMargin += m_distanceToNextWidget;
-
-//     m_widgets.emplace(name, std::move(dWidget));
-// }
-
 Label* Debug::CreateLabel(const std::string& widgetName)
 {
     std::unique_ptr<Label> label = std::make_unique<Label>(m_resManager);
@@ -159,8 +143,6 @@ Button* Debug::CreateButton(const std::string& widgetName)
 
     buttonPtr->SetSize({ 100, 30 });
 
-    // sf::Vector2f newPos = { buttonPtr->GetPosition().x + (buttonPtr->GetSize().x / 2) - 11, buttonPtr->GetPosition().y };
-    // buttonPtr->SetPosition(newPos);
     return buttonPtr;
 }
 
@@ -224,7 +206,7 @@ void Debug::Update(sf::RenderWindow& window)
     for (auto& resSide : m_resizeSides)
         resSide.ChangeCursor(m_curManager, mousePos);
 
-    if (m_isMoving)
+    if (m_isMoving && m_panel.getPosition() != mousePos)
     {
         m_panel.setPosition(mousePos);
         OnMove();
