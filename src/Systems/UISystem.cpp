@@ -1,11 +1,11 @@
 #include "Systems/UISystem.hpp" 
 
 
-void UISystem::Draw(entt::registry& registry, Window& m_window, ResourceManager& resManager)
+void UISystem::DrawMainInterface(entt::registry& registry, Window& m_window, ResourceManager& resManager)
 {
     auto view = registry.view<TagCastle, CastleUIComponent>();
     if (view.begin() != view.end()) {
-        entt::entity castleEntity = *view.begin();
+        entt::entity castleEntity = view.front();
         auto& castleUi = view.get<CastleUIComponent>(castleEntity);
 
         if (castleUi.m_castleUIactive) {

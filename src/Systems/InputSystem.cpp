@@ -1,35 +1,38 @@
 #include "Systems/InputSystem.hpp"
 
-void InputSystem::Input(entt::registry& regsitry, Window& m_window, Map& m_map)
+void InputSystem::Input(entt::registry& registry, Window& m_window, Map& m_map)
 {
-	auto view = regsitry.view<InputComponent, CastleUIComponent>();
-	
-	for (auto entity : view) {
-		auto& input = view.get<InputComponent>(entity);
-		auto& castleUi = view.get<CastleUIComponent>(entity);
-		bool wasmousePressed = input.mousePressed;
-		input.mousePressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	registry.view<InputComponent, CastleUIComponent>().each(
+		[&](auto entity, InputComponent& input, CastleUIComponent& castleUI)
+		{
+		for (auto& CurrentButton : input.ButtonList)
+		{
+			if (sf::Mouse::isButtonPressed(CurrentButton) && CurrentButton == sf::Mouse::Left)
+			{
+				std::cout << "Left mouse button pressed!" << "\n";
+				sf::Vector2i pixelPos = sf::Mouse::getPosition(*m_window.GetRenderWindowPtr());
+				sf::Vector2f worldPos = m_window.MapPixelToCoords(pixelPos, false); 
+				std::cout << "Mouse world pos: (" << worldPos.x << ", " << worldPos.y << ")\n";
 
-		if (input.mousePressed && !wasmousePressed) {
-            std::cout << "Left mouse button pressed!" << "\n";
-			sf::Vector2i pixelPos = sf::Mouse::getPosition(*m_window.GetRenderWindowPtr());
-			sf::Vector2f worldPos = m_window.MapPixelToCoords(pixelPos, false); //ui = false
-			std::cout << "Mouse world pos: (" << worldPos.x << ", " << worldPos.y << ")\n";
-		
-			GridCell* clickedCell = m_map.GetCellPosition(worldPos);
-			
-			if (clickedCell && clickedCell->type == CellType::Castle) {
-				std::cout << "Castle cell clicked at (" << clickedCell->gridX << ", " << clickedCell->gridY << ")\n";
-				castleUi.m_castleUIactive = true;
-				if(castleUi.m_castleUIactive) 
+				GridCell* clickedCell = m_map.GetCellPosition(worldPos);
+
+				if (clickedCell && clickedCell->type == CellType::Castle)
 				{
-					std::cout << "CASTLE UI IS VISIABLE!!!!!!!" << std::endl;
+					std::cout << "Castle cell clicked at (" << clickedCell->gridX << ", " << clickedCell->gridY << ")\n";
+					castleUI.m_castleUIactive = true;
+
 				}
 			}
-			else 
-			{
-				castleUi.m_castleUIactive = false;
-			}
 		}
+
+		for(auto& CurrentKey : input.KeyList) 
+		{
+		if(sf::Keyboard::isKeyPressed(CurrentKey) && CurrentKey == sf::Keyboard::Escape)
+		{
+			castleUI.m_castleUIactive = false;
+		}
+		}
+
 	}
+	);
 }

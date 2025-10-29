@@ -9,6 +9,6 @@
 class InputSystem
 {
 public:
-	void Input(entt::registry& regsitry, Window& m_window, Map& m_map);
+	void Input(entt::registry& registry, Window& m_window, Map& m_map);
 };
 

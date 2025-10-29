@@ -8,5 +8,5 @@ class UISystem
 private:
 	sf::Sprite InterfaceSprite;
 public:
-	void Draw(entt::registry& registry, Window& m_window, ResourceManager& resManager);
+	void DrawMainInterface(entt::registry& registry, Window& m_window, ResourceManager& resManager);
 };

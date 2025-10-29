@@ -15,6 +15,6 @@ void RenderSystem::draw(entt::registry& registry, Window& window, ResourceManage
 		m_sprite.m_sprite.setScale(transform.m_scale);
 		m_sprite.m_sprite.setRotation(transform.m_rotation);
 		window.Draw(m_sprite.m_sprite);
-		m_interface.Draw(registry, window, resmaneger);
+		m_interface.DrawMainInterface(registry, window, resmaneger);
 	}
 }
