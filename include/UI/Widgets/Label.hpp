@@ -8,15 +8,13 @@ class Label : public IWidget
 {
 public:
     Label(ResourceManager& resManager);
+    void AlignTo(Alignment alignment) override;
 
     void AddText(const std::string& text);
     void AddText(const int& number);
 
     template<typename T>
     void AddText(const sf::Vector2<T>& vec);
-
-    void AlignTextToLeft();
-    void AlignTextToCenter();
 
     sf::Vector2f GetPosition() override { return m_position; }
     sf::Vector2f GetSize() override;

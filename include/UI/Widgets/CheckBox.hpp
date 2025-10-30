@@ -9,6 +9,7 @@ class CheckBox : public IWidget
 {
 public:
     CheckBox(ResourceManager& resManager, bool state = false, const std::string& text = "Text");
+    void AlignTo(Alignment alignment) override;
 
     bool GetChecked() { return m_isChecked; }
     sf::FloatRect GetCheckBoxGlobalBounds() { return m_outerBox.getGlobalBounds(); };
@@ -32,5 +33,7 @@ private:
     sf::RectangleShape m_innerBox;
 
     sf::Vector2f m_position;
+    Alignment m_alignment;
+
     bool m_isChecked;
 };

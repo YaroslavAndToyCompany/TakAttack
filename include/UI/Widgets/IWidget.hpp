@@ -7,8 +7,11 @@ public:
 	enum class Alignment 
 	{	
 		TopLeft,
+		Left,
 		Center,
 	};
+
+	virtual void AlignTo(Alignment alignment) = 0;
 
 	virtual sf::Vector2f GetPosition() = 0;
 	virtual sf::Vector2f GetSize() = 0;

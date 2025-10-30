@@ -14,7 +14,7 @@ public:
     Button(ResourceManager& resManager);
 
     void ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType = CursorType::Hand);
-    void AlignTo(Alignment alignment);
+    void AlignTo(Alignment alignment) override;
 
     sf::Vector2f GetPosition() { return m_position; }
 

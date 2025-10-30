@@ -43,7 +43,7 @@ void Button::AlignTo(Alignment alignment)
         throw std::runtime_error("You specify a wrong alignment type!");
     }
 
-    m_label.AlignTextToCenter();
+    m_label.AlignTo(Alignment::Center);
     m_label.SetPosition(texPos);
     m_alignment = alignment;
 }

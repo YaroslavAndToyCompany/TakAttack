@@ -11,7 +11,7 @@ Engine::Engine()
 {
     Debug::Init(m_resManager, m_curManager);
     Debug::GetInstance().CreateLabel("Label1");
-    Debug::GetInstance().CreateButton("Button");
+    Debug::GetInstance().CreateCheckBox("CheckBox1");
 
     m_map = std::make_unique<Map>(m_resManager, "Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window, m_resManager, m_curManager);

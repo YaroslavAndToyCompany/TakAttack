@@ -11,6 +11,30 @@ Label::Label(ResourceManager& resManager)
     m_text.setString("Text");
 }
 
+void Label::AlignTo(Alignment alignment)
+{
+    sf::FloatRect rect = m_text.getLocalBounds();
+    sf::Vector2f newOrigin;
+
+    switch (alignment)
+    {
+    case Alignment::TopLeft:
+        return;
+
+    case Alignment::Left:
+        newOrigin = { rect.left, rect.top + (rect.height / 2.0f) };
+        break;
+    case Alignment::Center:
+        newOrigin = { rect.left + (rect.width / 2.0f), rect.top + (rect.height / 2.0f) };
+        break;
+
+    default:
+        throw std::runtime_error("You specify a wrong Alignemnt type!");
+    }
+
+    m_text.setOrigin(newOrigin);
+}
+
 void Label::AddText(const std::string& text)
 {
     m_text.setString(text);
@@ -19,20 +43,6 @@ void Label::AddText(const std::string& text)
 void Label::AddText(const int& number) 
 {
     AddText(std::to_string(number));
-}
-
-void Label::AlignTextToLeft()
-{
-    sf::FloatRect rect = m_text.getLocalBounds();
-    sf::Vector2f newOrigin = { rect.left, rect.top + (rect.height / 2.0f) };
-    m_text.setOrigin(newOrigin);
-}
-
-void Label::AlignTextToCenter()
-{
-    sf::FloatRect rect = m_text.getLocalBounds();
-    sf::Vector2f newOrigin = { rect.left + (rect.width / 2.0f), rect.top + (rect.height / 2.0f) };
-    m_text.setOrigin(newOrigin);
 }
 
 sf::Vector2f Label::GetSize()
