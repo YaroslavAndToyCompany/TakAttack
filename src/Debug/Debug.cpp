@@ -33,6 +33,10 @@ Debug::Debug(ResourceManager& resManager, CursorManager& curManager)
 		m_resizeSides.emplace_back(size, type);
 		m_resizeSides[i].SetUp(panelGlobalBounds);
     }
+
+    // for Widgets
+    m_widgetMarginLeft = 10;
+    m_widgetMarginTop = 10;
 }
 
 void Debug::Init(ResourceManager& resManager, CursorManager& curManager)
@@ -79,12 +83,12 @@ Label* Debug::CreateLabel(const std::string& widgetName)
     
     std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(label));
 
-    m_distanceFromPreviousElement += 35;
-    int widgetLeftMargin = m_defaultWidgetLeftMargin + (widget.get()->GetSize().x / 2) - 20;
+    sf::FloatRect rect = widget.get()->GetGlobalBounds();
 
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += widgetLeftMargin;
-    upperLeftCorner.y += m_distanceFromPreviousElement;
+    upperLeftCorner.x += m_widgetMarginLeft;
+    upperLeftCorner.y += m_widgetMarginTop;
+    m_widgetMarginTop += rect.top + rect.height;
 
     widget.get()->SetPosition(upperLeftCorner);
 
@@ -100,12 +104,12 @@ CheckBox* Debug::CreateCheckBox(const std::string& widgetName)
     
     std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(checkBox));
     
-    m_distanceFromPreviousElement += 40;
-    int widgetLeftMargin = m_defaultWidgetLeftMargin + (widget.get()->GetSize().x / 2) + 7;    
+    sf::FloatRect rect = widget.get()->GetGlobalBounds();
 
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += widgetLeftMargin;
-    upperLeftCorner.y += m_distanceFromPreviousElement;
+    upperLeftCorner.x += m_widgetMarginLeft;
+    upperLeftCorner.y += m_widgetMarginTop;
+    m_widgetMarginTop += rect.top + rect.height;
 
     widget.get()->SetPosition(upperLeftCorner);
 
@@ -114,19 +118,19 @@ CheckBox* Debug::CreateCheckBox(const std::string& widgetName)
     return checkBoxPtr;
 }
 
-Button* Debug::CreateButton(const std::string& widgetName)
+ButtonDefault* Debug::CreateButton(const std::string& widgetName)
 {
-    std::unique_ptr<Button> button = std::make_unique<Button>(m_resManager);
-    Button* buttonPtr = button.get();
+    std::unique_ptr<ButtonDefault> button = std::make_unique<ButtonDefault>(m_resManager);
+    ButtonDefault* buttonPtr = button.get();
     
     std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(button));
 
-    m_distanceFromPreviousElement += 40;
-    int widgetLeftMargin = m_defaultWidgetLeftMargin + widget.get()->GetSize().x;
+    sf::FloatRect rect = widget.get()->GetGlobalBounds();
 
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += widgetLeftMargin;
-    upperLeftCorner.y += m_distanceFromPreviousElement;
+    upperLeftCorner.x += m_widgetMarginLeft;
+    upperLeftCorner.y += m_widgetMarginTop;
+    m_widgetMarginTop += rect.top + rect.height;
 
     widget.get()->SetPosition(upperLeftCorner);
 

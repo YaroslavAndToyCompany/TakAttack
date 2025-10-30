@@ -9,7 +9,7 @@
 #include "UI/View.hpp"
 #include "UI/Widgets/CheckBox.hpp"
 #include "UI/Widgets/ResizeSide.hpp"
-#include "UI/Widgets/Button.hpp"
+#include "UI/Widgets/Buttons/ButtonDefault.hpp"
 #include "UI/Widgets/IWidget.hpp"
 #include "Managers/ResourceManager.hpp"
 
@@ -24,7 +24,7 @@ public:
 
     Label* CreateLabel(const std::string& widgetName);
     CheckBox* CreateCheckBox(const std::string& widgetName);
-    Button* CreateButton(const std::string& widgetName);
+    ButtonDefault* CreateButton(const std::string& widgetName);
 
     template <typename T>
     T* GetWidgetPtr(const std::string& name);
@@ -52,8 +52,8 @@ private:
 
     std::unordered_map<std::string, std::unique_ptr<IWidget>> m_widgets;
 
-    int m_defaultWidgetLeftMargin = 10;
-    int m_distanceFromPreviousElement = 10;
+    int m_widgetMarginLeft;
+    int m_widgetMarginTop;
 
     bool m_isActive = false;
     bool m_isMoving = false;

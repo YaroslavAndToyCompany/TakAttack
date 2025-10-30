@@ -14,6 +14,7 @@ public:
     sf::FloatRect GetCheckBoxGlobalBounds() { return m_outerBox.getGlobalBounds(); };
     sf::Vector2f GetPosition() override { return m_position; }
     sf::Vector2f GetSize() override { return m_outerBox.getSize(); }
+    sf::FloatRect GetGlobalBounds() override { return m_outerBox.getGlobalBounds(); }
 
     void SetPosition(const sf::Vector2f& pos) override;
     void ToggleChecked() { m_isChecked = !m_isChecked; }

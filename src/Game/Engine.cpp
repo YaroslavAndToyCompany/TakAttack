@@ -19,7 +19,6 @@ Engine::Engine()
 
     // TEMP
     Debug::GetInstance().CreateLabel("Label");
-    Debug::GetInstance().CreateCheckBox("CheckBox");
     Debug::GetInstance().CreateButton("Button");
 
     Entity::CreatePlayer(m_resManager, m_registry);

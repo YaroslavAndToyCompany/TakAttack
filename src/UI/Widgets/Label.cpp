@@ -9,8 +9,6 @@ Label::Label(ResourceManager& resManager)
     m_text.setFillColor(sf::Color::Black);
     m_text.setFont(*m_resManager.GetResource<sf::Font>("BoldPixels"));
     m_text.setString("Text");
-
-    AlignTextToLeft();
 }
 
 void Label::AddText(const std::string& text)

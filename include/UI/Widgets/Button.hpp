@@ -6,44 +6,38 @@
 #include "Managers/CursorManager.hpp"
 #include "UI/Widgets/Label.hpp"
 #include "UI/Widgets/IWidget.hpp"
+#include "Utils/Utils.hpp"
 
 class Button : public IWidget
 {
 public:
-    Button(ResourceManager& resManager, const std::string& textureName);
     Button(ResourceManager& resManager);
 
     void ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType = CursorType::Hand);
     
-    sf::Sprite GetSprite() const;
     sf::Vector2f GetPosition() { return m_position; }
-    sf::Vector2f GetSize() override { return m_buttonDefault.getSize(); }
+
+    virtual sf::Vector2f GetSize() = 0;
+    virtual sf::FloatRect GetGlobalBounds() = 0;
+
     bool GetIsClicked() { return m_isClicked; }
     
-    void SetText(const std::string& text) { m_label.AddText(text); TransformText(); }
-    void SetTextSize(unsigned int size) { m_label.SetCharacterSize(size); TransformText(); }
+    void SetText(const std::string& text) { m_label.AddText(text); }
+    void SetTextSize(unsigned int size) { m_label.SetCharacterSize(size); }
     void SetTextColor(const sf::Color& color) { m_label.SetFillColor(color); }
     void SetFont(const std::string& name) { m_label.SetFont(name); }
     
-    void SetScale(const sf::Vector2f& scale) { m_buttonSpr.setScale(scale); TransformText(); }
-    void SetPosition(const sf::Vector2f& pos);
-    void SetSize(const sf::Vector2f& size) { m_buttonDefault.setSize(size); TransformText(); }
+    virtual void SetPosition(const sf::Vector2f& pos) = 0;
     
     void HandleEvents(const sf::Event& event, sf::RenderWindow& window);
     void Update(sf::RenderWindow& window);
-    void Draw(sf::RenderWindow& window);
+    virtual void Draw(sf::RenderWindow& window) = 0;
 
-private:
+protected:
     void TransformText();
 
     ResourceManager& m_resManager;
-    
     Label m_label;
-
-    sf::Sprite m_buttonSpr;
-    sf::RectangleShape m_buttonDefault;
     sf::Vector2f m_position;
-
-    bool m_isButtonDefault;
     bool m_isClicked;
 };

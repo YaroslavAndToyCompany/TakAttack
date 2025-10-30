@@ -87,7 +87,7 @@ void MainMenu::GenerateButtons()
     m_btnSettings.SetText("Settings");
     m_btnExit.SetText("Exit");
 
-    std::vector<Button*> buttons = { &m_btnStartGame, &m_btnSettings, &m_btnExit };
+    std::vector<ButtonSprite*> buttons = { &m_btnStartGame, &m_btnSettings, &m_btnExit };
     float startPositionY = m_menuSprite.getPosition().y - 7.0f * m_scale.x;
     float spacingBetweenY = 22;
     int textSize = 8 * m_scale.x;
@@ -95,7 +95,7 @@ void MainMenu::GenerateButtons()
     PlaceButtons(buttons, startPositionY, spacingBetweenY, m_scale, textSize);
 }
 
-void MainMenu::PlaceButtons(std::vector<Button*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize) 
+void MainMenu::PlaceButtons(std::vector<ButtonSprite*>& buttons, float startPosY, float spacingBetweenY, const sf::Vector2f& scale, int textSize) 
 {
     spacingBetweenY *= scale.y;
 

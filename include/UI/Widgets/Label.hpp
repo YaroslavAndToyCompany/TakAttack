@@ -20,6 +20,7 @@ public:
 
     sf::Vector2f GetPosition() override { return m_position; }
     sf::Vector2f GetSize() override;
+    sf::FloatRect GetGlobalBounds() override { return m_text.getGlobalBounds(); }
 
     void SetFont(const std::string& fontName);
     void SetPosition(const sf::Vector2f& pos) override;
