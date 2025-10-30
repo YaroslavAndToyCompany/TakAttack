@@ -12,7 +12,7 @@ public:
     sf::FloatRect GetGlobalBounds() override { return m_button.getGlobalBounds(); }
     sf::Sprite GetSprite() { return m_button; }
 
-    void SetScale(const sf::Vector2f& scale) { m_button.setScale(scale); }
+    void SetScale(const sf::Vector2f& scale) { m_button.setScale(scale); AlignTo(m_alignment); }
     void SetPosition(const sf::Vector2f& pos) override;
 
     void Draw(sf::RenderWindow& window) override;

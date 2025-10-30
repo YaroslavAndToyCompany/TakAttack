@@ -1,32 +1,37 @@
 #include "UI/Widgets/Buttons/ButtonSprite.hpp"
 #include "Utils/Widgets.hpp"
+#include "Debug/Debug.hpp"
 
 ButtonSprite::ButtonSprite(ResourceManager& resManager, const std::string& textureName)
     : Button(resManager)
 {
     m_button.setTexture(*m_resManager.GetResource<sf::Texture>(textureName));
-    m_alignment = Alignment::Center;
+    m_alignment = Alignment::TopLeft;
     testPoint.setRadius(5);
 }
 
 void ButtonSprite::AlignTo(Alignment alignment)
 {
-    m_label.AlignTextToCenter();
+    sf::Vector2f texPos;
+    sf::Vector2f halfSize = { m_button.getLocalBounds().width * 0.5f, m_button.getLocalBounds().height * 0.5f};
+    halfSize = { halfSize.x * m_button.getScale().x, halfSize.y * m_button.getScale().y };
 
     switch (alignment)
     {
     case Alignment::TopLeft:
+        texPos = { (m_position.x + halfSize.x - 6), (m_position.y + halfSize.y - 6)};
         break;
 
     case Alignment::Center:
         m_button.setOrigin(CalcRectOriginCenter(m_button.getLocalBounds()));
+        texPos = { m_position.x - 6, m_position.y - 6}; 
         break;
     
     default:
         throw std::runtime_error("You specify a wrong alignment type!");
     }
 
-    sf::Vector2f texPos = { m_position.x, m_position.y - 2 }; 
+    m_label.AlignTextToCenter();
     m_label.SetPosition(texPos);
     m_alignment = alignment;
 }
@@ -51,7 +56,7 @@ void ButtonSprite::Draw(sf::RenderWindow& window)
 
     testPoint.setFillColor(sf::Color::Red);
     testPoint.setPosition(m_label.GetPosition());
-    window.draw(testPoint); 
+    window.draw(testPoint);
 
     testPoint.setFillColor(sf::Color::Blue);
     testPoint.setPosition(m_button.getPosition());

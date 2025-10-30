@@ -10,6 +10,8 @@ Engine::Engine()
     : m_window("TakAttack", sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT))
 {
     Debug::Init(m_resManager, m_curManager);
+    Debug::GetInstance().CreateLabel("Label1");
+    Debug::GetInstance().CreateLabel("Label2");
 
     m_map = std::make_unique<Map>(m_resManager, "Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window, m_resManager, m_curManager);
@@ -18,8 +20,6 @@ Engine::Engine()
     m_window.GetGameView().SetSize(m_map->GetSize());
 
     // TEMP
-    Debug::GetInstance().CreateLabel("Label");
-    Debug::GetInstance().CreateButton("Button");
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);
