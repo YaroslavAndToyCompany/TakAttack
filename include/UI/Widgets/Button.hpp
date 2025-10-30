@@ -39,5 +39,9 @@ protected:
     ResourceManager& m_resManager;
     Label m_label;
     sf::Vector2f m_position;
+    sf::CircleShape testPoint;
+
+    Alignment m_alignment;
+
     bool m_isClicked;
 };

@@ -4,6 +4,12 @@
 
 class IWidget {
 public:
+	enum class Alignment 
+	{	
+		TopLeft,
+		Center,
+	};
+
 	virtual sf::Vector2f GetPosition() = 0;
 	virtual sf::Vector2f GetSize() = 0;
 	virtual sf::FloatRect GetGlobalBounds() = 0;
