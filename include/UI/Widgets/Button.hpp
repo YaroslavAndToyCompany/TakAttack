@@ -14,11 +14,13 @@ public:
     Button(ResourceManager& resManager);
 
     void ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType = CursorType::Hand);
-    
+    void AlignTo(Alignment alignment);
+
     sf::Vector2f GetPosition() { return m_position; }
 
     virtual sf::Vector2f GetSize() = 0;
     virtual sf::FloatRect GetGlobalBounds() = 0;
+    virtual sf::FloatRect GetLocalBounds() = 0;
 
     bool GetIsClicked() { return m_isClicked; }
     
@@ -26,22 +28,23 @@ public:
     void SetTextSize(unsigned int size) { m_label.SetCharacterSize(size); }
     void SetTextColor(const sf::Color& color) { m_label.SetFillColor(color); }
     void SetFont(const std::string& name) { m_label.SetFont(name); }
+    void MoveText(const sf::Vector2f& value);
     
     virtual void SetPosition(const sf::Vector2f& pos) = 0;
+    virtual void SetOrigin(const sf::Vector2f& newOrigin) = 0;
     
     void HandleEvents(const sf::Event& event, sf::RenderWindow& window);
     void Update(sf::RenderWindow& window);
     virtual void Draw(sf::RenderWindow& window) = 0;
 
 protected:
-    void TransformText();
-
     ResourceManager& m_resManager;
     Label m_label;
     sf::Vector2f m_position;
     sf::CircleShape testPoint;
 
     Alignment m_alignment;
+    sf::Vector2f m_textOffset;
 
     bool m_isClicked;
 };

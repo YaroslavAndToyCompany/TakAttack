@@ -88,6 +88,12 @@ void MainMenu::GenerateButtons()
     m_btnExit.SetText("Exit");
 
     std::vector<ButtonSprite*> buttons = { &m_btnStartGame, &m_btnSettings, &m_btnExit };
+    for (auto* button : buttons)
+    {
+        button->AlignTo(IWidget::Alignment::Center);
+        button->MoveText({ -6, -6 });
+    }
+
     float startPositionY = m_menuSprite.getPosition().y - 7.0f * m_scale.x;
     float spacingBetweenY = 22;
     int textSize = 8 * m_scale.x;

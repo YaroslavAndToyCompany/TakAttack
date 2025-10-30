@@ -6,6 +6,8 @@ Button::Button(ResourceManager& resManager)
     : m_resManager(resManager), m_label(resManager)
 {
     m_isClicked = false;
+    m_alignment = Alignment::TopLeft;
+    m_textOffset = { 0, 0 };
 }
 
 void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType)
@@ -19,6 +21,36 @@ void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, C
     {
         curManager.Set(curType);
     }
+}
+
+void Button::AlignTo(Alignment alignment)
+{
+    sf::Vector2f texPos;
+    sf::Vector2f halfSize = GetSize() * 0.5f;
+
+    switch (alignment)
+    {
+    case Alignment::TopLeft:
+        texPos = { (m_position.x + halfSize.x + m_textOffset.x), (m_position.y + halfSize.y + m_textOffset.y) };
+        break;
+
+    case Alignment::Center:
+        SetOrigin(CalcRectOriginCenter(GetLocalBounds()));
+        texPos = { m_position.x + m_textOffset.x, m_position.y + m_textOffset.y }; 
+        break;
+    
+    default:
+        throw std::runtime_error("You specify a wrong alignment type!");
+    }
+
+    m_label.AlignTextToCenter();
+    m_label.SetPosition(texPos);
+    m_alignment = alignment;
+}
+
+void Button::MoveText(const sf::Vector2f& value)
+{
+    m_textOffset = value;
 }
 
 void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
@@ -41,15 +73,4 @@ void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
 void Button::Update(sf::RenderWindow& window) 
 {
     m_isClicked = false;
-}
-
-void Button::TransformText()
-{
-    m_label.SetFont("BoldPixels");
-
-    m_label.AlignTextToCenter();
-    
-    sf::Vector2f textPos = sf::Vector2f(m_position.x, m_position.y - 2);
-
-    m_label.SetPosition(textPos);
 }
