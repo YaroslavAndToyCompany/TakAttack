@@ -35,6 +35,8 @@ void Engine::HandleInput()
 }
 
 void Engine::ProcessEvents() {
+    // m_eventManager.HandleEvents(*m_window.GetRenderWindowPtr());
+
     sf::Event event;
     while (m_window.GetRenderWindowPtr()->pollEvent(event)) {
         m_window.HandleEvents(event);

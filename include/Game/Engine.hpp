@@ -3,10 +3,11 @@
 #include <memory>
 
 #include "Game/Window.hpp"
-#include "Managers/CursorManager.hpp"
 #include "Systems/InputSystem.hpp"
 #include "Entities/Entity.hpp"
 #include "Game/Map.hpp"
+#include "Managers/CursorManager.hpp"
+#include "Managers/EventManager.hpp"
 #include "Managers/ResourceManager.hpp"
 #include "UI/MainMenu.hpp"
 #include "UI/Widgets/CheckBox.hpp"
@@ -28,6 +29,7 @@ public:
 private:
     ResourceManager m_resManager;
 	CursorManager m_curManager;
+    EventManager m_eventManager;
 
     Window m_window;
     InputSystem m_input;

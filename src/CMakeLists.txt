@@ -5,6 +5,7 @@ add_executable(TakAttack
 	Game/Map.cpp
 	Game/Window.cpp
 	Managers/CursorManager.cpp
+	Managers/EventManager.cpp
 	Managers/ResourceManager.cpp
 	Systems/InputSystem.cpp
 	Systems/RenderSystem.cpp
