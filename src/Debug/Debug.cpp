@@ -80,18 +80,7 @@ Label* Debug::CreateLabel(const std::string& widgetName)
     std::unique_ptr<Label> label = std::make_unique<Label>(m_resManager);
     Label* labelPtr = label.get();
     
-    std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(label));
-
-    sf::FloatRect rect = widget.get()->GetGlobalBounds();
-
-    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += m_widgetMarginLeft;
-    upperLeftCorner.y += m_widgetMarginTop;
-    m_widgetMarginTop += rect.top + rect.height + 10;
-
-    widget.get()->SetPosition(upperLeftCorner);
-
-    m_widgets.emplace(widgetName, std::move(widget));
+    AddWidget<Label>(std::move(label), widgetName);
 
     return labelPtr;
 }
@@ -101,18 +90,7 @@ CheckBox* Debug::CreateCheckBox(const std::string& widgetName)
     std::unique_ptr<CheckBox> checkBox = std::make_unique<CheckBox>(m_resManager);
     CheckBox* checkBoxPtr = checkBox.get();
     
-    std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(checkBox));
-    
-    sf::FloatRect rect = widget.get()->GetGlobalBounds();
-
-    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += m_widgetMarginLeft;
-    upperLeftCorner.y += m_widgetMarginTop;
-    m_widgetMarginTop += rect.top + rect.height + 10;
-
-    widget.get()->SetPosition(upperLeftCorner);
-
-    m_widgets.emplace(widgetName, std::move(widget));
+    AddWidget<CheckBox>(std::move(checkBox), widgetName);
 
     return checkBoxPtr;
 }
@@ -121,22 +99,9 @@ ButtonDefault* Debug::CreateButton(const std::string& widgetName)
 {
     std::unique_ptr<ButtonDefault> button = std::make_unique<ButtonDefault>(m_resManager);
     ButtonDefault* buttonPtr = button.get();
-    buttonPtr->ToggleDisplayBorders();
-    
-    std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(button));
-
-    sf::FloatRect rect = widget.get()->GetGlobalBounds();
-
-    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
-    upperLeftCorner.x += m_widgetMarginLeft;
-    upperLeftCorner.y += m_widgetMarginTop;
-    m_widgetMarginTop += rect.top + rect.height + 20;
-
-    widget.get()->SetPosition(upperLeftCorner);
-
-    m_widgets.emplace(widgetName, std::move(widget));
-
     buttonPtr->SetSize({ 120, 35 });
+    
+    AddWidget<ButtonDefault>(std::move(button), widgetName);
 
     return buttonPtr;
 }

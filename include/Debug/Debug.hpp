@@ -39,6 +39,9 @@ public:
 private:
     void OnMove(const sf::Vector2f& mousePos);
 
+    template <typename T>
+    void AddWidget(std::unique_ptr<T> widget, const std::string& name);
+
     Debug(ResourceManager& resManager, CursorManager& curManager);
 	
 	ResourceManager& m_resManager;
@@ -54,6 +57,7 @@ private:
 
     int m_widgetMarginLeft;
     int m_widgetMarginTop;
+    const int SPACE_BETWEEN_WIDGETS = 10;
 
     bool m_isActive = false;
     bool m_isMoving = false;
@@ -72,4 +76,21 @@ T* Debug::GetWidgetPtr(const std::string& name)
     }
 
     return dynamic_cast<T*>(it->second.get());
+}
+
+template <typename T>
+void Debug::AddWidget(std::unique_ptr<T> widget, const std::string& name)
+{
+    std::unique_ptr<IWidget> castedWidget = static_cast<std::unique_ptr<IWidget>>(std::move(widget));
+    
+    sf::FloatRect rect = castedWidget.get()->GetGlobalBounds();
+
+    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
+    upperLeftCorner.x += m_widgetMarginLeft;
+    upperLeftCorner.y += m_widgetMarginTop;
+    m_widgetMarginTop += rect.top + rect.height + SPACE_BETWEEN_WIDGETS;
+
+    castedWidget.get()->SetPosition(upperLeftCorner);
+
+    m_widgets.emplace(name, std::move(castedWidget));
 }
