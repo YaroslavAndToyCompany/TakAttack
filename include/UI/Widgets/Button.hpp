@@ -4,6 +4,7 @@
 #include <functional>
 #include "Managers/ResourceManager.hpp"
 #include "Managers/CursorManager.hpp"
+#include "UI/Elements/Circle.hpp"
 #include "UI/Widgets/Label.hpp"
 #include "UI/Widgets/IWidget.hpp"
 #include "Utils/Utils.hpp"
@@ -14,7 +15,7 @@ public:
     Button(ResourceManager& resManager);
 
     void ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType = CursorType::Hand);
-    void AlignTo(Alignment alignment) override;
+    virtual void AlignTo(Alignment alignment) = 0;
 
     sf::Vector2f GetPosition() { return m_position; }
 
@@ -29,6 +30,9 @@ public:
     void SetTextColor(const sf::Color& color) { m_label.SetFillColor(color); }
     void SetFont(const std::string& name) { m_label.SetFont(name); }
     void MoveText(const sf::Vector2f& value);
+
+    void ToggleDisplayBorders();
+    void DrawBounds(sf::RenderWindow& window);
     
     virtual void SetPosition(const sf::Vector2f& pos) = 0;
     virtual void SetOrigin(const sf::Vector2f& newOrigin) = 0;
@@ -41,10 +45,12 @@ protected:
     ResourceManager& m_resManager;
     Label m_label;
     sf::Vector2f m_position;
-    sf::CircleShape testPoint;
 
     Alignment m_alignment;
     sf::Vector2f m_textOffset;
+
+    Circle m_originPoint;
+    bool m_isDisplayBordersSet;
 
     bool m_isClicked;
 };

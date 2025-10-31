@@ -11,15 +11,15 @@ Engine::Engine()
 {
     Debug::Init(m_resManager, m_curManager);
     Debug::GetInstance().CreateLabel("Label1");
-    Debug::GetInstance().CreateCheckBox("CheckBox1");
+    Debug::GetInstance().CreateButton("Button1");
+    Debug::GetInstance().CreateButton("Button2");
+    Debug::GetInstance().CreateButton("Button3");
 
     m_map = std::make_unique<Map>(m_resManager, "Map1");
     m_mainMenu = std::make_unique<MainMenu>(m_window, m_resManager, m_curManager);
 
     m_window.GetGameView().SetCenter(m_map->GetGlobalCenter());
     m_window.GetGameView().SetSize(m_map->GetSize());
-
-    // TEMP
 
     Entity::CreatePlayer(m_resManager, m_registry);
     Entity::CreateArtillery(m_resManager, m_registry);

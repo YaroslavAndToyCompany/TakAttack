@@ -14,6 +14,9 @@ Debug::Debug(ResourceManager& resManager, CursorManager& curManager)
 {
     int debugPanelLeftMargin = 20;
     int debugPanelTopMargin = 20;
+    m_widgetMarginLeft = 10;
+    m_widgetMarginTop = 20;
+
     sf::Vector2f debugPanelSize = sf::Vector2f(200, 200);
 
     CreatePanel(debugPanelSize, debugPanelLeftMargin, debugPanelTopMargin);
@@ -33,10 +36,6 @@ Debug::Debug(ResourceManager& resManager, CursorManager& curManager)
 		m_resizeSides.emplace_back(size, type);
 		m_resizeSides[i].SetUp(panelGlobalBounds);
     }
-
-    // for Widgets
-    m_widgetMarginLeft = 10;
-    m_widgetMarginTop = 10;
 }
 
 void Debug::Init(ResourceManager& resManager, CursorManager& curManager)
@@ -88,7 +87,7 @@ Label* Debug::CreateLabel(const std::string& widgetName)
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
     upperLeftCorner.x += m_widgetMarginLeft;
     upperLeftCorner.y += m_widgetMarginTop;
-    m_widgetMarginTop += rect.top + rect.height;
+    m_widgetMarginTop += rect.top + rect.height + 10;
 
     widget.get()->SetPosition(upperLeftCorner);
 
@@ -109,7 +108,7 @@ CheckBox* Debug::CreateCheckBox(const std::string& widgetName)
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
     upperLeftCorner.x += m_widgetMarginLeft;
     upperLeftCorner.y += m_widgetMarginTop;
-    m_widgetMarginTop += rect.top + rect.height;
+    m_widgetMarginTop += rect.top + rect.height + 10;
 
     widget.get()->SetPosition(upperLeftCorner);
 
@@ -122,6 +121,7 @@ ButtonDefault* Debug::CreateButton(const std::string& widgetName)
 {
     std::unique_ptr<ButtonDefault> button = std::make_unique<ButtonDefault>(m_resManager);
     ButtonDefault* buttonPtr = button.get();
+    buttonPtr->ToggleDisplayBorders();
     
     std::unique_ptr<IWidget> widget = static_cast<std::unique_ptr<IWidget>>(std::move(button));
 
@@ -130,13 +130,13 @@ ButtonDefault* Debug::CreateButton(const std::string& widgetName)
     sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
     upperLeftCorner.x += m_widgetMarginLeft;
     upperLeftCorner.y += m_widgetMarginTop;
-    m_widgetMarginTop += rect.top + rect.height;
+    m_widgetMarginTop += rect.top + rect.height + 20;
 
     widget.get()->SetPosition(upperLeftCorner);
 
     m_widgets.emplace(widgetName, std::move(widget));
 
-    buttonPtr->SetSize({ 100, 30 });
+    buttonPtr->SetSize({ 120, 35 });
 
     return buttonPtr;
 }
@@ -155,20 +155,20 @@ void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
 
     switch (event.type)
     {
-    case sf::Event::MouseButtonPressed:
-    {
-        if (event.mouseButton.button == sf::Mouse::Left)
-        {
-            sf::Vector2i mousePos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
-            sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+    // case sf::Event::MouseButtonPressed:
+    // {
+    //     if (event.mouseButton.button == sf::Mouse::Left)
+    //     {
+    //         sf::Vector2i mousePos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
+    //         sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
 
-            if (m_panel.getGlobalBounds().contains(mousePosInCoords))
-            {
-                m_isMoving = true;
-            }
-        }
-        break;
-    }
+    //         if (m_panel.getGlobalBounds().contains(mousePosInCoords))
+    //         {
+    //             m_isMoving = true;
+    //         }
+    //     }
+    //     break;
+    // }
     case sf::Event::MouseButtonReleased:
     {
         if (event.mouseButton.button == sf::Mouse::Left)

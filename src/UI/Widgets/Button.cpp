@@ -8,6 +8,11 @@ Button::Button(ResourceManager& resManager)
     m_isClicked = false;
     m_alignment = Alignment::TopLeft;
     m_textOffset = { 0, 0 };
+    m_isDisplayBordersSet = false;
+
+    m_originPoint.setFillColor(sf::Color::Blue);
+    m_originPoint.setRadius(5);
+    m_originPoint.SetOriginToCenter();
 }
 
 void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType)
@@ -23,34 +28,15 @@ void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, C
     }
 }
 
-void Button::AlignTo(Alignment alignment)
-{
-    sf::Vector2f texPos;
-    sf::Vector2f halfSize = GetSize() * 0.5f;
-
-    switch (alignment)
-    {
-    case Alignment::TopLeft:
-        texPos = { (m_position.x + halfSize.x + m_textOffset.x), (m_position.y + halfSize.y + m_textOffset.y) };
-        break;
-
-    case Alignment::Center:
-        SetOrigin(CalcRectOriginCenter(GetLocalBounds()));
-        texPos = { m_position.x + m_textOffset.x, m_position.y + m_textOffset.y }; 
-        break;
-    
-    default:
-        throw std::runtime_error("You specify a wrong alignment type!");
-    }
-
-    m_label.AlignTo(Alignment::Center);
-    m_label.SetPosition(texPos);
-    m_alignment = alignment;
-}
-
 void Button::MoveText(const sf::Vector2f& value)
 {
     m_textOffset = value;
+}
+
+void Button::ToggleDisplayBorders()
+{
+    m_isDisplayBordersSet = !m_isDisplayBordersSet;
+    m_label.ToggleDisplayBorders();
 }
 
 void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
@@ -73,4 +59,10 @@ void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
 void Button::Update(sf::RenderWindow& window) 
 {
     m_isClicked = false;
+}
+
+void Button::DrawBounds(sf::RenderWindow& window)
+{
+    m_originPoint.setPosition(GetPosition());
+    window.draw(m_originPoint);
 }

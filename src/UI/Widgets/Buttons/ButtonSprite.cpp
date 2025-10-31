@@ -6,7 +6,31 @@ ButtonSprite::ButtonSprite(ResourceManager& resManager, const std::string& textu
     : Button(resManager)
 {
     m_button.setTexture(*m_resManager.GetResource<sf::Texture>(textureName));
-    testPoint.setRadius(5);
+}
+
+void ButtonSprite::AlignTo(Alignment alignment)
+{
+    sf::Vector2f texPos;
+    sf::Vector2f halfSize = GetSize() * 0.5f;
+
+    switch (alignment)
+    {
+    case Alignment::TopLeft:
+        texPos = { (m_position.x + halfSize.x + m_textOffset.x), (m_position.y + halfSize.y + m_textOffset.y) };
+        break;
+
+    case Alignment::Center:
+        m_button.setOrigin(CalcRectOriginCenter(GetLocalBounds()));
+        texPos = { m_position.x + m_textOffset.x, m_position.y + m_textOffset.y }; 
+        break;
+    
+    default:
+        throw std::runtime_error("You specify a wrong alignment type!");
+    }
+
+    m_label.AlignTo(Alignment::Center);
+    m_label.SetPosition(texPos);
+    m_alignment = alignment;
 }
 
 sf::Vector2f ButtonSprite::GetSize()
@@ -27,11 +51,8 @@ void ButtonSprite::Draw(sf::RenderWindow& window)
     window.draw(m_button);
     m_label.Draw(window);
 
-    testPoint.setFillColor(sf::Color::Red);
-    testPoint.setPosition(m_label.GetPosition());
-    window.draw(testPoint);
-
-    testPoint.setFillColor(sf::Color::Blue);
-    testPoint.setPosition(m_button.getPosition());
-    window.draw(testPoint);
+    if (m_isDisplayBordersSet)
+    {
+        DrawBounds(window);
+    }
 }

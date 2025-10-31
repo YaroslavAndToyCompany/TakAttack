@@ -4,6 +4,7 @@
 #include "Managers/ResourceManager.hpp"
 #include "UI/Widgets/IWidget.hpp"
 #include "UI/Widgets/Label.hpp"
+#include "UI/Elements/Circle.hpp"
 
 class CheckBox : public IWidget
 {
@@ -17,8 +18,11 @@ public:
     sf::Vector2f GetSize() override { return m_outerBox.getSize(); }
     sf::FloatRect GetGlobalBounds() override { return m_outerBox.getGlobalBounds(); }
 
+    void SetOriginOuter(const sf::Vector2f& pos);
+    void SetOriginInner(const sf::Vector2f& pos);
     void SetPosition(const sf::Vector2f& pos) override;
     void ToggleChecked() { m_isChecked = !m_isChecked; }
+    void ToggleDisplayBorders() { m_isDisplayBordersSet = !m_isDisplayBordersSet; }
 
 	void HandleEvents(const sf::Event& event, sf::RenderWindow& window) override;
 	void Update(sf::RenderWindow& window) override;
@@ -34,6 +38,10 @@ private:
 
     sf::Vector2f m_position;
     Alignment m_alignment;
+
+    Circle m_outerOriginPoint;
+    Circle m_innerOriginPoint;
+    bool m_isDisplayBordersSet;
 
     bool m_isChecked;
 };

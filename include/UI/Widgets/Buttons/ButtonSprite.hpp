@@ -5,6 +5,7 @@ class ButtonSprite : public Button
 {
 public:
     ButtonSprite(ResourceManager& resManager, const std::string& textureName);
+    void AlignTo(Alignment alignment);
 
     sf::Vector2f GetSize() override;
     sf::FloatRect GetGlobalBounds() override { return m_button.getGlobalBounds(); }

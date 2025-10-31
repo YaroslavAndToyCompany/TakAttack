@@ -5,6 +5,12 @@
 Label::Label(ResourceManager& resManager)
     : m_resManager(resManager)
 {
+    m_isDisplayBordersSet = false;
+
+    m_originPoint.setFillColor(sf::Color::Red);
+    m_originPoint.setRadius(5);
+    m_originPoint.SetOriginToCenter();
+
     m_text.setCharacterSize(28);
     m_text.setFillColor(sf::Color::Black);
     m_text.setFont(*m_resManager.GetResource<sf::Font>("BoldPixels"));
@@ -61,4 +67,15 @@ void Label::SetPosition(const sf::Vector2f& pos)
     m_position = pos;
 
     m_text.setPosition({m_position.x, m_position.y});
+}
+
+void Label::Draw(sf::RenderWindow& window)
+{
+    window.draw(m_text);
+
+    if (m_isDisplayBordersSet)
+    {
+        m_originPoint.setPosition(GetPosition());
+        window.draw(m_originPoint);
+    }
 }
