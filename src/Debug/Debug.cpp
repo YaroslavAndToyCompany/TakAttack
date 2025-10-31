@@ -73,6 +73,8 @@ void Debug::OnMove(const sf::Vector2f& mousePos)
     {
         widget->SetPosition(widget->GetPosition() + newPos);
     }
+
+    m_panel.setPosition(mousePos);
 }
 
 Label* Debug::CreateLabel(const std::string& widgetName)
@@ -120,20 +122,21 @@ void Debug::HandleEvents(sf::Event& event, sf::RenderWindow& window)
 
     switch (event.type)
     {
-    // case sf::Event::MouseButtonPressed:
-    // {
-    //     if (event.mouseButton.button == sf::Mouse::Left)
-    //     {
-    //         sf::Vector2i mousePos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
-    //         sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
+    case sf::Event::MouseButtonPressed:
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            sf::Vector2i mousePos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
+            sf::Vector2f mousePosInCoords = window.mapPixelToCoords(mousePos);
 
-    //         if (m_panel.getGlobalBounds().contains(mousePosInCoords))
-    //         {
-    //             m_isMoving = true;
-    //         }
-    //     }
-    //     break;
-    // }
+            if (m_panel.getGlobalBounds().contains(mousePosInCoords))
+            {
+                m_isMoving = true;
+                m_disFromCenterToMouse = m_panel.getPosition() - mousePosInCoords;
+            }
+        }
+        break;
+    }
     case sf::Event::MouseButtonReleased:
     {
         if (event.mouseButton.button == sf::Mouse::Left)
@@ -163,11 +166,11 @@ void Debug::Update(sf::RenderWindow& window)
     
     for (auto& resSide : m_resizeSides)
         resSide.ChangeCursor(m_curManager, mousePos);
-
+    
+    mousePos += m_disFromCenterToMouse;
     if (m_isMoving && m_panel.getPosition() != mousePos)
     {
         OnMove(mousePos);
-        m_panel.setPosition(mousePos);
     }
 
     for (auto& [name, widget] : m_widgets)

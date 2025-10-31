@@ -59,6 +59,8 @@ private:
     int m_widgetMarginTop;
     const int SPACE_BETWEEN_WIDGETS = 10;
 
+    sf::Vector2f m_disFromCenterToMouse;
+
     bool m_isActive = false;
     bool m_isMoving = false;
 
