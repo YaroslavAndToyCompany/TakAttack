@@ -9,7 +9,7 @@
 #include "UI/View.hpp"
 #include "UI/Widgets/CheckBox.hpp"
 #include "UI/Widgets/ResizeSide.hpp"
-#include "UI/Widgets/Button.hpp"
+#include "UI/Widgets/Buttons/ButtonDefault.hpp"
 #include "UI/Widgets/IWidget.hpp"
 #include "Managers/ResourceManager.hpp"
 
@@ -22,12 +22,9 @@ public:
     static void Shutdown();
     static Debug& GetInstance();
 
-    void OnMove();
-
-    // void AddWidget(const std::string name, std::unique_ptr<IWidget> widget);
     Label* CreateLabel(const std::string& widgetName);
     CheckBox* CreateCheckBox(const std::string& widgetName);
-    Button* CreateButton(const std::string& widgetName);
+    ButtonDefault* CreateButton(const std::string& widgetName);
 
     template <typename T>
     T* GetWidgetPtr(const std::string& name);
@@ -40,12 +37,10 @@ public:
     void Draw(sf::RenderWindow& window);
 
 private:
-    struct WidgetPlace
-    {
-        std::unique_ptr<IWidget> widget;
-        int widgetLeftMargin;
-        int distanceFromPreviousWidget;
-    };
+    void OnMove(const sf::Vector2f& mousePos);
+
+    template <typename T>
+    void AddWidget(std::unique_ptr<T> widget, const std::string& name);
 
     Debug(ResourceManager& resManager, CursorManager& curManager);
 	
@@ -58,11 +53,13 @@ private:
 
     std::vector<ResizeSide> m_resizeSides;
 
-    std::unordered_map<std::string, WidgetPlace> m_widgets;
-    sf::Vector2f m_panelPosBeforeMove;
+    std::unordered_map<std::string, std::unique_ptr<IWidget>> m_widgets;
 
-    int m_defaultWidgetLeftMargin = 10;
-    int m_distanceFromPreviousElement = 10;
+    int m_widgetMarginLeft;
+    int m_widgetMarginTop;
+    const int SPACE_BETWEEN_WIDGETS = 10;
+
+    sf::Vector2f m_disFromCenterToMouse;
 
     bool m_isActive = false;
     bool m_isMoving = false;
@@ -80,5 +77,22 @@ T* Debug::GetWidgetPtr(const std::string& name)
         throw std::runtime_error("Can't find " + name + " Widge in Debug panel!");
     }
 
-    return dynamic_cast<T*>(it->second.widget.get());
+    return dynamic_cast<T*>(it->second.get());
+}
+
+template <typename T>
+void Debug::AddWidget(std::unique_ptr<T> widget, const std::string& name)
+{
+    std::unique_ptr<IWidget> castedWidget = static_cast<std::unique_ptr<IWidget>>(std::move(widget));
+    
+    sf::FloatRect rect = castedWidget.get()->GetGlobalBounds();
+
+    sf::Vector2f upperLeftCorner = { m_panel.getPosition().x - (m_panel.getSize().x / 2.0f), m_panel.getPosition().y - (m_panel.getSize().y / 2.0f) };
+    upperLeftCorner.x += m_widgetMarginLeft;
+    upperLeftCorner.y += m_widgetMarginTop;
+    m_widgetMarginTop += rect.top + rect.height + SPACE_BETWEEN_WIDGETS;
+
+    castedWidget.get()->SetPosition(upperLeftCorner);
+
+    m_widgets.emplace(name, std::move(castedWidget));
 }

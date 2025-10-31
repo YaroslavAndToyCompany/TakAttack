@@ -10,18 +10,7 @@ ResizeSide::ResizeSide(const sf::Vector2f& size, ResizeSideType sideType)
 	m_sideType = sideType;
 }
 
-void ResizeSide::ChangeCursor(CursorManager& curManager, const sf::Vector2f& mousePos)
-{
-	if (m_side.getGlobalBounds().contains(mousePos))
-    {
-        if (m_sideType == ResizeSideType::Top || m_sideType == ResizeSideType::Bottom)
-		    curManager.Set(CursorType::SizeVertical);
-        else if (m_sideType == ResizeSideType::Left || m_sideType == ResizeSideType::Right)
-            curManager.Set(CursorType::SizeHorizontal);
-    }
-}
-
-void ResizeSide::Update(const sf::FloatRect panelGlobalBounds)
+void ResizeSide::SetUp(const sf::FloatRect panelGlobalBounds)
 {
     float finalXCoord;
     float finalYCoord;
@@ -49,6 +38,22 @@ void ResizeSide::Update(const sf::FloatRect panelGlobalBounds)
 	else { throw std::logic_error("Wrong side type was specified"); }
 	
     m_side.setPosition(finalXCoord, finalYCoord);
+}
+
+void ResizeSide::ChangeCursor(CursorManager& curManager, const sf::Vector2f& mousePos)
+{
+	if (m_side.getGlobalBounds().contains(mousePos))
+    {
+        if (m_sideType == ResizeSideType::Top || m_sideType == ResizeSideType::Bottom)
+		    curManager.Set(CursorType::SizeVertical);
+        else if (m_sideType == ResizeSideType::Left || m_sideType == ResizeSideType::Right)
+            curManager.Set(CursorType::SizeHorizontal);
+    }
+}
+
+void ResizeSide::Update(const sf::Vector2f& newPos)
+{
+    m_side.setPosition(m_side.getPosition() + newPos);
 }
 
 void ResizeSide::Draw(sf::RenderWindow& window)

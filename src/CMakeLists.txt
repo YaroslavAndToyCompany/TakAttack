@@ -9,6 +9,9 @@ add_executable(TakAttack
 	Systems/InputSystem.cpp
 	Systems/RenderSystem.cpp
 	Systems/UISystem.cpp
+	UI/Elements/Circle.cpp
+	UI/Widgets/Buttons/ButtonDefault.cpp
+	UI/Widgets/Buttons/ButtonSprite.cpp
 	UI/Widgets/Button.cpp
 	UI/Widgets/CheckBox.cpp
 	UI/Widgets/Label.cpp
