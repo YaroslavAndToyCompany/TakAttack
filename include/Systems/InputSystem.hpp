@@ -11,4 +11,3 @@ class InputSystem
 public:
 	void Input(entt::registry& registry, Window& m_window, Map& m_map);
 };
-

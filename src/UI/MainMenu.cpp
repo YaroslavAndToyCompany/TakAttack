@@ -23,7 +23,7 @@ MainMenu::MainMenu(Window& window, ResourceManager& resManager, CursorManager& c
     m_displayMenu = true;
 }
 
-void MainMenu::HandleEvents(const sf::Event& event, Window& window)
+void MainMenu::(const sf::Event& event, Window& window)
 {
     if (!m_displayMenu)
         return;

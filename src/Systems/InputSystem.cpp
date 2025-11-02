@@ -20,7 +20,6 @@ void InputSystem::Input(entt::registry& registry, Window& m_window, Map& m_map)
 				{
 					std::cout << "Castle cell clicked at (" << clickedCell->gridX << ", " << clickedCell->gridY << ")\n";
 					castleUI.m_castleUIactive = true;
-
 				}
 			}
 		}
@@ -29,10 +28,10 @@ void InputSystem::Input(entt::registry& registry, Window& m_window, Map& m_map)
 		{
 		if(sf::Keyboard::isKeyPressed(CurrentKey) && CurrentKey == sf::Keyboard::Escape)
 		{
+			std::cout << "KEY PRESSED";
 			castleUI.m_castleUIactive = false;
 		}
 		}
-
 	}
 	);
 }
