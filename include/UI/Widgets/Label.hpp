@@ -2,12 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "Managers/ResourceManager.hpp"
+#include "UI/Elements/Circle.hpp"
 #include "UI/Widgets/IWidget.hpp"
 
 class Label : public IWidget 
 {
 public:
     Label(ResourceManager& resManager);
+    void AlignTo(Alignment alignment) override;
 
     void AddText(const std::string& text);
     void AddText(const int& number);
@@ -15,11 +17,12 @@ public:
     template<typename T>
     void AddText(const sf::Vector2<T>& vec);
 
-    void AlignTextToLeft();
-    void AlignTextToCenter();
-
     sf::Vector2f GetPosition() override { return m_position; }
     sf::Vector2f GetSize() override;
+    sf::FloatRect GetGlobalBounds() override { return m_text.getGlobalBounds(); }
+    unsigned int GetCharacherSize() { return m_text.getCharacterSize(); }
+
+    void ToggleDisplayBorders() { m_isDisplayBordersSet = !m_isDisplayBordersSet; }
 
     void SetFont(const std::string& fontName);
     void SetPosition(const sf::Vector2f& pos) override;
@@ -28,12 +31,15 @@ public:
 
     void HandleEvents(const sf::Event& event, sf::RenderWindow& window) override {}
     void Update(sf::RenderWindow& window) override {}
-    void Draw(sf::RenderWindow& window) override { window.draw(m_text); }
+    void Draw(sf::RenderWindow& window) override;
 
 private:
     sf::Text m_text;
 
     sf::Vector2f m_position;
+
+    Circle m_originPoint;
+    bool m_isDisplayBordersSet;
 
     ResourceManager& m_resManager;
 };

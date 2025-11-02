@@ -9,6 +9,7 @@
 #include "Game/Map.hpp"
 #include "Managers/ResourceManager.hpp"
 #include "UI/MainMenu.hpp"
+#include "UI/Widgets/CheckBox.hpp"
 #include "Systems/RenderSystem.hpp"
 #include "Systems/UISystem.hpp"
 

@@ -2,26 +2,17 @@
 #include "Utils/Widgets.hpp"
 #include "Utils/Utils.hpp"
 
-Button::Button(ResourceManager& resManager, const std::string& textureName)
-    : m_resManager(resManager), m_label(resManager)
-{
-    m_buttonSpr.setTexture(*m_resManager.GetResource<sf::Texture>(textureName));
-
-    TransformText();
-    m_isButtonDefault = false;
-    m_isClicked = false;
-}
-
 Button::Button(ResourceManager& resManager)
     : m_resManager(resManager), m_label(resManager)
 {
-    m_buttonDefault.setSize({ 60, 20 });
-    m_buttonDefault.setFillColor(sf::Color::White);
-    m_buttonDefault.setOutlineColor(sf::Color::Black);
-    m_buttonDefault.setOutlineThickness(4);
+    m_isClicked = false;
+    m_alignment = Alignment::TopLeft;
+    m_textOffset = { 0, 0 };
+    m_isDisplayBordersSet = false;
 
-    TransformText();
-    m_isButtonDefault = true;
+    m_originPoint.setFillColor(sf::Color::Blue);
+    m_originPoint.setRadius(5);
+    m_originPoint.SetOriginToCenter();
 }
 
 void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, CursorType curType)
@@ -29,16 +20,23 @@ void Button::ChangeCursor(sf::RenderWindow& window, CursorManager& curManager, C
     sf::Vector2f mousePos = utils::ConvertMousePixelsToCoords(
                                 sf::Mouse::getPosition(window), window);
 
-    sf::FloatRect btnRect;
-    if (m_isButtonDefault)
-        btnRect = m_buttonDefault.getGlobalBounds();
-    else
-        btnRect = m_buttonSpr.getGlobalBounds();
+    sf::FloatRect btnRect = GetGlobalBounds();
     
     if (btnRect.contains(mousePos))
     {
         curManager.Set(curType);
     }
+}
+
+void Button::MoveText(const sf::Vector2f& value)
+{
+    m_textOffset = value;
+}
+
+void Button::ToggleDisplayBorders()
+{
+    m_isDisplayBordersSet = !m_isDisplayBordersSet;
+    m_label.ToggleDisplayBorders();
 }
 
 void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
@@ -49,7 +47,7 @@ void Button::HandleEvents(const sf::Event& event, sf::RenderWindow& window)
     case sf::Event::MouseButtonReleased:
         mousePos = utils::ConvertMousePixelsToCoords(event.mouseButton.x, event.mouseButton.y, window);
 
-        if (event.mouseButton.button == sf::Mouse::Button::Left && m_buttonDefault.getGlobalBounds().contains(mousePos))
+        if (event.mouseButton.button == sf::Mouse::Button::Left && GetGlobalBounds().contains(mousePos))
             m_isClicked = true;
         break;
     
@@ -63,36 +61,8 @@ void Button::Update(sf::RenderWindow& window)
     m_isClicked = false;
 }
 
-void Button::Draw(sf::RenderWindow& window)
+void Button::DrawBounds(sf::RenderWindow& window)
 {
-    m_isButtonDefault ? window.draw(m_buttonDefault) : window.draw(m_buttonSpr);
-    m_label.Draw(window);
-}
-
-sf::Sprite Button::GetSprite() const
-{
-    if (!m_isButtonDefault) return m_buttonSpr;
-    throw std::runtime_error("Can't get a sprite from button that doesn't hava a spite!");
-}
-
-void Button::SetPosition(const sf::Vector2f& pos)
-{
-    m_position = pos;
-    m_isButtonDefault ? m_buttonDefault.setPosition(m_position) : m_buttonSpr.setPosition(m_position);
-    TransformText();
-}
-
-void Button::TransformText()
-{
-    m_label.SetFont("BoldPixels");
-
-    m_label.AlignTextToCenter();
-    if (m_isButtonDefault)
-        m_buttonDefault.setOrigin(CalcRectOriginCenter(m_buttonDefault.getLocalBounds()));
-    else
-        m_buttonSpr.setOrigin(CalcRectOriginCenter(m_buttonSpr.getLocalBounds()));
-    
-    sf::Vector2f textPos = sf::Vector2f(m_position.x, m_position.y - 2);
-
-    m_label.SetPosition(textPos);
+    m_originPoint.setPosition(GetPosition());
+    window.draw(m_originPoint);
 }
